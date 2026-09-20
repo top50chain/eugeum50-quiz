@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>오답노트</title>
+  <link rel="stylesheet" href="quiz-home.css">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f4f4;color:#303030;font-family:Nexon,sans-serif}
+    .note-page{max-width:520px;min-height:100dvh;margin:auto;background:#f4f4f4;padding:92px 22px 150px}
+    .top{position:fixed;top:0;left:50%;transform:translateX(-50%);width:min(520px,100%);z-index:60;background:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.top .logo-link{border:0;background:none;padding:0;text-decoration:none}.top img{width:132px;display:block}.switch-link{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1.6px solid #2276f5;border-radius:999px;background:#f6fbff;text-decoration:none;color:#1c70f0;font-weight:700;font-size:14px}.switch-link i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}
+    .title-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}.back{width:44px;height:44px;border:1px solid #ddd;border-radius:12px;background:#fff;font-size:0;position:relative;flex:none}.back::before{content:'';position:absolute;inset:0;margin:auto;width:13px;height:13px;border-left:3px solid #444;border-bottom:3px solid #444;transform:rotate(45deg) translate(2px,-2px)}.title-row h1{margin:0;font-size:30px;letter-spacing:-1.5px}.intro{margin:0 0 20px 56px;color:#888;font-size:13px;font-weight:700}
+    .note-list{display:grid;gap:14px}.note-card{border:1px solid #ececf0;border-radius:18px;padding:18px;background:#fff;box-shadow:0 3px 14px rgba(0,0,0,.04)}.note-meta{color:#ff6727;font-size:12px;font-weight:900}.note-q{font-weight:900;font-size:17px;line-height:1.55;margin:8px 0 13px;letter-spacing:-.02em}.note-answer{background:#fff5ee;border-radius:12px;padding:12px;color:#b84920;font-size:14px;line-height:1.55;font-weight:700}.note-exp{margin:11px 2px 0;color:#666;font-size:13px;line-height:1.65}.empty{text-align:center;padding:80px 20px;color:#777;font-weight:700}.empty b{display:block;color:#333;font-size:21px;margin-bottom:8px}
+    .review-wrap{position:fixed;left:0;right:0;bottom:78px;display:flex;justify-content:center;pointer-events:none;z-index:40}.review-start{pointer-events:auto;width:min(460px,calc(100% - 34px));padding:16px;border:0;border-radius:30px;background:#ff6727;color:#fff;font-size:18px;font-weight:900;box-shadow:0 8px 22px rgba(255,103,39,.28)}.review-start:disabled{display:none}
+    .quiz-bottom{position:fixed;left:0;right:0;bottom:0;height:68px;background:#fff;border-top:1px solid #e4e4e4;display:flex;justify-content:center;z-index:50}.quiz-bottom .inner{width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr)}.quiz-bottom a{display:grid;place-items:center;align-content:center;gap:3px;text-decoration:none;color:#7b7b7b;font-size:11px;font-weight:800}.quiz-bottom a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}.quiz-bottom a.on{color:#ff6828}
+  </style>
+</head>
+<body>
+  <main class="note-page">
+    <header class="top">
+      <a class="logo-link" href="quiz.html" aria-label="교육용 퀴즈 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a>
+      <a class="switch-link" href="quiz.html">교육용 퀴즈 <i></i></a>
+    </header>
+    <div class="title-row"><button class="back" onclick="location.href='quiz.html'" aria-label="뒤로"></button><h1>오답노트</h1></div>
+    <p class="intro">틀린 문제의 정답과 해설만 모아 확인할 수 있어요.</p>
+    <section id="noteList" class="note-list" aria-live="polite"><p class="empty">오답을 불러오는 중입니다.</p></section>
+  </main>
+  <div class="review-wrap"><button id="reviewStart" class="review-start" disabled>오답 다시 풀기</button></div>
+  <nav class="quiz-bottom" aria-label="퀴즈 하단 메뉴"><div class="inner">
+    <a href="quiz.html"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9H5v-9"/></svg><span>홈</span></a>
+    <a href="wrong-note.html" class="on"><svg viewBox="0 0 24 24"><path d="M7 4h9l3 3v13H7z"/><path d="M16 4v4h4"/><path d="M10 12h6M10 16h5"/></svg><span>오답노트</span></a>
+    <a href="ranking.html"><svg viewBox="0 0 24 24"><path d="M8 4h8v3a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 11v5M8 20h8M9 16h6"/></svg><span>랭킹</span></a>
+    <a href="profile.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>프로필</span></a>
+  </div></nav>
+  <script src="portal.js"></script>
+  <script src="quiz-bank.js"></script>
+  <script>
+  (()=>{
+    const ses=session();if(!ses?.token){location.replace('index.html');return}
+    let active;try{active=JSON.parse(sessionStorage.getItem('eutteum50:quiz-active-profile')||'null')}catch{}
+    if(!active?.id){location.replace('profile-list.html?next=wrong');return}
+    const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),qid=q=>q.cat+'|'+q.topic+'|'+q.q.slice(0,28);
+    async function load(){
+      try{
+        const d=scalar(await rpc('quiz_load_progress',{p_token:ses.token,p_profile_id:active.id,p_pin:active.pin||''})),wrong=new Set(d.progress?.wrong||[]);
+        let bank=window.QUIZ_ADMIN_BANK||[];try{const remote=await rpc('quiz_list_questions',{p_token:ses.token});if(Array.isArray(remote)&&remote.length)bank=remote}catch{}
+        const items=bank.filter(q=>wrong.has(qid(q)));
+        if(!items.length){$('noteList').innerHTML='<div class="empty"><b>오답노트가 비어 있어요</b>문제를 틀리면 정답과 해설이 여기에 저장됩니다.</div>';return}
+        $('noteList').innerHTML=items.map((q,i)=>`<article class="note-card"><div class="note-meta">${esc(q.topic)} · 오답 ${i+1}</div><div class="note-q">${esc(q.q)}</div><div class="note-answer">정답 ${Number(q.a)+1}번 · <b>${esc(q.choices?.[q.a]||'')}</b></div><p class="note-exp">${esc(q.exp||q.key||'해설이 준비 중입니다.')}</p></article>`).join('');
+        $('reviewStart').disabled=false;$('reviewStart').textContent=`오답 ${items.length}문제 다시 풀기`;$('reviewStart').onclick=()=>location.href='quiz-session.html?view=wrong&start=1';
+      }catch(e){$('noteList').innerHTML=`<p class="empty">오답노트를 불러오지 못했습니다.<br>${esc(e.message)}</p>`}
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>

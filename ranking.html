@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>교육용 퀴즈 랭킹</title>
+  <link rel="stylesheet" href="quiz-home.css">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#f4f4f4;color:#303030;font-family:Nexon,sans-serif}
+    .rank-page{max-width:520px;min-height:100dvh;margin:auto;background:#f4f4f4;padding:92px 22px 100px}
+    .top{position:fixed;top:0;left:50%;transform:translateX(-50%);width:min(520px,100%);z-index:60;background:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.top .logo-link{border:0;background:none;padding:0;text-decoration:none}.top img{width:132px;display:block}.switch-link{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1.6px solid #2276f5;border-radius:999px;background:#f6fbff;text-decoration:none;color:#1c70f0;font-weight:700;font-size:14px}.switch-link i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}
+    h1{font-size:40px;line-height:1.1;letter-spacing:-2px;margin:0 0 6px}.sub{margin:0 0 18px;color:#7c7c7c;font-weight:700}
+    .hero{display:flex;align-items:center;gap:14px;border-radius:18px;background:#fff1e7;padding:15px 16px;margin-bottom:16px}.hero .glasses{width:62px;height:62px;border-radius:16px;background:#fff8f3;display:grid;place-items:center;color:#ff6b2a;font-size:30px;font-weight:900}.hero b{display:block;font-size:16px;color:#ff6828}.hero span{display:block;margin-top:4px;color:#7c7c7c;font-size:13px;line-height:1.45}
+    .rank-list{display:grid;gap:12px}
+    .rank-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ececec;border-radius:18px;padding:12px 14px;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+    .rank-card.me{border-color:#ff7c37;background:#fffdfb}
+    .medal,.rank-no{width:40px;flex:none;display:grid;place-items:center}.medal img{width:28px;height:28px;object-fit:contain}
+    .medal-badge{position:relative;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;font-size:17px;box-shadow:0 4px 8px rgba(0,0,0,.08)}
+    .medal-badge::before,.medal-badge::after{content:'';position:absolute;bottom:-10px;width:10px;height:14px;background:currentColor;clip-path:polygon(0 0,100% 0,70% 100%,30% 100%)}
+    .medal-badge::before{left:6px;filter:brightness(.9)} .medal-badge::after{right:6px;filter:brightness(1.08)}
+    .gold{background:#f4b11a;color:#f4b11a}.gold span,.silver span,.bronze span{color:#fff;position:relative;z-index:1}
+    .silver{background:#aeb5c1;color:#aeb5c1}.bronze{background:#d28a56;color:#d28a56}
+    .rank-no{font-size:34px;color:#777;font-weight:900}
+    .avatar{width:54px;height:54px;border-radius:50%;background:#f8efe6;display:grid;place-items:center;overflow:hidden;position:relative;flex:none}.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+    .namebox{flex:1;min-width:0}.namebox b{display:block;font-size:16px;letter-spacing:-.02em}.namebox small{display:block;margin-top:4px;color:#8a8a8a;font-size:12px;font-weight:700}
+    .xp{font-size:15px;font-weight:900;color:#ff6828;white-space:nowrap}.rank-card:not(.me) .xp{color:#7f838a}
+    .empty{padding:40px 16px;text-align:center;color:#888;font-weight:700}
+    .quiz-bottom{position:fixed;left:0;right:0;bottom:0;height:68px;background:#fff;border-top:1px solid #e4e4e4;display:flex;justify-content:center;z-index:50}
+    .quiz-bottom .inner{width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr)}
+    .quiz-bottom a{display:grid;place-items:center;align-content:center;gap:3px;text-decoration:none;color:#7b7b7b;font-size:11px;font-weight:800}.quiz-bottom a svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}.quiz-bottom a.on{color:#ff6828}
+  .quiz-bottom{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(520px,100%)!important;background:#fff url(assets/ui-parts/ranking-nav.png) center/100% 100% no-repeat!important}.quiz-bottom a{font-size:0!important;color:transparent!important}.quiz-bottom a svg,.quiz-bottom a span{display:none!important}</style>
+</head>
+<body>
+  <main class="rank-page">
+    <header class="top">
+      <a class="logo-link" href="quiz.html" aria-label="교육용 퀴즈 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a>
+      <a class="switch-link" href="quiz.html">교육용 퀴즈 <i></i></a>
+    </header>
+    <h1>학습 랭킹</h1>
+    <p class="sub">문제를 풀면 점수가 쌓여요!</p>
+    <section class="hero"><div class="glasses">⌁</div><div><b>함께 배우고 함께 성장해요!</b><span>꾸준한 학습이 더 정확한 검안을 만듭니다.</span></div></section>
+    <section id="rankList" class="rank-list" aria-live="polite"><div class="empty">랭킹을 불러오는 중입니다.</div></section>
+  </main>
+  <nav class="quiz-bottom" aria-label="퀴즈 하단 메뉴"><div class="inner">
+    <a href="quiz.html"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9H5v-9"/></svg><span>홈</span></a>
+    <a href="wrong-note.html"><svg viewBox="0 0 24 24"><path d="M7 4h9l3 3v13H7z"/><path d="M16 4v4h4"/><path d="M10 12h6M10 16h5"/></svg><span>오답노트</span></a>
+    <a href="ranking.html" class="on"><svg viewBox="0 0 24 24"><path d="M8 4h8v3a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 11v5M8 20h8M9 16h6"/></svg><span>랭킹</span></a>
+    <a href="profile.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>프로필</span></a>
+  </div></nav>
+  <script src="portal.js"></script>
+  <script>
+    if (!session()) location.replace('index.html');
+    const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function avatarMarkup(a={}){a=a||{};const base=((a.glasses==='default'||!a.glasses)||(a.glasses==='none'&&!a.outfit&&!a.accessory))?'avatar/base-default.png':'avatar/base-editor.png';const out=[`<img src="${base}" alt="">`];if(/^o[1-6]$/.test(a.outfit))out.push(`<img src="avatar/outfit-${a.outfit.slice(1)}.png" alt="">`);if(/^g[1-6]$/.test(a.glasses))out.push(`<img src="avatar/glasses-${a.glasses.slice(1)}.png" alt="">`);if(/^a[1-6]$/.test(a.accessory))out.push(`<img src="avatar/accessory-${a.accessory.slice(1)}.png" alt="">`);return out.join('')}
+    let active = null; try{ active = JSON.parse(sessionStorage.getItem('eutteum50:quiz-active-profile')||'null') }catch{}
+    function medalMarkup(n){ if(n===1) return `<div class="medal"><img src="assets/ui-parts/medal-gold.png" alt="1위"></div>`; if(n===2) return `<div class="medal"><img src="assets/ui-parts/medal-silver.png" alt="2위"></div>`; if(n===3) return `<div class="medal"><img src="assets/ui-parts/medal-bronze.png" alt="3위"></div>`; return `<div class="rank-no">${n}</div>`; }
+    async function loadRank(){
+      const box=document.getElementById('rankList');
+      if(!active?.id){ box.innerHTML='<div class="empty">먼저 프로필을 선택해 주세요.<br><br><a href="profile-list.html" style="color:#ff6828;font-weight:900;text-decoration:none">프로필 선택하기</a></div>'; return; }
+      try{
+        const rows = await rpc('quiz_leaderboard',{p_token:session().token,p_profile_id:active.id});
+        if(!(rows||[]).length){ box.innerHTML='<div class="empty">아직 랭킹 기록이 없습니다.</div>'; return; }
+        box.innerHTML = rows.map(r=>`<article class="rank-card ${r.is_me?'me':''}">${medalMarkup(Number(r.rank_no||0))}<div class="avatar">${avatarMarkup(r.avatar||{})}</div><div class="namebox"><b>${esc(r.display_name)}${r.is_me?' · 나':''}</b><small>${esc(r.store_name||r.store_code||'지점명')}</small></div><div class="xp">${Number(r.xp||0).toLocaleString()} XP</div></article>`).join('');
+      }catch(e){ box.innerHTML=`<div class="empty">랭킹을 불러오지 못했습니다.<br>${esc(e.message)}</div>`; }
+    }
+    loadRank();
+  </script>
+</body>
+</html>

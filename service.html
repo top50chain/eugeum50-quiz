@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>서비스 선택</title>
+    <link rel="stylesheet" href="shell.css" />
+    <link rel="stylesheet" href="ai-shell.css" />
+  </head>
+  <body class="art-page" data-shell="dialog-only">
+    <main class="art-stage">
+      <img
+        class="art"
+        src="assets/ui/service-hq.jpg"
+        alt="AI 콘텐츠와 교육용 퀴즈 서비스 선택"
+      />
+      <p id="welcome" class="overlay-text dynamic-greeting"></p>
+      <button
+        class="hit"
+        onclick="go('ai-home.html')"
+        style="left: 3%; top: 24%; width: 94%; height: 27%"
+      >
+        <span class="sr">AI 콘텐츠</span></button
+      ><button
+        class="hit"
+        onclick="go('profile-list.html?next=quiz')"
+        style="left: 3%; top: 51%; width: 94%; height: 45%"
+      >
+        <span class="sr">교육용 퀴즈</span></button
+      ><button
+        id="aiMenu"
+        class="hit"
+        style="left: 54%; top: 3.4%; width: 20%; height: 4%"
+      >
+        <span class="sr">AI 콘텐츠 메뉴</span></button
+      ><button id="storeMenu" class="dynamic-store-button" type="button">
+        <span id="headerStore"></span>
+      </button>
+      <div id="aiDrop" class="art-menu ai-menu-panel hidden">
+        <img src="assets/ui/ai-menu-hq.jpg" alt="교육용 퀴즈" /><button
+          onclick="go('profile-list.html?next=quiz')"
+          aria-label="교육용 퀴즈"
+        ></button>
+      </div>
+      <div id="storeDrop" class="art-menu store-menu-panel hidden">
+        <img
+          src="assets/ui/store-menu-hq.jpg"
+          alt="내 정보와 로그아웃"
+        /><button
+          onclick="openStoreInfo()"
+          aria-label="내 정보"
+        ></button
+        ><button id="logout" aria-label="로그아웃"></button>
+      </div>
+    </main>
+    <script src="portal.js"></script>
+    <script src="ai-shell.js"></script>
+    <script>
+      if (!session()) go("index.html");
+      const n = storeName();
+      headerStore.textContent = n;
+      welcome.innerHTML = `<span class="store-accent">${n}</span> 원장님<br>반가워요!`;
+      aiMenu.onclick = () => {
+        aiDrop.classList.toggle("hidden");
+        storeDrop.classList.add("hidden");
+      };
+      storeMenu.onclick = () => {
+        storeDrop.classList.toggle("hidden");
+        aiDrop.classList.add("hidden");
+      };
+      logout.onclick = () => {
+        localStorage.removeItem(SESSION);
+        localStorage.removeItem("eutteum50:private:fc:session");
+        go("index.html");
+      };
+      document.addEventListener("click", (e) => {
+        if (!aiMenu.contains(e.target) && !aiDrop.contains(e.target))
+          aiDrop.classList.add("hidden");
+        if (!storeMenu.contains(e.target) && !storeDrop.contains(e.target))
+          storeDrop.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>

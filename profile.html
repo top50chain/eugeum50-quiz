@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>교육용 퀴즈 프로필</title>
+    <link rel="stylesheet" href="shell.css" />
+    <link rel="stylesheet" href="ai-shell.css" />
+  </head>
+  <body class="art-page" data-shell="dialog-only">
+    <main class="art-stage"><button class="hit" onclick="go('quiz.html')" aria-label="교육용 퀴즈 홈" style="left:4%;top:2%;width:28%;height:7%;z-index:20"></button>
+      <img
+        class="art"
+        src="assets/ui/profile-hq.jpg"
+        alt="교육용 퀴즈 프로필"
+      />
+      <p id="profileStore" class="overlay-text profile-store-overlay"></p>
+      <p id="profileName" class="overlay-text profile-name-overlay"></p>
+      <p id="profileXp" class="overlay-text profile-xp-overlay"></p>
+      <button
+        id="quizMenu"
+        class="hit"
+        style="right: 5%; top: 3.3%; width: 21%; height: 4%"
+      >
+        <span class="sr">교육용 퀴즈 메뉴</span>
+      </button>
+      <div id="quizDrop" class="quiz-switch-panel hidden">
+        <img src="assets/ui/ai-content-menu-hq.jpg" alt="AI 콘텐츠" /><button
+          onclick="go('ai-home.html')"
+          aria-label="AI 콘텐츠"
+        ></button>
+      </div>
+      <button
+        class="hit"
+        onclick="go('quiz-session.html?view=avatar')"
+        style="left: 5%; top: 39%; width: 45%; height: 9%"
+      >
+        <span class="sr">캐릭터 꾸미기</span></button
+      ><button
+        class="hit"
+        onclick="go('quiz-session.html')"
+        style="left: 50%; top: 39%; width: 45%; height: 9%"
+      >
+        <span class="sr">프로필 편집</span></button
+      ><button
+        class="hit"
+        onclick="go('profile-list.html')"
+        style="left: 5%; top: 50%; width: 90%; height: 7%"
+      >
+        <span class="sr">다른 프로필로 전환</span></button
+      ><button
+        class="hit"
+        onclick="openFeedback()"
+        style="left: 5%; top: 58%; width: 90%; height: 7%"
+      >
+        <span class="sr">의견 남기기</span></button
+      ><button
+        class="hit"
+        onclick="go('quiz.html')"
+        style="left: 0; bottom: 0; width: 25%; height: 7%"
+      >
+        <span class="sr">홈</span></button
+      ><button
+        class="hit"
+        onclick="go('wrong-note.html')"
+        style="left: 25%; bottom: 0; width: 25%; height: 7%"
+      >
+        <span class="sr">오답노트</span></button
+      ><button
+        class="hit"
+        onclick="go('ranking.html')"
+        style="left: 50%; bottom: 0; width: 25%; height: 7%"
+      >
+        <span class="sr">랭킹</span></button
+      ><button
+        class="hit"
+        onclick="go('profile.html')"
+        style="left: 75%; bottom: 0; width: 25%; height: 7%"
+      >
+        <span class="sr">프로필</span>
+      </button>
+    </main><nav class="profile-fixed-nav" aria-label="퀴즈 하단 메뉴"><a href="quiz.html" aria-label="홈"></a><a href="wrong-note.html" aria-label="오답노트"></a><a href="ranking.html" aria-label="랭킹"></a><a href="profile.html" aria-label="프로필"></a></nav><style>.profile-fixed-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);height:70px;display:grid;grid-template-columns:repeat(4,1fr);background:#fff url(assets/ui-parts/profile-nav.png) center/100% 100% no-repeat;border-top:1px solid #eee;z-index:99}.profile-fixed-nav a{display:block}.art-stage{padding-bottom:70px}</style>
+    <script src="portal.js"></script>
+    <script src="ai-shell.js"></script>
+    <script>
+      if (!session()) go("index.html");
+      let p = null;
+      try {
+        p = JSON.parse(
+          sessionStorage.getItem("eutteum50:quiz-active-profile") || "null",
+        );
+      } catch {}
+      profileStore.textContent = storeName();
+      profileName.textContent = p?.display_name || "프로필명";
+      profileXp.textContent = (Number(p?.xp) || 0).toLocaleString() + " XP";
+      quizMenu.onclick = () => quizDrop.classList.toggle("hidden");
+    </script>
+  </body>
+</html>

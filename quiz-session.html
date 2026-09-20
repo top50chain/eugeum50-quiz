@@ -1,0 +1,1452 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>으뜸50안경 교육 테스트</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="ui-system.css"><script defer src="ui-dialog.js"></script>
+
+<style>
+@font-face{font-family:NexonLv1;src:url('./fonts/NEXON-Lv1-Gothic-Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:NexonLv1;src:url('./fonts/NEXON-Lv1-Gothic-Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:NexonLv1;src:url('./fonts/NEXON-Lv1-Gothic-Bold.otf') format('opentype');font-weight:700;font-display:swap}
+:root{
+  --brand:#F17E44; --brand-dk:#DC6629; --brand-soft:#FFF1E7; --brand-line:#FBD9C2;
+  --navy:#2B3F6B; --ink:#1A1D23; --gray:#7A8290; --line:#EDEFF2; --field:#F5F6F8;
+  --ok:#12A971; --ok-soft:#E9F8F1; --no:#E0393B; --no-soft:#FDEDED;
+  --r-lg:24px; --r-md:18px; --bar:104px;
+  --shadow:0 10px 30px rgba(34,39,53,.07); --shadow-sm:0 4px 16px rgba(34,39,53,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body.locked{overflow:hidden;touch-action:none}
+body{
+  background:#F6F7F9; color:var(--ink);
+  font-family:NexonLv1,-apple-system,"Apple SD Gothic Neo",system-ui,sans-serif;
+  font-size:16px; line-height:1.5; letter-spacing:-.02em; -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;letter-spacing:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid rgba(241,126,68,.28);outline-offset:3px}
+.mono{font-variant-numeric:tabular-nums}
+.hidden{display:none !important}
+.profile-gate{position:fixed;inset:0;z-index:100;background:rgba(20,25,34,.48);display:grid;place-items:center;padding:20px}.profile-box{width:min(430px,100%);max-height:min(720px,92vh);overflow:auto;background:#fff;border-radius:26px;padding:24px;box-shadow:0 24px 70px rgba(20,25,34,.22)}.profile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.profile-head h2{margin:0;font-size:21px}.profile-head button,.profile-home{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 11px;font-size:12px;font-weight:700}.profile-store{background:var(--brand-soft);color:#8a5638;border-radius:14px;padding:12px 14px;font-size:13px;margin-bottom:16px}.profile-list{display:grid;gap:9px}.profile-item{display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff;text-align:left}.profile-item b{font-size:15px}.profile-item span{font-size:12px;color:var(--gray)}.profile-new{margin-top:18px;padding-top:17px;border-top:1px solid var(--line)}.profile-new h3{margin:0 0 11px;font-size:14px}.profile-new input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 9px;font:inherit;background:var(--field)}.profile-new button{width:100%;border-radius:12px;padding:13px;background:var(--brand);color:#fff;font-weight:800}.profile-note{font-size:12px;color:var(--gray);line-height:1.6;margin:12px 0 0}.profile-error{font-size:12px;color:var(--no);margin:10px 0 0}.profile-name{font-size:12px;font-weight:700;color:var(--gray);max-width:82px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.app{max-width:1100px;margin:0 auto;min-height:100vh;background:#fff;position:relative;
+     box-shadow:0 0 60px rgba(28,35,50,.08);padding-top:68px;padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
+
+/* ── top bar ───────────────────────────── */
+.bar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:min(1100px,100%);z-index:50;background:rgba(255,255,255,.97);display:flex;align-items:center;gap:12px;
+     padding:15px 20px 13px;border-bottom:1px solid rgba(237,239,242,.8);backdrop-filter:blur(14px)}
+.bar img.logo{width:105px;height:36px;object-fit:contain;display:block}
+.appname{font-size:12px;font-weight:700;color:var(--gray);padding-left:11px;margin-left:2px;border-left:1px solid var(--line);white-space:nowrap}
+.bar .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.iconbtn{width:38px;height:38px;border-radius:12px;background:var(--field);display:grid;place-items:center}
+.iconbtn:active{background:#EAECF0}
+.iconbtn svg{width:19px;height:19px;stroke:var(--gray);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn.on svg{stroke:var(--brand)}
+
+.screen{padding:24px 20px 18px}
+
+/* ── home hero ─────────────────────────── */
+.hero{display:flex;align-items:center;gap:8px;margin:0 0 14px;background:linear-gradient(145deg,#FFF8F3,#FFF0E4);border:1px solid #FFE1CE;border-radius:28px;padding:22px 18px 20px 20px;min-height:164px;overflow:hidden;position:relative}
+.hero::after{content:"";position:absolute;width:132px;height:132px;border-radius:50%;background:rgba(255,255,255,.42);right:-26px;top:-38px}
+.hero h1{margin:0;font-size:25px;font-weight:800;line-height:1.32;letter-spacing:-.04em}
+.hero p{margin:9px 0 0;color:#986648;font-size:13.5px;font-weight:500}
+.hero>div{position:relative;z-index:2;flex:1;min-width:0}
+.hero img{display:block;width:108px;height:150px;object-fit:contain;object-position:center bottom;margin:3px -5px -25px 0;flex:none;filter:drop-shadow(0 9px 13px rgba(54,43,36,.13));position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:5px;color:var(--brand-dk);font-size:11.5px;font-weight:800;margin-bottom:7px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand)}
+.stats{display:flex;gap:8px;margin:0 0 28px}
+.stat{flex:1;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px;box-shadow:var(--shadow-sm)}
+.stat b{display:block;font-size:20px;font-weight:700;letter-spacing:-.04em}
+.stat span{font-size:12px;color:var(--gray)}
+.stat.accent{background:var(--brand-soft)} .stat.accent b{color:var(--brand)}
+
+h2.sec{font-size:15px;font-weight:800;color:var(--ink);margin:0 0 11px;letter-spacing:-.025em}
+.secrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.secrow h2.sec{margin:0}.secrow span{font-size:12px;color:var(--gray)}
+
+/* ── category cards ────────────────────── */
+.cards{display:flex;flex-direction:column;gap:11px;margin-bottom:24px}
+.card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+      border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px;background:#fff;box-shadow:var(--shadow-sm);transition:border-color .15s,background .15s,transform .15s}
+.card:active{transform:scale(.985)}
+.card[aria-pressed="true"]{border-color:var(--brand);background:#FFFDFC;box-shadow:0 7px 22px rgba(241,126,68,.12)}
+.card .ic{width:48px;height:48px;border-radius:16px;background:var(--brand-soft);display:grid;place-items:center;flex:none}
+.card[aria-pressed="true"] .ic{background:#fff}
+.card .ic svg{width:25px;height:25px;stroke:var(--brand);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card .tx{flex:1;min-width:0}
+.card .tx b{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.03em}
+.card .tx span{display:block;font-size:12.5px;color:var(--gray);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .n{font-size:13px;font-weight:600;color:var(--gray);flex:none}
+.card .tx .meta{display:flex;align-items:center;gap:8px;margin-top:8px;overflow:visible}
+.card .tx .mini-track{display:block;height:5px;border-radius:99px;background:var(--field);overflow:hidden;flex:1;margin-top:0}
+.card .mini-track i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+.card .tx .rate{display:block;font-size:11px;color:var(--gray);font-weight:700;margin-top:0;overflow:visible}
+.card.gilbert-card{position:relative;overflow:hidden;border-color:#F2A071;background:linear-gradient(135deg,#FFF9F4 0%,#FFF1E7 100%);box-shadow:0 8px 26px rgba(241,126,68,.17)}
+.card.gilbert-card::after{content:"";position:absolute;right:-34px;top:-45px;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.92),rgba(255,255,255,0) 68%);pointer-events:none}
+.card.gilbert-card .ic{color:#fff;background:linear-gradient(145deg,#F79255,#E96C31);box-shadow:0 7px 15px rgba(241,126,68,.22)}
+.card.gilbert-card .ic svg{stroke:#fff}
+.card.gilbert-card[aria-pressed="true"]{border-color:var(--brand-dk);box-shadow:0 0 0 3px rgba(241,126,68,.13),0 10px 30px rgba(241,126,68,.2)}
+.pill-imp{display:inline-block;background:var(--brand);color:#fff;font-size:11px;font-weight:700;
+          border-radius:7px;padding:2px 7px;margin-right:6px;vertical-align:1px}
+
+/* ── segmented + chips + switch ────────── */
+.setup-card{background:#FAFAFB;border:1px solid var(--line);border-radius:24px;padding:17px 16px 3px;margin-bottom:22px}
+.setup-card h2.sec{font-size:13px;color:var(--gray)}
+.seg{display:flex;background:#ECEEF1;border-radius:15px;padding:4px;margin-bottom:20px}
+.seg button{flex:1;padding:10px 4px;border-radius:11px;font-size:13.5px;font-weight:600;color:var(--gray)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(24,30,45,.1)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{border:1.5px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:500;color:var(--gray)}
+.chip[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-dk);font-weight:600}
+.switch{display:flex;align-items:center;gap:12px;padding:15px 16px;background:var(--field);border-radius:var(--r-md);margin-bottom:22px;width:100%}
+.switch .tx{flex:1;text-align:left}
+.switch .tx b{display:block;font-size:14.5px;font-weight:600}
+.switch .tx span{font-size:12.5px;color:var(--gray)}
+.track{width:48px;height:29px;border-radius:999px;background:#D6DAE0;position:relative;flex:none;transition:background .18s}
+.track i{position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch[aria-pressed="true"] .track{background:var(--brand)}
+.switch[aria-pressed="true"] .track i{left:22px}
+
+.note{background:var(--brand-soft);border-radius:var(--r-md);padding:15px 16px;margin-bottom:20px}
+.note b{display:block;font-size:14.5px;margin-bottom:5px}
+.note p{margin:0;font-size:13px;color:#8A6248;line-height:1.65}
+
+/* ── bottom CTA ────────────────────────── */
+.ctabar{position:fixed;bottom:0;left:0;right:0;z-index:30;pointer-events:none}
+.ctabar .in{max-width:1100px;margin:0 auto;padding:18px 20px calc(14px + env(safe-area-inset-bottom));
+            background:linear-gradient(180deg,rgba(255,255,255,0) 0%,#fff 32%);pointer-events:auto;display:flex;gap:10px}
+.cta{flex:1;background:var(--brand);color:#fff;font-size:16.5px;font-weight:800;padding:17px;border-radius:17px;
+     box-shadow:0 8px 18px rgba(241,126,68,.25);transition:transform .1s,background .15s}
+.cta:active{transform:scale(.985);background:var(--brand-dk)}
+.cta:disabled{background:#E3E6EA;color:#A6AEB9;cursor:default;transform:none}
+.cta.sub{flex:none;width:auto;padding:16px 18px;background:var(--field);color:#555E6C;font-size:14px;font-weight:700;box-shadow:none}
+
+.wrong-shortcut{display:flex;align-items:center;gap:13px;width:100%;text-align:left;border-radius:20px;padding:15px 16px;margin:0 0 26px;background:#FFF7F4;border:1px solid #FFE0D4}
+.wrong-shortcut .wi{width:42px;height:42px;border-radius:14px;background:#fff;display:grid;place-items:center;color:var(--brand);font-size:20px;flex:none}
+.wrong-shortcut .wt{flex:1}.wrong-shortcut b{display:block;font-size:14.5px}.wrong-shortcut span{display:block;font-size:12.5px;color:#936956;margin-top:2px}
+.wrong-shortcut .arrow{font-size:22px;color:#C38A70}
+.wrong-shortcut:disabled{background:var(--field);border-color:var(--line);opacity:.65}.wrong-shortcut:disabled .wi{color:#9BA2AC}
+
+/* ── quiz ──────────────────────────────── */
+.qtop{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);z-index:20}
+.qtop .x{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--field)}
+.qtop .x svg{width:16px;height:16px;stroke:var(--gray);stroke-width:2.2;stroke-linecap:round}
+.prog{flex:1;height:9px;border-radius:999px;background:#ECEEF1;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--brand);border-radius:999px;transition:width .3s cubic-bezier(.3,1,.4,1)}
+.qtop .cnt{font-size:13px;font-weight:600;color:var(--gray);flex:none}
+
+.qlabel{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.lab{font-size:11.5px;font-weight:600;color:var(--gray);background:var(--field);border-radius:8px;padding:4px 9px}
+.lab.imp{background:var(--brand-soft);color:var(--brand-dk)}
+.qtext{font-size:22px;font-weight:800;line-height:1.48;letter-spacing:-.04em;margin:3px 0 20px;white-space:pre-wrap}
+.quiz-coach{display:flex;align-items:center;gap:13px;margin:-2px 0 18px;padding:12px 15px 12px 10px;border:1px solid #FFE0CC;border-radius:20px;background:linear-gradient(135deg,#FFF9F4,#FFF1E7);animation:coachIn .28s ease-out both}
+.quiz-coach img{width:68px;height:66px;object-fit:contain;object-position:center;filter:drop-shadow(0 5px 7px rgba(60,45,35,.11));flex:none}
+.quiz-coach span{font-size:13.5px;font-weight:700;line-height:1.5;color:#6C4835}
+@keyframes coachIn{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+.qdata{background:var(--brand-soft);border-radius:14px;padding:13px 15px;font-size:14.5px;font-weight:600;
+       color:var(--brand-dk);margin-bottom:18px;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:#fff;
+     border:1.5px solid #E4E7EB;border-radius:18px;padding:16px 15px;font-size:15px;line-height:1.5;box-shadow:0 2px 8px rgba(30,35,45,.025);
+     transition:border-color .12s,background .12s,transform .1s}
+.opt:active:not(:disabled){transform:scale(.99)}
+.opt .k{width:24px;height:24px;border-radius:9px;background:var(--field);color:var(--gray);flex:none;
+        display:grid;place-items:center;font-size:12.5px;font-weight:700;margin-top:1px}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.opt[aria-pressed="true"] .k{background:var(--brand);color:#fff}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)} .opt.ok .k{background:var(--ok);color:#fff}
+.opt.no{border-color:var(--no);background:var(--no-soft)} .opt.no .k{background:var(--no);color:#fff}
+.opt:disabled{cursor:default}
+.calcwrap{margin-top:4px}
+.calcwrap input{width:100%;font-size:26px;font-weight:700;text-align:center;padding:20px;border-radius:var(--r-md);
+  border:2px solid var(--line);background:#fff;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.calcwrap input:focus{outline:none;border-color:var(--brand);background:var(--brand-soft)}
+.calcwrap .u{text-align:center;color:var(--gray);font-size:13px;margin-top:10px}
+
+/* ── feedback sheet ────────────────────── */
+.sheet-backdrop{position:fixed;inset:0;z-index:39;background:rgba(20,24,32,.38);opacity:0;pointer-events:none;transition:opacity .22s ease;backdrop-filter:blur(2px)}
+.sheet-backdrop.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;bottom:0;left:0;right:0;z-index:40;transform:translateY(102%);pointer-events:none;transition:transform .28s cubic-bezier(.32,1,.4,1)}
+.sheet.up{transform:translateY(0);pointer-events:auto}
+.sheet .in{max-width:1100px;margin:0 auto;background:#fff;border-radius:28px 28px 0 0;
+           box-shadow:0 -10px 40px rgba(24,30,45,.16);padding:20px 20px calc(16px + env(safe-area-inset-bottom));
+           max-height:74vh;overflow-y:auto}
+.sheet.ok .in{background:var(--ok-soft)} .sheet.no .in{background:var(--no-soft)}
+.sh-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.sh-head img{display:none}
+.sh-head b{font-size:19px;font-weight:700;letter-spacing:-.03em}
+.sheet.ok .sh-head b{color:#0C7A52} .sheet.no .sh-head b{color:#B32B2D}
+.sh-ans{background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;font-weight:600;margin-bottom:10px}
+.sh-key{background:#fff;border-radius:13px;padding:11px 14px;font-size:14px;font-weight:600;margin-bottom:10px;line-height:1.6}
+.sh-exp{font-size:14.5px;line-height:1.72;margin:0 0 16px;color:#2B3038}
+.sh-steps{list-style:none;margin:0 0 16px;padding:0;counter-reset:s}
+.sh-steps li{counter-increment:s;position:relative;padding:9px 0 9px 30px;font-size:14px;line-height:1.6;border-top:1px solid rgba(0,0,0,.07)}
+.sh-steps li:first-child{border-top:0}
+.sh-steps li::before{content:counter(s);position:absolute;left:0;top:10px;width:21px;height:21px;border-radius:7px;
+  background:var(--brand);color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center}
+.sheet .cta{position:sticky;bottom:0;margin-top:4px}
+
+/* ── designed confirm modal ────────────── */
+.modal-wrap{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:24px;background:rgba(20,24,32,.42);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.modal-wrap.show{opacity:1;pointer-events:auto}
+.modal-card{width:min(100%,360px);background:#fff;border-radius:26px;padding:24px 22px 20px;box-shadow:0 24px 70px rgba(16,20,28,.24);transform:translateY(10px) scale(.98);transition:transform .24s cubic-bezier(.32,1,.4,1)}
+.modal-wrap.show .modal-card{transform:none}
+.modal-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;margin-bottom:16px;background:var(--brand-soft);color:var(--brand)}
+.modal-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modal-card h3{font-size:20px;line-height:1.35;letter-spacing:-.035em;margin:0 0 8px}
+.modal-card p{font-size:14px;line-height:1.65;color:var(--gray);margin:0 0 21px;white-space:pre-line}
+.modal-actions{display:flex;gap:9px}.modal-actions button{flex:1;border-radius:15px;padding:14px 10px;font-size:14.5px;font-weight:800}
+.modal-cancel{background:var(--field);color:#59616D}.modal-ok{background:var(--brand);color:#fff;box-shadow:0 7px 16px rgba(241,126,68,.2)}
+.modal-ok.danger{background:#E44B4D;box-shadow:0 7px 16px rgba(228,75,77,.18)}
+
+/* ── result ────────────────────────────── */
+.res-top{text-align:center;padding:14px 0 6px}
+.res-top img{display:none}
+.ring{width:150px;height:150px;border-radius:50%;margin:6px auto 0;display:grid;place-items:center;
+      background:conic-gradient(var(--brand) var(--p,0%), var(--field) 0)}
+.ring .in{width:120px;height:120px;border-radius:50%;background:#fff;display:grid;place-items:center;align-content:center}
+.ring b{font-size:38px;font-weight:700;letter-spacing:-.045em;line-height:1}
+.ring span{font-size:12.5px;color:var(--gray);margin-top:3px}
+.res-msg{text-align:center;font-size:19px;font-weight:700;margin:18px 0 4px;letter-spacing:-.03em}
+.res-sub{text-align:center;color:var(--gray);font-size:14px;margin:0 0 24px}
+.bars{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.brow{font-size:13.5px}
+.brow .t{display:flex;justify-content:space-between;margin-bottom:6px}
+.brow .t b{font-weight:600} .brow .t span{color:var(--gray);font-weight:600}
+.brow .tr{height:8px;border-radius:999px;background:var(--field);overflow:hidden}
+.brow .tr i{display:block;height:100%;background:var(--brand);border-radius:999px}
+.brow.low .tr i{background:var(--no)}
+.wrongs{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.wr{background:var(--field);border-radius:var(--r-md);padding:14px 15px}
+.wr .q{font-size:14.5px;font-weight:600;line-height:1.55;margin-bottom:7px;white-space:pre-wrap}
+.wr .a{font-size:13.5px;color:var(--gray);line-height:1.65}
+.wr .a b{color:var(--ok)}
+
+/* ── tools ─────────────────────────────── */
+details.tools{border-top:1px solid var(--line);padding-top:17px;margin:8px 0 20px}
+details.tools summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--gray)}
+details.tools summary::-webkit-details-marker{display:none}
+details.tools textarea{width:100%;height:140px;margin-top:12px;border:1.5px solid var(--line);border-radius:14px;
+  padding:12px;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical;background:var(--field)}
+.trow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.tbtn{border:1.5px solid var(--line);border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;color:var(--gray)}
+.tbtn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.tmsg{font-size:13px;margin-top:10px;font-weight:600}
+.tmsg.ok{color:var(--ok)} .tmsg.err{color:var(--no)}
+.hint{font-size:12.5px;color:var(--gray);line-height:1.65;margin:10px 0 0}
+
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+.rank-card{display:grid;grid-template-columns:38px 48px 1fr auto;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff}.rank-card:first-child{border-radius:18px 18px 0 0}.rank-card:last-child{border-radius:0 0 18px 18px;border-bottom:0}.rank-card.me{background:#f1f2f4}.rank-no{font-weight:900;color:var(--gray);text-align:center}.rank-card:nth-child(1) .rank-no{color:#e2a500}.rank-card:nth-child(2) .rank-no{color:#8ca0b8}.rank-card:nth-child(3) .rank-no{color:#b97b4e}.rank-person{min-width:0}.rank-person b,.rank-person span{display:block}.rank-person b{font-size:15px}.rank-person span{font-size:11.5px;color:var(--gray);margin-top:2px}.rank-xp{font-size:13px;font-weight:700;color:#9aa1ab}.xp-award{padding:17px;margin:0 0 22px;border-radius:18px;background:linear-gradient(135deg,#fff4e9,#fff);border:1px solid var(--brand-line);text-align:center}.xp-award b{font-size:22px;color:var(--brand)}.rank-rise{animation:rankRise .65s cubic-bezier(.2,1,.3,1)}@keyframes rankRise{from{transform:translateY(36px);opacity:.2}to{transform:none;opacity:1}}
+.avatar-modal{position:fixed;inset:0;z-index:130;background:rgba(20,25,34,.48);display:grid;place-items:center;padding:20px}.avatar-card{width:min(560px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:26px;padding:23px}.avatar-preview{width:min(330px,100%);aspect-ratio:1;margin:14px auto;border-radius:22px;overflow:hidden;background:#f8f8f8}.avatar-stack{position:relative;width:100%;height:100%;overflow:hidden}.avatar-stack img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.avatar-stack .avatar-item{object-fit:contain}.avatar-tabs{display:flex;gap:7px;margin:12px 0}.avatar-tabs button{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:10px;background:#fff;font-weight:800;color:var(--gray)}.avatar-tabs button.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}.avatar-options{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.avatar-options button{position:relative;aspect-ratio:1;border:2px solid var(--line);border-radius:14px;padding:3px;background:#f8f8f8;overflow:hidden}.avatar-options button img{width:100%;height:100%;object-fit:contain}.avatar-options button[aria-pressed=true]{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 2px rgba(241,126,68,.13)}.avatar-options button.none{aspect-ratio:auto;min-height:62px;font-weight:800;color:var(--gray)}.avatar-help{text-align:center;font-size:12px;color:var(--gray);line-height:1.55;margin:10px 0 0}.avatar-error{color:var(--no);font-size:12px;font-weight:700;text-align:center;margin-top:9px}
+.mini-avatar{position:relative;width:100%;height:100%;border-radius:inherit;overflow:hidden;background:#f7f7f7}.mini-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.mini-avatar img:not(:first-child){object-fit:contain}
+.profile-chip{display:flex;align-items:center;gap:8px;border:0;background:var(--brand-soft);border-radius:99px;padding:5px 10px 5px 5px}.profile-face,.rank-face{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff2e8;font-size:21px;border:2px solid #fff}.rank-face{width:46px;height:46px;font-size:25px}.profile-hero{display:grid;place-items:center;text-align:center;padding:18px;margin:4px 0 15px;border-radius:20px;background:linear-gradient(180deg,#ffd997,#fff4df)}.profile-hero-face{width:116px;height:116px;border-radius:50%;display:grid;place-items:center;font-size:70px;background:#fff;border:5px solid rgba(255,255,255,.85);box-shadow:0 10px 24px rgba(135,87,35,.15)}.profile-hero h3{font-size:22px;margin:10px 0 3px}.profile-hero p{margin:0;color:var(--gray);font-size:13px}.mode-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:20px}.mode-card{border:1.5px solid var(--line);border-radius:16px;padding:14px 12px;text-align:left;background:#fff}.mode-card b,.mode-card span{display:block}.mode-card b{font-size:14px}.mode-card span{font-size:11.5px;color:var(--gray);line-height:1.45;margin-top:5px}.mode-card[aria-pressed=true]{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 2px rgba(241,126,68,.08)}.mobile-nav{position:fixed;left:0;right:0;bottom:0;z-index:45;height:65px;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}.mobile-nav .in{width:min(480px,100%);display:grid;grid-template-columns:repeat(4,1fr)}.mobile-nav button{border:0;background:#fff;color:var(--gray);display:grid;place-items:center;align-content:center;gap:2px;font-size:11px;font-weight:800}.mobile-nav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2}.mobile-nav button.on{color:var(--brand)}
+@media (min-width:760px){body{padding:24px}.app{border-radius:28px;overflow:hidden;min-height:calc(100vh - 48px)}.screen{padding:30px 38px}.hero{min-height:190px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.setup-card{padding:22px}.stats{max-width:650px}.profile-box{width:min(560px,100%)}}
+@media (max-width:759px){.app{max-width:480px;padding-top:60px;padding-bottom:68px}.bar{padding:10px 12px}.bar img.logo{width:80px}.appname,.right>button:not(#profileChip){display:none}.profile-chip{max-width:150px}.profile-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.screen{padding:20px 16px}.hero h1{font-size:23px}.mode-cards{grid-template-columns:1fr}.mode-card{padding:13px 15px}.ctabar{bottom:64px}.ctabar .in{max-width:480px}}
+.bar{position:fixed!important;top:0!important;left:50%!important;transform:translateX(-50%)!important;width:min(520px,100%)!important;height:66px!important;padding:12px 18px!important;background:#fff!important;z-index:80!important;border-bottom:1px solid #eee!important}.bar img.logo{width:105px!important;height:auto!important;cursor:pointer}.session-pill{margin-left:auto;display:flex;align-items:center;gap:8px;text-decoration:none;color:#1879e8;border:1.5px solid #1686fa;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:800;background:#f7fcff}.session-pill i{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}.app{padding-top:66px!important;padding-bottom:76px!important;max-width:520px!important}.mobile-nav{position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;width:min(520px,100%)!important;height:70px!important;background:#fff url(assets/ui-parts/quiz-nav-clean.png) center/100% 100% no-repeat!important;border-top:1px solid #eee!important;z-index:80!important;display:block!important}.mobile-nav .in{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:100%!important;height:100%!important}.mobile-nav button{opacity:0!important;width:100%!important;height:100%!important}.ctabar{bottom:70px!important}</style><link rel="stylesheet" href="quiz-session-ui.css"><style id="sessionFinalOverrides">
+.bar{position:fixed!important;top:0!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(520px,100%)!important;height:66px!important;min-height:66px!important;padding:12px 18px!important;background:#fff!important;z-index:90!important;border-bottom:1px solid #eee!important;flex-wrap:nowrap!important}.bar img.logo{width:105px!important;height:auto!important;cursor:pointer}.session-pill{margin-left:auto;display:flex!important;align-items:center;gap:8px;text-decoration:none;color:#1879e8;border:1.5px solid #1686fa;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:800;background:#f7fcff;white-space:nowrap}.session-pill i{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}.app{padding-top:66px!important;padding-bottom:76px!important;max-width:520px!important}.mobile-nav{position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;width:min(520px,100%)!important;height:70px!important;background:#fff url(assets/ui-parts/quiz-nav-clean.png) center/100% 100% no-repeat!important;border-top:1px solid #eee!important;z-index:90!important;display:block!important}.mobile-nav .in{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:100%!important;height:100%!important}.mobile-nav button{opacity:0!important;width:100%!important;height:100%!important;display:block!important}.ctabar{bottom:70px!important;z-index:85!important}.ctabar .in{padding-bottom:12px!important}.qtop{position:sticky!important;top:66px!important;z-index:70!important}
+</style>
+
+<div id="sessionLoading" role="status">학습 정보를 불러오는 중입니다…</div><div class="app">
+  <div id="profileGate" class="profile-gate hidden"><section class="profile-box"><div class="profile-head"><h2 id="profilePanelTitle">프로필</h2><button id="profileExit">서비스 선택</button></div><div id="activeProfileHero" class="profile-hero hidden"><div id="profileHeroFace" class="profile-hero-face">🦉</div><h3 id="profileHeroName"></h3><p id="profileHeroStore"></p><button class="tbtn p" id="profileDecorate" style="margin-top:12px">캐릭터 꾸미기</button></div><div id="profileStore" class="profile-store"></div><div id="profileList" class="profile-list"></div><div class="profile-new"><h3>직원 프로필 추가</h3><input id="profileName" maxlength="20" placeholder="이름 또는 별칭"><input id="profilePin" maxlength="4" inputmode="numeric" placeholder="PIN 4자리 (선택)"><button id="profileCreate">프로필 추가</button><p class="profile-note">직원별로 학습 기록과 XP가 따로 저장됩니다.</p><p id="profileError" class="profile-error hidden"></p></div></section></div>
+  <header class="bar" id="topbar">
+    <img class="logo" id="logoImg" alt="으뜸50안경" role="button" tabindex="0" aria-label="교육용 퀴즈 홈으로 이동">
+    <a class="session-pill" href="quiz.html">교육용 퀴즈 <i></i></a>
+    <div class="right session-hidden-controls" aria-hidden="true" style="display:none!important">
+      <button class="profile-chip" id="profileChip" type="button"><span id="activeProfileFace" class="profile-face"></span><span id="activeProfileName" class="profile-name"></span></button>
+      <button class="profile-home" id="leaderboardBtn" type="button">랭킹</button>
+      <button class="profile-home" id="avatarBtn" type="button">꾸미기</button>
+      <button class="profile-home" id="switchProfile" type="button">프로필</button>
+      <button class="iconbtn" id="sndBtn" aria-pressed="true" type="button"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5z"/></svg></button>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <main id="home" class="screen">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">오늘의 학습</span>
+        <h1 id="greet">배운 내용을<br>확인해볼까요?</h1>
+        <p id="greetSub"></p>
+      </div>
+      <img id="charImg" alt="">
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b class="mono" id="stSolved">0</b><span>푼 문제</span></div>
+      <div class="stat"><b class="mono" id="stRate">0%</b><span>정답률</span></div>
+      <div class="stat accent"><b class="mono" id="stWrong">0</b><span>오답노트</span></div>
+    </div>
+
+    <div class="secrow"><h2 class="sec">학습 코스</h2><span>하나를 선택해 주세요</span></div>
+    <div class="cards" id="cards"></div>
+
+    <button class="wrong-shortcut" id="wrongShortcut" type="button">
+      <span class="wi"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 8.5A8 8 0 1 1 4 14"/><path d="M4.5 4.5v4h4"/></svg></span>
+      <span class="wt"><b id="wrongTitle">오답 복습</b><span id="wrongDesc">틀린 문제를 다시 풀어 완전히 익혀요</span></span>
+      <span class="arrow"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span>
+    </button>
+
+    <div class="setup-card">
+      <h2 class="sec">학습 방식</h2>
+      <div class="mode-cards" id="modes">
+        <button class="mode-card" data-mode="study" aria-pressed="true"><b>바로 학습</b><span>문제마다 바로 정답과 해설을 확인해요.</span></button>
+        <button class="mode-card" data-mode="exam" aria-pressed="false"><b>실전 테스트</b><span>끝까지 푼 뒤 한 번에 채점해 실력을 확인해요.</span></button>
+        <button class="mode-card" data-mode="calc" aria-pressed="false"><b>계산 훈련</b><span>가입도·프리즘·도수 계산을 직접 입력해요.</span></button>
+      </div>
+
+      <h2 class="sec">세부 주제</h2>
+      <div class="chips" id="topics"></div>
+      <div class="note hidden" id="emptyNote"></div>
+
+      <button class="switch" id="impOnly" aria-pressed="false">
+        <span class="tx"><b>중요 문제만</b><span id="impCount">검사 순서·수치·판정 주의사항</span></span>
+        <span class="track"><i></i></span>
+      </button>
+
+      <h2 class="sec">한 번에 풀 문제</h2>
+      <div class="chips" id="lens">
+        <button class="chip" data-len="5" aria-pressed="false">5문항</button>
+        <button class="chip" data-len="10" aria-pressed="true">10문항</button>
+        <button class="chip" data-len="20" aria-pressed="false">20문항</button>
+        <button class="chip" data-len="30" aria-pressed="false">30문항</button>
+        <button class="chip" data-len="0" aria-pressed="false">전체</button>
+      </div>
+    </div>
+
+    <div class="setup-card" style="margin-top:18px">
+      <div class="secrow" style="margin:0"><div><h2 class="sec">의견 남기기</h2><span>문제 오류, 해설 보완, 추가할 교육 내용을 알려주세요.</span></div><button class="tbtn p" id="quizFeedback">의견 보내기</button></div>
+    </div>
+  </main>
+
+  <!-- QUIZ -->
+  <main id="quiz" class="hidden">
+    <div class="qtop">
+      <button class="x" id="quitBtn" title="나가기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <span class="prog"><i id="progFill" style="width:0%"></i></span>
+      <span class="cnt mono" id="qcnt"></span>
+    </div>
+    <div class="screen">
+      <div class="quiz-coach hidden" id="quizCoach">
+        <img id="coachImg" alt="부영이">
+        <span id="coachText"></span>
+      </div>
+      <div class="qlabel" id="qlabel"></div>
+      <p class="qtext" id="qtext"></p>
+      <div class="qdata hidden" id="qdata"></div>
+      <ul class="opts" id="opts"></ul>
+      <div class="calcwrap hidden" id="calcwrap">
+        <input id="calcInput" inputmode="decimal" autocomplete="off" placeholder="0.00">
+        <div class="u" id="calcUnit"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- RESULT -->
+  <main id="result" class="hidden">
+    <div class="screen">
+      <div class="res-top">
+        <img id="charImg2" alt="">
+        <div class="ring" id="ring"><span class="in"><b class="mono" id="scoreBig">0</b><span id="scoreOf"></span></span></div>
+      </div>
+      <p class="res-msg" id="resMsg"></p>
+      <p class="res-sub" id="resSub"></p>
+      <div class="xp-award" id="xpAward"><b>XP 계산 중</b><div>완료한 학습이 순위에 반영됩니다.</div></div>
+      <h2 class="sec">주제별 정답률</h2>
+      <div class="bars" id="bars"></div>
+      <div id="wrongWrap"></div>
+    </div>
+  </main>
+
+  <main id="leaderboard" class="screen hidden">
+    <div class="secrow"><h2 class="sec">실시간 학습 랭킹</h2><button class="profile-home" id="leaderboardBack">홈으로</button></div>
+    <p class="profile-note">퀴즈를 완료할 때마다 XP가 쌓이고 순위가 바로 갱신됩니다.</p>
+    <div id="leaderboardList" style="margin-top:18px"></div>
+  </main>
+
+  <div id="avatarModal" class="avatar-modal hidden"><section class="avatar-card"><div class="profile-head"><h2>내 캐릭터 꾸미기</h2></div><div id="avatarPreview" class="avatar-preview"></div><div class="avatar-tabs" id="avatarTabs"><button class="on" data-part="glasses">안경</button><button data-part="outfit">옷</button><button data-part="accessory">액세서리</button></div><div class="avatar-options" id="avatarOptions"></div><p class="avatar-help">안경은 반드시 하나 선택해야 해요. 옷과 액세서리는 착용하지 않아도 됩니다.</p><p id="avatarError" class="avatar-error hidden"></p><button class="cta" id="avatarSave" style="width:100%;margin-top:16px">이 모습으로 저장</button></section></div>
+
+  <div class="ctabar" id="ctabar"><div class="in">
+    <button class="cta sub hidden" id="ctaSub">건너뛰기</button>
+    <button class="cta" id="cta">문제 시작</button>
+  </div></div>
+
+  <div class="sheet-backdrop" id="sheetBackdrop" aria-hidden="true"></div>
+  <div class="sheet" id="sheet"><div class="in" role="dialog" aria-modal="true" aria-live="polite">
+    <div class="sh-head"><img id="faceImg" alt=""><b id="shTitle"></b></div>
+    <div id="shBody"></div>
+    <button class="cta" id="shNext">다음 문제</button>
+  </div></div>
+
+  <div class="modal-wrap" id="confirmModal" aria-hidden="true">
+    <div class="modal-card" role="alertdialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+      <div class="modal-icon"><svg viewBox="0 0 24 24"><path d="M12 8v4M12 16h.01"/><path d="M10.3 3.7 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z"/></svg></div>
+      <h3 id="modalTitle">학습을 종료할까요?</h3>
+      <p id="modalDesc"></p>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modalCancel" type="button">계속 풀기</button>
+        <button class="modal-ok" id="modalOk" type="button">종료하기</button>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav"><div class="in"><button id="navHome" class="on"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9H5v-9"/></svg><span>홈</span></button><button id="navWrong"><svg viewBox="0 0 24 24"><path d="M7 4h9l3 3v13H7z"/><path d="M16 4v4h4"/><path d="M10 12h6M10 16h5"/></svg><span>오답노트</span></button><button id="navRank"><svg viewBox="0 0 24 24"><path d="M8 4h8v3a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 11v5M8 20h8M9 16h6"/></svg><span>랭킹</span></button><button id="navProfile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>프로필</span></button></div></nav>
+</div>
+
+<script>
+
+
+
+const BANK = [
+/* ---------- 안경렌즈 : 굴절검사 ---------- */
+{cat:"glasses",topic:"굴절검사",imp:true,q:"자각적 굴절검사에서 원거리 시표면의 권장 조도로 가장 적절한 것은?",
+ choices:["50~100 lx","200~300 lx","500~1,000 lx","2,000~3,000 lx"],a:2,
+ key:"시표면 500~1,000 lx, 검사실 배경은 그보다 어둡게",
+ exp:"시표가 너무 어두우면 동공이 커져 수차와 구면수차 영향으로 과교정되기 쉽고, 너무 밝으면 동공이 작아져 초점심도가 깊어지면서 저교정을 놓치게 됩니다. 검사실 배경 조도는 시표보다 낮게 유지해 대비를 확보합니다."},
+{cat:"glasses",topic:"굴절검사",q:"적록검사(이색검사)에서 적색 바탕의 시표가 더 선명하다고 할 때의 해석은?",
+ choices:["과교정 상태이므로 (+)를 추가한다","저교정 상태이므로 (−)를 추가한다","난시축이 틀어진 것이다","정확히 교정된 상태다"],a:1,
+ key:"적색 선명 = 초점이 망막 뒤 = 저교정 → (−) 추가 / 녹색 선명 = 과교정 → (+)",
+ exp:"눈의 색수차 때문에 적색 파장은 녹색보다 뒤쪽에 결상합니다. 적색이 선명하다는 것은 아직 상이 망막 뒤에 맺힌다는 뜻이므로 근시 저교정 또는 원시 과교정 상태입니다. 색각이상자도 색이 아닌 선명도를 비교하는 검사라 사용할 수 있습니다."},
+{cat:"glasses",topic:"굴절검사",imp:true,q:"안경의 경사각(전경각)에 대한 설명으로 옳은 것은?",
+ choices:["경사각이 커질수록 광학중심을 위로 올린다","경사각 1°당 광학중심을 약 0.5mm 아래로 내린다","경사각은 시선과 렌즈면이 이루는 수평 방향의 각이다","경사각은 도수와 무관하므로 보정이 필요 없다"],a:1,
+ key:"경사각 1° ↔ OC 0.5mm 하강 (2°당 1mm)",
+ exp:"경사각이 붙으면 시선이 렌즈면과 수직으로 만나는 지점이 아래로 내려갑니다. 보정하지 않으면 사시수차와 원치 않는 프리즘이 생기므로, 통상 경사각 1°마다 광학중심을 0.5mm 낮춰 조제합니다. 일반적인 착용 경사각은 8~15° 범위입니다."},
+{cat:"glasses",topic:"굴절검사",imp:true,q:"정점간거리(VD) 보정이 실질적으로 필요해지는 도수의 기준은?",
+ choices:["±1.00D 이상","±2.00D 이상","±4.00D 이상","±10.00D 이상"],a:2,
+ key:"F′ = F ÷ (1 − d·F), d는 미터 단위 VD",
+ exp:"±4.00D를 넘어서면 정점간거리 몇 mm 차이가 0.25D 이상의 실효도수 변화를 만들어 냅니다. 안경을 눈에 가깝게 붙이면 근시는 더 강한 도수가, 원시는 더 약한 도수가 필요해집니다."},
+{cat:"glasses",topic:"굴절검사",q:"운무법(안개법)의 목적으로 가장 적절한 것은?",
+ choices:["조절을 이완시켜 잠복원시를 드러낸다","동공을 축소시켜 초점심도를 늘린다","난시축을 정밀하게 찾는다","우위안을 판정한다"],a:0,
+ key:"(+)렌즈로 상을 망막 앞에 맺게 해 조절 자극을 제거",
+ exp:"(+)렌즈를 과하게 넣어 일부러 흐리게 만들면 조절을 해도 더 흐려지기 때문에 조절이 풀립니다. 조절이 이완된 상태에서 (−) 방향으로 천천히 줄여 최고시력이 나오는 최소 (−)·최대 (+) 도수를 찾습니다."},
+{cat:"glasses",topic:"굴절검사",q:"크로스실린더로 난시 축을 확인할 때 올바른 배치는?",
+ choices:["크로스실린더의 (−)축을 교정 원주렌즈 축과 45° 되게 놓는다","크로스실린더의 손잡이를 교정 원주렌즈 축과 일치시킨다","크로스실린더의 (−)축을 교정 원주렌즈 축과 일치시킨다","크로스실린더를 90° 회전시켜 비교한다"],a:1,
+ key:"축 확인 = 손잡이를 축에 일치 / 도수 확인 = (−)축을 축에 일치",
+ exp:"축 검사에서는 크로스실린더의 회전 손잡이를 교정 원주축에 맞춘 뒤 뒤집어 비교하고, 선명한 쪽의 (−)축 방향으로 축을 돌립니다. 도수 검사에서는 (−)축을 교정 원주축에 일치시켜 뒤집고, 선명한 쪽으로 원주도수를 0.25D씩 조정합니다."},
+
+/* ---------- 안경렌즈 : 근거리검사 ---------- */
+{cat:"glasses",topic:"근거리검사",q:"작업거리가 33cm일 때 요구되는 조절력은?",
+ choices:["2.00D","2.50D","3.00D","4.00D"],a:2,
+ key:"요구 조절력(D) = 100 ÷ 작업거리(cm)",
+ exp:"100/33 ≈ 3.00D입니다. 40cm면 2.50D, 50cm면 2.00D, 25cm면 4.00D가 필요합니다. 가입도 산출의 출발점이므로 작업거리는 실제 그 사람이 쓰는 자세에서 줄자로 직접 재는 것이 원칙입니다."},
+{cat:"glasses",topic:"근거리검사",imp:true,q:"작업거리 40cm, 잔여 조절력이 2.00D인 사람에게 조절력의 1/2만 사용하는 원칙으로 가입도를 정하면?",
+ choices:["+1.00D","+1.50D","+2.00D","+2.50D"],a:1,
+ key:"ADD = (100/작업거리) − (조절력 × 1/2)",
+ exp:"요구 조절력 2.50D 중 본인 조절력 2.00D의 절반인 1.00D만 쓰게 하고 나머지를 렌즈가 부담합니다. 2.50 − 1.00 = 1.50D. 조절력을 모두 쓰게 하면 근거리 작업 지속이 어려워 피로를 호소합니다."},
+{cat:"glasses",topic:"근거리검사",q:"가입도를 결정한 뒤 반드시 확인해야 하는 것은?",
+ choices:["원용 PD","명시역(선명하게 보이는 거리 범위)","각막곡률","우위안"],a:1,
+ key:"가입도 결정 후 명시역이 실제 작업거리를 포함하는지 확인",
+ exp:"가입도가 높을수록 선명한 구간이 눈 쪽으로 당겨지고 범위도 좁아집니다. 산출된 가입도를 넣은 상태에서 가까운 한계와 먼 한계를 재어, 본인이 실제로 쓰는 거리가 그 안에 여유 있게 들어오는지 확인해야 합니다."},
+{cat:"glasses",topic:"근거리검사",imp:true,q:"근거리 크로스실린더 검사(FCC)에서 (−)축을 90°에 두었을 때 가로선이 더 진하게 보인다면?",
+ choices:["조절과다이므로 (−)를 추가한다","조절지연이므로 (+)를 추가한다","난시축을 다시 잡는다","정상이므로 그대로 둔다"],a:1,
+ key:"가로선 선명 = 조절지연(lag) → (+) 추가",
+ exp:"격자시표를 40cm에 두고 조도를 낮춘 상태에서 ±0.50 크로스실린더를 사용합니다. 가로선이 진하면 초점이 망막 뒤에 있다는 뜻으로 조절이 덜 일어난 상태이므로, 두 선이 같아질 때까지 (+)를 0.25D씩 더합니다. 이 값이 노안 가입도의 기준으로도 쓰입니다."},
+{cat:"glasses",topic:"근거리검사",q:"근거리 난시검사를 별도로 해야 하는 이유로 옳은 것은?",
+ choices:["근거리에서는 난시가 사라지기 때문","조절과 축소된 동공의 영향으로 원거리와 난시량·축이 달라질 수 있어서","근거리에서는 구면도수만 필요하기 때문","검사 시간을 줄이기 위해"],a:1,
+ key:"조절 시 수정체 변화 + 동공 축소 → 근거리 난시가 달라질 수 있음",
+ exp:"조절이 일어나면 수정체의 형태가 바뀌고 동공이 작아지면서 유효 난시량과 축이 원거리 값과 어긋나는 경우가 있습니다. 특히 근거리 작업 호소가 많은데 원용 처방으로 해결되지 않을 때 근거리 난시검사로 확인합니다."},
+
+/* ---------- 안경렌즈 : 누진/이중초점 ---------- */
+{cat:"glasses",topic:"누진·이중초점",imp:true,q:"누진다초점 렌즈의 피팅포인트(아이포인트)를 맞추는 기준은?",
+ choices:["동공 중심에 맞춘다","동공 중심보다 4mm 위에 맞춘다","림 하단에 맞춘다","각막 하단에 맞춘다"],a:0,
+ key:"피팅크로스 = 정면 주시 시 동공 중심",
+ exp:"정면을 자연스럽게 주시한 상태에서 피팅크로스가 동공 중심에 오도록 합니다. 높게 맞추면 원용부가 좁아져 멀리가 불편하고, 낮게 맞추면 근용부에 도달하기 위해 고개를 과하게 들게 되어 목 피로를 호소합니다."},
+{cat:"glasses",topic:"누진·이중초점",q:"근용부를 많이 쓰는 사무 작업자에게 유리한 누진렌즈 설계는?",
+ choices:["가입도 변화 구간이 짧은 설계로 근용부에 빨리 도달","원용부를 최대한 넓힌 설계","누진대 길이가 긴 설계로 흔들림 감소","근용부 폭을 좁힌 설계"],a:0,
+ key:"누진대 짧음 = 근용부 빨리·넓게, 대신 주변 흔들림 증가",
+ exp:"누진대가 짧으면 시선을 조금만 내려도 근용부에 도달해 실내·근거리 작업에 유리하지만, 도수 변화가 급해 주변부 수차와 흔들림이 커집니다. 반대로 긴 설계는 부드럽지만 근용부까지 시선을 많이 내려야 합니다. 프레임 세로폭과 생활 패턴을 함께 보고 선택합니다."},
+{cat:"glasses",topic:"누진·이중초점",q:"누진렌즈를 렌즈미터로 검사할 때 가입도 측정 방법으로 옳은 것은?",
+ choices:["뒷면을 대고 원용부와 근용부의 차이를 읽는다","앞면을 렌즈미터에 대고 원용부·근용부 참조점의 전면굴절력 차이를 읽는다","가장자리에서 읽는다","프리즘 기준점에서 읽는다"],a:1,
+ key:"누진 가입도는 렌즈 앞면 기준(전면굴절력) 차이로 측정",
+ exp:"누진 가입도는 렌즈 앞면을 렌즈미터 받침에 대고 원용참조점과 근용참조점의 전면굴절력을 각각 읽어 그 차이로 구하는 것이 표준 방식입니다. 뒷면 기준으로 읽으면 두께와 면 형상 차이 때문에 표기 가입도와 어긋날 수 있습니다."},
+{cat:"glasses",topic:"누진·이중초점",imp:true,q:"이중초점(겹보기) 렌즈에서 상도약(image jump)이 발생하지 않는 세그먼트 형태는?",
+ choices:["둥근형(라운드) 세그먼트","커브드탑 세그먼트","이그제큐티브(E라인) 세그먼트","플랫탑 28"],a:2,
+ key:"상도약 = 세그먼트 경계선에서 세그먼트 광학중심까지 거리 × 가입도",
+ exp:"이그제큐티브형은 세그먼트의 광학중심이 경계선 위에 놓여 거리 값이 0이 되므로 상도약이 없습니다. 둥근형은 광학중심이 경계선에서 멀어 상도약이 가장 큽니다. 다만 이그제큐티브는 경계선이 시야를 가로지르고 무게가 있다는 단점이 있습니다."},
+{cat:"glasses",topic:"누진·이중초점",q:"이중초점 렌즈의 일반적인 세그먼트 높이 기준은?",
+ choices:["동공 중심 높이","아래 눈꺼풀 가장자리 높이","각막 상단","림 하단에서 2mm 위"],a:1,
+ key:"세그먼트 상단 = 하안검 가장자리 부근에서 시작",
+ exp:"하안검 가장자리를 기준으로 하되, 독서를 많이 하면 조금 높게, 운전과 보행이 많으면 조금 낮게 조정합니다. 좌우 세그먼트 높이가 어긋나면 근거리에서 수직 프리즘 차이가 생겨 바로 불편을 호소합니다."},
+
+/* ---------- 안경렌즈 : 부등시 ---------- */
+{cat:"glasses",topic:"부등시",imp:true,q:"R: −5.00D, L: −2.00D인 사람이 광학중심보다 10mm 아래를 주시할 때 발생하는 수직 프리즘 차이는?",
+ choices:["1.5Δ","3.0Δ","5.0Δ","7.0Δ"],a:1,
+ key:"프렌티스 법칙 P(Δ) = 편심량(cm) × 굴절력(D)",
+ exp:"우안 1cm × 5.00D = 5.0Δ, 좌안 1cm × 2.00D = 2.0Δ이고 두 렌즈 모두 (−)이므로 아래쪽에서는 기저하방 효과가 납니다. 방향이 같아 차이만 남으므로 3.0Δ의 수직 불균형이 생깁니다. 보통 1.0~1.5Δ를 넘으면 근거리에서 복시나 피로를 호소합니다."},
+{cat:"glasses",topic:"부등시",q:"부등시의 수직 프리즘 불균형을 해소하는 조제 방법이 아닌 것은?",
+ choices:["슬랩오프(프리즘 삭감)","세그먼트 높이를 좌우 다르게 하는 이중초점","광학중심을 근용 시선 쪽으로 내리는 설계","좌우 렌즈의 굴절률을 다르게 선택"],a:3,
+ key:"굴절률은 두께·색수차에 영향, 프리즘 불균형과는 무관",
+ exp:"굴절률을 바꿔도 특정 지점에서의 굴절력이 같으면 프리즘 효과는 동일합니다. 실제로는 슬랩오프, 세그먼트 형태·높이 조정, 광학중심 위치 변경, 또는 콘택트렌즈 교정으로 접근합니다."},
+{cat:"glasses",topic:"부등시",imp:true,q:"축성 부등시에서 부등상시를 줄이는 데 유리한 교정 방법은? (Knapp의 법칙)",
+ choices:["안경 교정","콘택트렌즈 교정","굴절수술","교정하지 않음"],a:0,
+ key:"축성 부등시 → 안경 / 굴절성(곡률성) 부등시 → 콘택트렌즈",
+ exp:"안축장 차이로 생긴 부등시는 렌즈를 눈의 전초점면에 두는 안경 교정에서 망막상 크기가 비슷해집니다. 반대로 각막 곡률이나 굴절력 차이로 생긴 부등시는 콘택트렌즈 쪽이 상 크기 차이가 작습니다. 다만 실제로는 자각적 편안함이 우선이라 착용 반응을 함께 봅니다."},
+{cat:"glasses",topic:"부등시",q:"안경 교정 시 굴절부등 1.00D당 대략적인 망막상 크기 차이는?",
+ choices:["약 0.1%","약 1.5%","약 5%","약 10%"],a:1,
+ key:"1D당 약 1.5%, 누적 5% 넘어가면 융합 곤란",
+ exp:"일반적으로 굴절부등 1.00D마다 1~2% 정도의 상 크기 차이가 생깁니다. 3.00D를 넘으면 5% 부근에 도달해 융합이 힘들어지고 어지럼을 호소하는 경우가 늘어납니다. 이때는 완전교정 대신 단계적 적응이나 콘택트렌즈를 고려합니다."},
+
+/* ---------- 안경렌즈 : 사위·양안시 ---------- */
+{cat:"glasses",topic:"사위·양안시",imp:true,q:"교대가림검사(alternating cover test)로 알 수 있는 것은?",
+ choices:["사시와 사위의 구분","융합을 완전히 배제한 상태의 총 편위량","조절력","우위안"],a:1,
+ key:"단안가림 = 사시 유무 / 교대가림 = 총 편위량(사위 포함)",
+ exp:"교대가림은 양안 융합을 계속 차단하므로 잠복 편위인 사위까지 모두 드러납니다. 사시와 사위를 구분하려면 한쪽만 가렸다 떼는 단안가림검사를 먼저 시행하고, 정량은 프리즘 교대가림으로 중화점을 찾아 측정합니다."},
+{cat:"glasses",topic:"사위·양안시",q:"교대가림검사에서 가림을 옮길 때 눈이 바깥에서 안쪽으로 움직였다면?",
+ choices:["내사위","외사위","상사위","정위"],a:1,
+ key:"눈이 안쪽으로 돌아오면 가려진 동안 바깥으로 편위 = 외사위",
+ exp:"가려져 있던 눈은 편위된 위치에 가 있다가 가림이 풀리면 정위로 돌아옵니다. 안쪽으로 되돌아왔다는 것은 가려진 동안 바깥으로 벗어나 있었다는 뜻이므로 외사위입니다. 교정은 기저내방(BI) 프리즘 방향입니다."},
+{cat:"glasses",topic:"사위·양안시",imp:true,q:"근거리 외사위 12Δ, 기저외방(BO) 융합여력의 분리점이 15Δ일 때 셰어드(Sheard) 기준에 따른 프리즘 처방량은?",
+ choices:["2Δ BI","3Δ BI","4Δ BO","6Δ BI"],a:1,
+ key:"P = (2 × 사위량 − 융합여력) ÷ 3",
+ exp:"(2×12 − 15)/3 = 9/3 = 3Δ이고, 외사위이므로 기저내방(BI)으로 처방합니다. 셰어드 기준은 융합여력이 사위량의 2배 이상이어야 편안하다는 전제를 씁니다. 실제로는 프리즘 처방 전에 시기능 훈련이나 구면도수 조정을 먼저 검토합니다."},
+{cat:"glasses",topic:"사위·양안시",q:"모건(Morgan) 기준에서 근거리 수평사위의 정상 범위는?",
+ choices:["정위 ±1Δ","내사위 3Δ ±3","외사위 3Δ ±3","외사위 8Δ ±3"],a:2,
+ key:"원거리 외사위 1Δ ±2 / 근거리 외사위 3Δ ±3",
+ exp:"근거리에서는 약간의 외사위가 정상 소견입니다. 근거리 외사위가 과도하거나 반대로 내사위가 나타나면 AC/A비와 조절 상태를 함께 확인합니다. 수치만 보고 처방하지 않고 증상 호소와 융합여력을 같이 봅니다."},
+{cat:"glasses",topic:"사위·양안시",q:"AC/A비가 높은 내사위 환자에게 우선 고려할 수 있는 처방은?",
+ choices:["근용 (+)가입도","(−)도수 과교정","기저내방 프리즘 증량","조절자극 훈련"],a:0,
+ key:"AC/A 높음 = 조절을 줄이면 폭주도 크게 줄어듦",
+ exp:"AC/A가 높으면 조절 1D 변화에 따라오는 조절성폭주 변화가 큽니다. 근용부에 (+)를 넣어 조절 요구를 줄이면 근거리 내사위가 눈에 띄게 감소합니다. 반대로 AC/A가 낮으면 (+)를 넣어도 효과가 작아 프리즘이나 시기능 훈련을 검토합니다."},
+
+/* ---------- 안경렌즈 : 조제가공 ---------- */
+{cat:"glasses",topic:"조제가공",q:"완성된 안경에서 광학중심간거리가 처방 PD보다 넓게 가공되었다면, (−)렌즈 착용자에게 나타나는 효과는?",
+ choices:["기저내방(BI) 프리즘 효과","기저외방(BO) 프리즘 효과","기저상방 프리즘 효과","프리즘 효과 없음"],a:0,
+ key:"(−)렌즈는 광학중심 기준 안쪽을 보면 기저내방 효과",
+ exp:"OCD가 PD보다 넓으면 시선이 광학중심의 안쪽을 통과합니다. (−)렌즈는 가장자리가 두꺼워 그 지점에서 기저내방 프리즘이 발생해 눈에는 폭주 부담이 늘어나는 방향으로 작용합니다. (+)렌즈라면 반대로 기저외방이 됩니다."},
+{cat:"glasses",topic:"조제가공",imp:true,q:"근용 안경 조제 시 원용 PD보다 근용 PD를 좁게 잡는 이유는?",
+ choices:["렌즈 두께를 줄이기 위해","근거리 주시 시 두 눈이 폭주하기 때문","프레임 폭이 좁기 때문","난시축 변화를 막기 위해"],a:1,
+ key:"근용 PD ≈ 원용 PD − 3~4mm (거리·PD에 따라 변동)",
+ exp:"근거리를 볼 때 두 눈은 안쪽으로 모이므로 시선이 지나는 지점도 안쪽으로 이동합니다. 여기에 광학중심을 맞춰야 불필요한 프리즘이 생기지 않습니다. 정확히는 작업거리와 정점간거리로 계산하지만 실무에서는 3~4mm 축소를 기준값으로 씁니다."},
+{cat:"glasses",topic:"조제가공",q:"겹보기(이중초점) 렌즈 가공 시 좌우 세그먼트 높이가 2mm 차이 나게 조제되었다. 가장 먼저 예상되는 문제는?",
+ choices:["원거리 시력 저하","근거리 주시 시 수직 프리즘 차이로 인한 피로·복시","난시축 오차","렌즈 코팅 손상"],a:1,
+ key:"세그먼트 높이 차 = 근용 시선의 편심량 차 → 수직 프리즘 불균형",
+ exp:"근거리로 시선을 내리면 좌우가 서로 다른 지점을 통과하게 되어 수직 프리즘 차이가 생깁니다. 수직 방향은 융합 여력이 매우 작아 1Δ 남짓만 되어도 증상이 나타납니다. 원거리는 광학중심을 제대로 맞췄다면 영향이 적습니다."},
+{cat:"glasses",topic:"조제가공",q:"누진렌즈를 프레임에 넣을 때 프레임 선택 기준으로 가장 중요한 것은?",
+ choices:["프레임의 색상","렌즈 삽입부의 세로 길이와 경사각·정점간거리 조정 가능 여부","프레임 재질의 무게","브릿지 폭"],a:1,
+ key:"세로폭 부족 = 근용부 잘림 / 경사각·VD 불량 = 주변부 흔들림 심화",
+ exp:"누진은 위에서 아래로 도수가 변하므로 세로폭이 모자라면 근용부가 잘려 나갑니다. 또 설계가 상정한 경사각과 정점간거리에서 벗어나면 주변부 수차가 커져 흔들림 호소가 늘어납니다. 피팅 조정 여지가 있는 프레임이 유리합니다."},
+
+/* ---------- 콘택트렌즈 : 도수·정점간거리 ---------- */
+{cat:"contact",topic:"도수 결정",imp:true,q:"안경 도수 −8.00D, 정점간거리 12mm일 때 콘택트렌즈 도수로 가장 적절한 것은?",
+ choices:["−8.75D","−8.00D","−7.25D","−6.50D"],a:2,
+ key:"F′ = F ÷ (1 − d·F), d = 0.012m",
+ exp:"−8.00 ÷ (1 − 0.012×(−8.00)) = −8.00 ÷ 1.096 ≈ −7.30 → −7.25D로 처방합니다. 근시는 눈에 가까울수록 약한 도수로 충분하고, 반대로 원시는 더 강한 (+)가 필요합니다."},
+{cat:"contact",topic:"도수 결정",q:"안경 도수 +6.00D를 콘택트렌즈로 바꿀 때의 변화로 옳은 것은?",
+ choices:["더 약한 (+)도수가 필요하다","더 강한 (+)도수가 필요하다","도수 변화가 없다","(−)도수로 바뀐다"],a:1,
+ key:"원시: 안경 → CL 전환 시 (+) 증가",
+ exp:"+6.00 ÷ (1 − 0.012×6.00) = 6.00 ÷ 0.928 ≈ +6.47 → +6.50D. 렌즈가 눈에 붙으면 (+)렌즈의 실효 굴절력이 줄어들기 때문에 도수를 더 넣어야 같은 효과가 납니다."},
+{cat:"contact",topic:"도수 결정",q:"각막난시 −0.75D가 있는 사람에게 구면 RGP를 처방할 경우 예상되는 결과는?",
+ choices:["난시가 그대로 남는다","눈물렌즈가 각막난시를 대부분 보정한다","난시가 2배로 증가한다","도수를 잔여난시만큼 더해야 한다"],a:1,
+ key:"RGP 아래 눈물렌즈가 각막 전면 난시를 상쇄",
+ exp:"구면 RGP를 얹으면 렌즈 후면과 각막 사이의 눈물층이 난시면을 채워 각막난시를 대부분 중화합니다. 다만 수정체 등 내부 난시로 인한 잔여난시는 남을 수 있어 오버리프랙션으로 확인합니다. 소프트 구면렌즈는 각막 형태를 그대로 따라가므로 이 효과가 없습니다."},
+
+/* ---------- 콘택트렌즈 : RGP 피팅 ---------- */
+{cat:"contact",topic:"RGP 피팅",imp:true,q:"RGP 렌즈의 베이스커브를 각막보다 0.05mm 급하게(steep) 변경했을 때의 도수 보정은?",
+ choices:["+0.25D를 더한다","−0.25D를 더한다","+0.50D를 더한다","보정하지 않는다"],a:1,
+ key:"SAM-FAP: Steeper Add Minus, Flatter Add Plus (0.05mm ≈ 0.25D)",
+ exp:"베이스커브를 급하게 하면 렌즈 아래 눈물렌즈가 (+)로 작용하므로, 이를 상쇄하기 위해 렌즈 도수에 −0.25D를 더합니다. 반대로 평평하게(flat) 바꾸면 +0.25D를 더합니다."},
+{cat:"contact",topic:"RGP 피팅",q:"플루오레세인 염색에서 중앙부가 어둡고 주변부에 밝은 고임이 보인다면?",
+ choices:["급한(steep) 피팅","평평한(flat) 피팅","이상적인 피팅","렌즈 직경 과대"],a:1,
+ key:"중앙 어두움 = 중앙 눈물층 얇음 = 평평한 피팅",
+ exp:"플루오레세인은 눈물층이 두꺼운 곳이 밝게 보입니다. 중앙이 어둡다는 것은 렌즈가 각막 정점에 닿아 있다는 뜻으로 평평한 피팅이며, 각막 정점 마찰과 염색 소견이 생길 수 있습니다. 반대로 중앙이 밝고 주변이 어두우면 급한 피팅입니다."},
+{cat:"contact",topic:"RGP 피팅",q:"RGP 착용자에게 흔한 3시·9시 방향 각막염색(3&9 o'clock staining)의 주된 원인은?",
+ choices:["렌즈 단백질 침착","렌즈 가장자리 부위의 눈물막 불완전과 불충분한 순목","세척액 알레르기","렌즈 직경 부족만이 원인"],a:1,
+ key:"렌즈 주변부에서 눈물막이 끊겨 각막이 건조해짐",
+ exp:"렌즈 가장자리가 눈꺼풀의 눈물 도포를 방해하면서 수평 방향 각막이 마르는 현상입니다. 가장자리 들림(edge lift) 조정, 직경 변경, 순목 훈련, 인공눈물 병행으로 접근합니다."},
+{cat:"contact",topic:"RGP 피팅",q:"RGP 렌즈가 지나치게 급하게(steep) 피팅되었을 때 나타나는 소견은?",
+ choices:["렌즈 움직임 과다와 잦은 이탈","렌즈가 각막에 고착되고 중앙에 눈물 고임","순목마다 시력이 크게 변동","주변부만 염색됨"],a:1,
+ key:"steep = 움직임 부족·중앙 눈물 고임·흡착감",
+ exp:"급한 피팅은 렌즈가 각막에 밀착돼 움직임이 줄고 눈물 순환이 나빠집니다. 착용 직후는 편안하다가 시간이 지나면서 충혈과 흐림, 렌즈 자국이 나타나는 패턴이 전형적입니다."},
+
+/* ---------- 콘택트렌즈 : 소프트렌즈 피팅 ---------- */
+{cat:"contact",topic:"소프트렌즈 피팅",q:"소프트렌즈의 전체 직경을 정하는 일반적인 기준은?",
+ choices:["각막직경(HVID)과 같게","각막직경보다 약 2mm 크게","각막직경보다 2mm 작게","각막직경의 2배"],a:1,
+ key:"HVID + 약 2mm (보통 14.0~14.5mm)",
+ exp:"소프트렌즈는 각막을 완전히 덮고 가장자리가 공막에 안착해야 안정적입니다. 직경이 작으면 가장자리가 각막 위에 걸려 자극과 염색이 생기고, 지나치게 크면 결막 압박과 충혈로 이어집니다."},
+{cat:"contact",topic:"소프트렌즈 피팅",imp:true,q:"소프트렌즈의 적절한 순목 후 움직임 범위는?",
+ choices:["움직임이 없어야 한다","0.2~0.5mm","1.5~2.0mm","3mm 이상"],a:1,
+ key:"순목 후 0.2~0.5mm + 푸시업 테스트에서 부드러운 복귀",
+ exp:"이 정도가 눈물 순환과 안정성이 함께 확보되는 범위입니다. 움직임이 거의 없으면 급한(tight) 피팅으로 결막 압박과 저산소가 우려되고, 과하면 느슨한(loose) 피팅으로 순목마다 시력이 흔들리고 이물감이 납니다."},
+{cat:"contact",topic:"소프트렌즈 피팅",q:"타이트(급한) 소프트렌즈 피팅의 전형적인 호소는?",
+ choices:["착용 초기엔 편안하나 시간이 지나며 충혈·흐림이 생긴다","순목할 때마다 시야가 흔들린다","렌즈가 자주 빠진다","이물감이 착용 즉시 심하다"],a:0,
+ key:"tight = 초기 편안 → 후기 충혈·흐림 / loose = 순목마다 시력 변동",
+ exp:"타이트한 렌즈는 눈물 교환이 막혀 대사산물이 쌓이고 결막을 압박합니다. 렌즈를 뺀 뒤에도 각막 주변에 압박 자국이 남는 경우가 있습니다. 반대로 느슨하면 순목 직후 상이 흔들리고 렌즈 가장자리가 들려 이물감을 호소합니다."},
+{cat:"contact",topic:"소프트렌즈 피팅",q:"푸시업 테스트(push-up test)로 평가하는 것은?",
+ choices:["렌즈 도수의 정확성","렌즈의 이동 저항과 복귀 속도","눈물 분비량","각막 곡률"],a:1,
+ key:"아래 눈꺼풀로 렌즈를 밀어 올렸을 때의 저항과 복귀 양상",
+ exp:"저항이 거의 없고 즉시 미끄러지면 느슨한 피팅, 잘 밀리지 않고 되돌아오는 속도가 느리면 급한 피팅입니다. 순목 움직임 관찰과 함께 쓰면 판단이 정확해집니다."},
+
+/* ---------- 콘택트렌즈 : 토릭 ---------- */
+{cat:"contact",topic:"토릭렌즈",imp:true,q:"처방 −1.00 −1.75 ×180인 토릭렌즈를 착용시켰더니 마크가 관찰자 기준 왼쪽(반시계)으로 10° 회전해 있다. 주문할 축은?",
+ choices:["170°","180°","10°","20°"],a:2,
+ key:"LARS — Left Add, Right Subtract",
+ exp:"왼쪽으로 회전했으므로 회전량을 더합니다. 180 + 10 = 190이고 축은 1~180으로 표기하므로 10°가 됩니다. 오른쪽(시계방향) 회전이었다면 180 − 10 = 170°로 주문합니다."},
+{cat:"contact",topic:"토릭렌즈",q:"소프트 토릭렌즈의 회전 안정화 방식이 아닌 것은?",
+ choices:["프리즘 밸러스트","더블 씬존(다이나믹 스테빌라이제이션)","트런케이션","베이스커브 급격화"],a:3,
+ key:"안정화 = 두께 분포와 눈꺼풀 힘을 이용",
+ exp:"프리즘 밸러스트는 아래쪽을 두껍게 해 중력과 눈꺼풀로 방향을 잡고, 씬존 방식은 상하를 얇게 만들어 눈꺼풀이 렌즈를 회전시키지 못하게 합니다. 트런케이션은 아래 가장자리를 잘라내는 방식입니다. 베이스커브를 급하게 하는 것은 회전 안정화 설계가 아닙니다."},
+{cat:"contact",topic:"토릭렌즈",q:"토릭렌즈 착용 후 시력이 불안정하고 순목마다 흐림이 반복될 때 가장 먼저 확인할 것은?",
+ choices:["렌즈 마크의 회전 안정성","각막 내피세포","눈물 삼투압","렌즈 색상"],a:0,
+ key:"회전량이 순목마다 달라지면 축이 흔들려 시력 변동",
+ exp:"마크가 순목 후 같은 위치로 일정하게 돌아오는지를 봅니다. 회전량이 매번 다르면 축 보정을 해도 소용이 없으므로 안정화 설계가 다른 제품이나 다른 베이스커브로 변경합니다."},
+
+/* ---------- 콘택트렌즈 : 노안 ---------- */
+{cat:"contact",topic:"노안 교정",q:"모노비전(monovision) 처방의 일반적인 원칙은?",
+ choices:["우위안에 원거리, 비우위안에 근거리","우위안에 근거리, 비우위안에 원거리","양안 모두 중간거리","양안 모두 근거리"],a:0,
+ key:"우위안 = 원거리, 비우위안 = 근거리",
+ exp:"우위안을 원거리에 맞추면 일상 주시가 자연스럽습니다. 다만 양안의 상이 달라 입체시와 대비감도가 떨어지므로 운전이나 정밀 작업이 많은 사람에게는 신중해야 합니다. 좌우 도수 차이는 보통 1.50D 안쪽에서 시작합니다."},
+{cat:"contact",topic:"노안 교정",q:"동시시(simultaneous vision) 방식 멀티포컬 콘택트렌즈의 특징은?",
+ choices:["시선을 내리면 근용부로 교체된다","원거리·근거리 상이 동시에 망막에 맺히고 뇌가 선택한다","한쪽 눈만 근거리를 담당한다","조절을 완전히 대체한다"],a:1,
+ key:"동시시 = 대비감도 저하가 트레이드오프",
+ exp:"동심원이나 비구면 설계로 원·근 도수가 동시에 들어오고 뇌가 필요한 상을 취합니다. 시선 이동이 필요 없어 소프트렌즈에 널리 쓰이지만 야간 빛 번짐과 대비 저하가 단점입니다. 시선 이동으로 교체되는 교대시 방식은 주로 RGP 설계입니다."},
+{cat:"contact",topic:"노안 교정",q:"멀티포컬 콘택트렌즈 처방 시 착용자에게 미리 설명해야 할 사항으로 가장 적절한 것은?",
+ choices:["첫날부터 안경과 동일한 선명도를 기대할 수 있다","적응 기간이 필요하고 야간 빛 번짐과 대비 저하가 있을 수 있다","원거리 시력은 반드시 향상된다","조절력이 회복된다"],a:1,
+ key:"기대치 조율이 성공률을 좌우",
+ exp:"동시시 설계 특성상 초기에는 흐릿함과 빛 번짐을 느끼고 1~2주의 적응이 필요합니다. 미리 설명하지 않으면 첫 재방문에서 중단하는 경우가 많습니다. 가입도는 낮은 단계부터 시작해 단계적으로 올립니다."},
+
+/* ---------- 콘택트렌즈 : 재질·산소 ---------- */
+{cat:"contact",topic:"재질·산소",imp:true,q:"Dk/t에서 t가 의미하는 것은?",
+ choices:["착용 시간","렌즈의 두께","눈물 교환량","투과 계수"],a:1,
+ key:"Dk/t = 산소투과율 ÷ 렌즈 두께 = 산소전달률",
+ exp:"D는 확산계수, k는 용해도로 둘을 합친 Dk가 재질 고유의 산소투과성입니다. 이를 두께로 나눈 Dk/t가 실제로 각막에 전달되는 양을 나타내므로, 같은 재질이라도 고도수라 두꺼워지면 산소 전달이 떨어집니다."},
+{cat:"contact",topic:"재질·산소",q:"실리콘 하이드로겔 렌즈가 기존 하이드로겔보다 산소투과성이 높은 이유는?",
+ choices:["함수율이 훨씬 높기 때문","실리콘 성분이 물이 아닌 경로로 산소를 통과시키기 때문","렌즈가 더 얇기 때문","직경이 크기 때문"],a:1,
+ key:"하이드로겔은 물로, 실리콘 하이드로겔은 실리콘으로 산소 전달",
+ exp:"기존 하이드로겔은 함수율이 높아야 산소가 통했지만, 실리콘 하이드로겔은 실리콘 자체가 산소를 잘 통과시켜 함수율이 낮아도 Dk가 높습니다. 대신 표면이 소수성이라 표면처리를 하며, 지질 침착과 뻣뻣함이 상대적 단점입니다."},
+{cat:"contact",topic:"재질·산소",q:"각막 저산소가 지속될 때 나타날 수 있는 소견이 아닌 것은?",
+ choices:["각막부종과 미세낭포","각막 신생혈관","윤부 충혈","각막곡률의 영구적 평탄화만 단독으로"],a:3,
+ key:"저산소 → 부종·미세낭포·신생혈관·윤부충혈",
+ exp:"산소가 부족하면 혐기성 대사로 젖산이 쌓이고 각막에 수분이 들어와 부종이 생깁니다. 장기화되면 미세낭포와 신생혈관이 나타납니다. 곡률 변화는 렌즈의 기계적 압박이나 각막굴절교정렌즈처럼 별개의 기전으로 설명되는 소견입니다."},
+{cat:"contact",topic:"재질·산소",q:"함수율이 높은 하이드로겔 렌즈의 단점으로 옳은 것은?",
+ choices:["산소투과성이 낮다","건조환경에서 탈수되기 쉽고 렌즈가 상대적으로 두꺼워진다","도수 범위가 좁다","단백질이 붙지 않는다"],a:1,
+ key:"고함수 = 탈수·변형 취약, 내구성 위해 두께 증가",
+ exp:"고함수 렌즈는 주변 습도가 낮으면 수분을 잃으면서 눈물을 끌어당겨 오히려 건조감을 호소하게 됩니다. 또 형태 유지를 위해 두께를 늘려야 해서 기대만큼 Dk/t가 올라가지 않는 경우도 있습니다."},
+
+/* ---------- 콘택트렌즈 : 관리·합병증 ---------- */
+{cat:"contact",topic:"관리·합병증",q:"콘택트렌즈 세척에서 다목적용액(MPS)을 쓸 때 반드시 지켜야 할 것은?",
+ choices:["헹굼만 하면 된다","문지른 뒤 헹구는 과정을 생략하지 않는다","수돗물로 최종 헹굼한다","보관용액을 재사용한다"],a:1,
+ key:"rub & rinse — 문지름을 생략하면 침착물 제거율이 급감",
+ exp:"용액에 담가두는 것만으로는 표면 침착물과 미생물 제거가 충분하지 않습니다. 수돗물은 가시아메바 감염 위험이 있어 렌즈나 케이스 헹굼에 쓰면 안 되고, 보관용액은 매번 새로 채우며 케이스도 주기적으로 교체합니다."},
+{cat:"contact",topic:"관리·합병증",q:"과산화수소 소독 시스템 사용 시 가장 중요한 주의사항은?",
+ choices:["중화 과정을 반드시 완료한 뒤 착용한다","매일 새 케이스를 쓴다","냉장 보관한다","다른 용액과 섞어 쓴다"],a:0,
+ key:"중화 전 착용 = 심한 화학적 각막 손상",
+ exp:"중화되지 않은 과산화수소가 눈에 들어가면 즉시 심한 통증과 충혈, 각막상피 손상이 생깁니다. 전용 중화 디스크나 촉매가 든 케이스에서 권장 시간을 채워야 하며, 일반 케이스에 옮겨 담으면 안 됩니다."},
+{cat:"contact",topic:"관리·합병증",q:"거대유두결막염(GPC)의 특징적인 소견은?",
+ choices:["각막 중앙부 궤양","상안검 결막의 거대 유두와 가려움·점액 분비","윤부 신생혈관만 단독","동공 부동"],a:1,
+ key:"단백질 침착 + 기계적 자극에 대한 면역 반응",
+ exp:"침착물이 쌓인 렌즈 표면이 상안검 결막을 반복 자극하면서 생깁니다. 가려움, 점액, 렌즈 이동 과다, 착용 시간 감소가 전형적입니다. 렌즈 교체 주기를 짧게 하거나 일회용으로 바꾸고, 일정 기간 착용을 중단합니다."},
+{cat:"contact",topic:"관리·합병증",imp:true,q:"렌즈 착용자가 통증·충혈·눈부심·시력저하를 호소할 때 안경원에서의 올바른 대응은?",
+ choices:["렌즈를 즉시 제거하게 하고 안과 진료를 권한다","도수를 조정해 준다","다른 브랜드 렌즈로 바꿔 준다","인공눈물만 권한다"],a:0,
+ key:"통증·충혈·눈부심·시력저하 = 감염성 각막염 의심 신호",
+ exp:"이 조합은 미생물각막염 등 응급 상황일 수 있습니다. 착용을 즉시 중단시키고 지체 없이 안과 진료로 연결하는 것이 원칙이며, 렌즈와 보관 케이스는 버리지 말고 함께 가져가도록 안내합니다."},
+{cat:"contact",topic:"관리·합병증",q:"콘택트렌즈 처방 전 문진에서 반드시 확인해야 하는 항목으로 가장 거리가 먼 것은?",
+ choices:["안구건조 증상과 복용 약물","직업과 착용 환경(에어컨·모니터 작업 등)","과거 렌즈 착용 이력과 중단 사유","선호하는 렌즈 케이스 색상"],a:3,
+ key:"건조·환경·과거 이력이 중도 포기의 3대 원인",
+ exp:"항히스타민제나 피임약 같은 약물은 눈물 분비를 줄이고, 건조한 사무 환경은 착용 시간을 제한합니다. 예전에 왜 그만뒀는지를 확인하면 같은 실패를 반복하지 않는 재질과 교체 주기를 고를 수 있습니다."},
+
+/* ---------- 안경렌즈 : 쇼버 검사 ---------- */
+{cat:"gilbert",topic:"쇼버 테스트",q:"쇼버(Schober) 검사의 기본 구성으로 옳은 것은?",
+ choices:["편광안경과 편광시표를 사용한다","적록안경을 쓰고 한 눈은 녹색 동심원을, 다른 눈은 적색 십자를 보게 한다","가림판으로 한 눈을 완전히 가린다","매독스로드를 사용해 광선을 본다"],a:1,
+ key:"적록 필터로 좌우에 다른 시표를 분리해 제시",
+ exp:"필터 색으로 좌우 눈에 서로 다른 시표만 보이게 해서 융합 자극을 없앱니다. 두 상의 상대 위치가 곧 편위 방향과 크기가 되며, 수평과 수직 편위를 한 화면에서 동시에 관찰할 수 있는 것이 장점입니다."},
+{cat:"gilbert",topic:"쇼버 테스트",imp:true,q:"쇼버 검사에서 사위량을 정량하는 방법은?",
+ choices:["십자가 원의 중심에 오도록 프리즘을 가입하고 그 프리즘량을 읽는다","시표를 멀리 이동시켜 사라지는 거리를 잰다","가림판을 번갈아 대며 움직임을 센다","적록 필터를 좌우 바꿔 비교한다"],a:0,
+ key:"중화에 필요한 프리즘량 = 사위량",
+ exp:"십자가 동심원 중앙에 정렬되면 정위 상태입니다. 벗어난 방향과 반대로 프리즘을 넣어 중앙에 오게 만든 뒤 그 프리즘량을 읽으며, 수평과 수직을 각각 중화해 기록합니다."},
+{cat:"gilbert",topic:"쇼버 테스트",q:"쇼버 검사와 폰 그라페(von Graefe)법을 비교한 설명으로 옳은 것은?",
+ choices:["쇼버가 항상 더 큰 사위량을 보인다","쇼버는 주변부 융합 단서가 남아 완전 분리법보다 사위량이 작게 나올 수 있다","두 방법의 결과는 항상 일치한다","폰 그라페법은 수직사위를 측정할 수 없다"],a:1,
+ key:"분리 정도가 다르면 측정값도 달라짐 — 방법을 함께 기록",
+ exp:"프리즘으로 상을 완전히 떼어 놓는 폰 그라페법이 융합 제거가 더 철저합니다. 쇼버는 주변 윤곽 같은 융합 단서가 남아 값이 다소 작게 나오는 경향이 있으므로, 사위량을 기록할 때는 어떤 방법으로 쟀는지를 반드시 함께 적습니다."},
+
+/* ---------- 안경렌즈 : 양안균형 ---------- */
+{cat:"glasses",topic:"양안균형",imp:true,q:"양안균형검사의 목적으로 가장 적절한 것은?",
+ choices:["좌우 시력을 똑같이 맞추는 것","좌우 눈의 조절 상태를 같게 만드는 것","우위안을 찾는 것","난시축을 정밀화하는 것"],a:1,
+ key:"균형 = 시력이 아니라 조절 자극을 좌우 동등하게",
+ exp:"한쪽 눈이 더 조절하고 있으면 그 상태로 확정된 처방은 착용 후 피로로 이어집니다. 목표는 두 눈이 같은 조절 상태로 이완되어 있는지를 확인하는 것이며, 최대교정시력이 좌우 다른 경우에는 균형 자체가 성립하지 않습니다."},
+{cat:"glasses",topic:"양안균형",q:"양안균형검사를 시행할 수 있는 전제 조건은?",
+ choices:["좌우 최대교정시력이 거의 같을 것","좌우 도수 차이가 3D 이상일 것","단안 검사를 생략했을 것","조절마비제를 사용했을 것"],a:0,
+ key:"교정시력 차이가 크면 균형검사 생략 → 우위안 기준으로 마무리",
+ exp:"약시나 각막혼탁 등으로 한쪽 시력이 낮으면 어느 쪽이 더 선명한지 비교하는 것 자체가 의미를 잃습니다. 이럴 때는 균형검사를 건너뛰고 우위안이 약간 선명하도록 마무리합니다."},
+{cat:"glasses",topic:"양안균형",q:"프리즘 분리 양안균형검사에서 좌우 상의 선명도가 다를 때의 조치는?",
+ choices:["선명한 쪽에 (+)를 0.25D 추가한다","흐린 쪽에 (−)를 0.25D 추가한다","선명한 쪽에 (−)를 추가한다","흐린 쪽을 가린다"],a:0,
+ key:"운무 상태 유지 — 흐린 쪽을 밝히지 말고 선명한 쪽을 흐리게",
+ exp:"운무로 조절을 이완시킨 상태를 유지해야 하므로 (−)를 넣어 조절을 유발하면 안 됩니다. 선명한 쪽에 (+)를 더해 두 상의 선명도를 맞춘 뒤, 마지막에 양안 동시에 (+)를 줄여 최대교정시력이 나오는 최소 (−)·최대 (+) 도수로 마무리합니다."},
+
+/* ---------- 안경렌즈 : 수직사위·부등상시 ---------- */
+{cat:"glasses",topic:"수직사위·부등상시",imp:true,q:"폰 그라페법으로 수직사위를 측정할 때 사용하는 분리프리즘은?",
+ choices:["6Δ 기저상방","12Δ 기저내방","3Δ 기저외방","10Δ 기저하방"],a:1,
+ key:"수평사위 → 6Δ BU 분리 / 수직사위 → 12Δ BI 분리",
+ exp:"측정하려는 방향과 직각으로 상을 분리해야 하므로, 수직 편위를 볼 때는 수평으로 벌리는 12Δ 기저내방을 씁니다. 그 상태에서 회전프리즘을 수직으로 돌려 두 상이 같은 높이에 오는 지점을 찾습니다."},
+{cat:"glasses",topic:"수직사위·부등상시",imp:true,q:"수직사위 처방이 수평사위보다 적극적으로 이루어지는 이유는?",
+ choices:["수직 융합여력이 매우 작아 소량의 편위도 증상을 일으키기 때문","수직사위는 시력을 직접 떨어뜨리기 때문","프리즘 가공이 쉽기 때문","수직사위는 조절과 무관하기 때문"],a:0,
+ key:"수직 융합여력은 대개 2~3Δ 수준",
+ exp:"수평 방향은 폭주·개산 여력이 넉넉해 어느 정도 보상이 되지만, 수직은 여력이 작아 1Δ 남짓만 되어도 두통과 복시를 호소합니다. 그래서 수평사위는 부분교정이 원칙인 데 비해 수직사위는 측정량에 가깝게 교정하는 경우가 많습니다."},
+{cat:"glasses",topic:"수직사위·부등상시",q:"부등상시(aniseikonia) 환자의 전형적인 호소가 아닌 것은?",
+ choices:["두통과 안정피로","계단·바닥이 기울어 보이는 공간 왜곡","양안으로 볼 때 더 불편함","한쪽 눈을 가리면 증상이 더 심해짐"],a:3,
+ key:"부등상시는 양안 융합 과정의 문제 — 단안에서는 증상이 사라짐",
+ exp:"좌우 망막상의 크기가 달라 융합에 부담이 생기는 것이므로 한쪽을 가리면 오히려 편해집니다. 단안 차폐로 증상이 사라지는지 확인하는 것이 간단한 감별 단서입니다."},
+{cat:"glasses",topic:"수직사위·부등상시",q:"안경렌즈의 배율을 키워 부등상시를 줄이려 할 때 조정 방향으로 옳은 것은?",
+ choices:["전면 커브를 더 완만하게 한다","중심두께를 얇게 한다","전면 커브와 중심두께를 키우고 정점간거리를 늘린다","굴절률만 높인다"],a:2,
+ key:"안경배율 = 형상계수 × 굴절력계수",
+ exp:"형상계수는 전면 커브·중심두께·굴절률로, 굴절력계수는 도수와 정점간거리로 결정됩니다. 배율을 올리려면 전면 커브를 세우고 두께를 키우며 정점간거리를 늘립니다. 다만 무게와 외관을 해치므로 실제로는 필요한 최소량만 적용합니다."},
+
+/* ---------- 안경렌즈 : 우위안 ---------- */
+{cat:"glasses",topic:"우위안·멀티포컬",q:"운동성 우위안(motor dominance)을 판정하는 방법은?",
+ choices:["카드 구멍으로 목표물을 조준한 뒤 한쪽씩 가려 확인","한쪽에 +1.00D를 넣어 흐림을 비교","적록 시표의 선명도를 비교","프리즘을 넣어 복시를 만든다"],a:0,
+ key:"조준·정렬 과제 = 운동성 / 흐림 감내 비교 = 감각성",
+ exp:"두 손으로 만든 구멍이나 카드 구멍으로 목표를 조준하게 한 뒤 한쪽 눈을 가려 목표가 계속 보이는 쪽이 운동성 우위안입니다. 손가락 정렬법도 같은 원리이며, 검사 자체가 쉬워 실무에서 먼저 시행합니다."},
+{cat:"glasses",topic:"우위안·멀티포컬",q:"감각성 우위안(sensory dominance) 검사인 흐림 비교법의 해석으로 옳은 것은?",
+ choices:["+1.00D를 넣었을 때 더 견디기 힘들어하는 쪽이 감각성 우위안","+1.00D를 넣어도 변화가 없는 쪽이 우위안","흐림이 더 잘 느껴지지 않는 쪽이 우위안","양안 시력이 높은 쪽이 항상 우위안"],a:0,
+ key:"양안 개방 상태에서 한쪽만 흐리게 해 불편함을 비교",
+ exp:"양안을 뜬 상태에서 한쪽에 (+)를 얹었을 때, 그 흐림을 유독 거슬려 하는 눈이 뇌가 주로 쓰는 눈입니다. 운동성 결과와 다르게 나오는 경우가 있으므로 두 검사를 모두 하고 기록합니다."},
+{cat:"glasses",topic:"우위안·멀티포컬",imp:true,q:"멀티포컬·모노비전 처방에서 우위안을 확인하는 이유는?",
+ choices:["우위안에 근거리를 배정하기 위해","우위안에 원거리를 배정해 일상 주시를 자연스럽게 하기 위해","우위안만 교정하기 위해","우위안의 난시를 무시하기 위해"],a:1,
+ key:"우위안 = 원거리, 비우위안 = 근거리가 기본",
+ exp:"우위안이 원거리를 담당해야 보행과 운전에서 주시가 편안합니다. 운동성과 감각성 결과가 엇갈릴 때는 흐림 감내를 본 감각성 결과를 우선 참고하고, 실제 착용 상태에서 만족도를 다시 확인하는 것이 안전합니다."},
+
+/* ---------- 안경렌즈 : 조절·폭주근점 ---------- */
+{cat:"glasses",topic:"조절·폭주근점",imp:true,q:"폭주근점(NPC)의 일반적인 정상 기준은?",
+ choices:["파괴점 약 5cm 이내, 회복점 약 7cm 이내","파괴점 약 15cm, 회복점 약 20cm","파괴점 약 25cm","기준값이 없다"],a:0,
+ key:"NPC 파괴 5cm / 회복 7cm, 10cm를 넘으면 폭주부족 의심",
+ exp:"시표를 코 쪽으로 천천히 가져가면서 하나로 보이던 상이 둘로 갈라지는 지점이 파괴점, 다시 하나로 합쳐지는 지점이 회복점입니다. 파괴점이 멀거나 회복이 크게 지연되면 폭주부족을 의심합니다."},
+{cat:"glasses",topic:"조절·폭주근점",q:"폭주부족(convergence insufficiency)의 전형적인 소견 조합은?",
+ choices:["근거리 내사위 + 높은 AC/A","근거리 외사위 + 먼 NPC + 기저외방 융합여력 저하","원거리 외사위만 단독","조절력 과다"],a:1,
+ key:"근거리 외사위 · NPC 후퇴 · BO 여력 부족",
+ exp:"근거리에서 눈을 모으는 힘이 부족한 상태이므로 외사위가 커지고 폭주근점이 멀어지며 기저외방 여력이 떨어집니다. 독서 시 흐림, 복시, 눈 피로를 호소하며 프리즘보다 시기능 훈련이 우선 고려됩니다."},
+{cat:"glasses",topic:"조절·폭주근점",q:"푸시업법으로 조절근점이 20cm로 측정되었다면 조절력은? (원거리 완전교정 상태)",
+ choices:["2.00D","4.00D","5.00D","6.00D"],a:2,
+ key:"조절력(D) = 100 ÷ 근점거리(cm)",
+ exp:"100/20 = 5.00D입니다. 완전교정 상태에서는 원점이 무한대이므로 근점만으로 조절력이 결정됩니다. 교정하지 않은 근시라면 원점 거리의 굴절력을 빼서 계산해야 합니다."},
+{cat:"glasses",topic:"조절·폭주근점",imp:true,q:"호프스테터(Hofstetter) 공식으로 구한 40세의 최소 기대 조절력은?",
+ choices:["3.00D","5.00D","6.50D","9.00D"],a:1,
+ key:"최소 조절력 = 15 − (0.25 × 나이)",
+ exp:"15 − (0.25×40) = 5.00D입니다. 측정값이 이 기준보다 크게 낮으면 나이로 설명되지 않는 조절부족을 의심합니다. 평균은 18.5 − 0.30×나이, 최대는 25 − 0.40×나이로 계산합니다."},
+
+/* ---------- 안경렌즈 : 프레넬 프리즘 ---------- */
+{cat:"glasses",topic:"프레넬 프리즘",q:"프레넬 프리즘이 일반 프리즘렌즈보다 얇은 이유는?",
+ choices:["굴절률이 매우 높기 때문","프리즘을 여러 개의 좁은 띠로 나누어 두께만 줄이고 정점각은 유지하기 때문","도수를 절반으로 줄였기 때문","곡면으로 가공했기 때문"],a:1,
+ key:"동일한 정점각의 미세 프리즘 띠를 평면에 나열",
+ exp:"두꺼운 프리즘 하나를 잘게 잘라 같은 면에 늘어놓은 구조라, 빛이 꺾이는 각도는 같으면서 두께는 1mm 안팎으로 줄어듭니다. 덕분에 30Δ 이상의 큰 프리즘도 안경으로 구현할 수 있습니다."},
+{cat:"glasses",topic:"프레넬 프리즘",q:"프레넬 프리즘의 단점으로 옳은 것은?",
+ choices:["프리즘량을 크게 만들 수 없다","띠 경계에서 빛이 산란되어 시력과 대비가 떨어진다","무겁고 두껍다","한쪽 눈에만 사용할 수 있다"],a:1,
+ key:"큰 각도·가벼움 ↔ 시력·대비 저하, 외관",
+ exp:"경계선에서 산란이 일어나 시력이 한두 줄 떨어지고 대비감도와 야간 시야가 나빠집니다. 그래서 수술 전후나 마비성 사시처럼 프리즘량이 변할 수 있는 시기에 임시로 쓰거나, 큰 각도가 필요할 때 선택합니다."},
+{cat:"glasses",topic:"프레넬 프리즘",imp:true,q:"프레넬 프리즘을 부착하는 방법으로 옳은 것은?",
+ choices:["홈이 있는 면을 렌즈에 밀착시키고 접착제로 붙인다","매끄러운 면을 렌즈 후면에 대고 물로 밀착시킨 뒤 기포를 밀어낸다","렌즈 전면에 열로 융착한다","프레임 안쪽에 끼워 고정한다"],a:1,
+ key:"매끈한 면이 렌즈 쪽, 홈이 눈 쪽 · 물로 흡착 · 기저 방향 확인",
+ exp:"물속에서 렌즈 모양대로 재단해 후면에 대고 물기를 밀어내면 흡착으로 고정됩니다. 접착제는 쓰지 않으며 필요하면 떼어낼 수 있습니다. 후면에 붙이므로 기저 방향을 반대로 붙이기 쉬워, 부착 후 반드시 방향을 다시 확인합니다."},
+
+/* ---------- 안경렌즈 : NRA·PRA ---------- */
+{cat:"gilbert",topic:"NRA·PRA",imp:true,q:"NRA(음성상대조절)와 PRA(양성상대조절)의 일반적인 정상값은?",
+ choices:["NRA +2.00D, PRA −2.37D 내외","NRA +0.50D, PRA −0.50D 내외","NRA +4.00D, PRA −4.00D 내외","둘 다 0.00D"],a:0,
+ key:"NRA 약 +2.00 / PRA 약 −2.37 (40cm 양안 시표)",
+ exp:"40cm 근거리 시표를 양안으로 보게 하고 양쪽에 같은 도수를 더해 처음 지속적으로 흐려지는 지점을 읽습니다. NRA는 조절을 이완시키는 여력, PRA는 추가로 조절할 수 있는 여력을 나타냅니다."},
+{cat:"gilbert",topic:"NRA·PRA",q:"NRA를 PRA보다 먼저 측정하는 이유는?",
+ choices:["환자가 (+)를 더 좋아하기 때문","(−)를 먼저 넣으면 조절이 남아 이어지는 NRA 값이 낮게 나오기 때문","기기 조작이 편하기 때문","PRA는 단안검사이기 때문"],a:1,
+ key:"조절 잔류를 피하려고 이완 검사(NRA)를 먼저",
+ exp:"(−)를 넣어 조절을 끌어올린 직후에는 조절이 바로 풀리지 않습니다. 그 상태로 NRA를 재면 실제보다 작은 값이 나오므로, 이완시키는 NRA를 먼저 하고 충분히 쉰 뒤 PRA를 측정합니다."},
+{cat:"gilbert",topic:"NRA·PRA",imp:true,q:"잠정 가입도 +1.75D, NRA +1.00D, PRA −2.00D일 때 NRA·PRA 균형으로 조정한 최종 가입도는?",
+ choices:["+1.25D","+1.50D","+1.75D","+2.25D"],a:0,
+ key:"최종 ADD = 잠정 ADD + (NRA + PRA) ÷ 2",
+ exp:"(+1.00 + (−2.00))/2 = −0.50이므로 1.75 − 0.50 = +1.25D입니다. NRA가 작다는 것은 (+)를 더 견디지 못한다는 뜻이라 가입도가 과했다는 신호이고, 반대로 PRA가 작으면 가입도가 부족하다는 신호입니다."},
+{cat:"gilbert",topic:"NRA·PRA",q:"NRA가 +0.50D로 낮게 측정되었을 때의 해석으로 가장 적절한 것은?",
+ choices:["조절부족 상태다","가입도가 과하거나 원용 (+)가 과교정되었을 수 있다","폭주과다다","정상 범위다"],a:1,
+ key:"NRA 낮음 = (+)를 더 받아들일 여유가 없음",
+ exp:"이미 (+)가 충분히 들어가 있으면 조금만 더해도 바로 흐려집니다. 원용 처방의 과교정이나 가입도 과다를 의심하고 검토합니다. 반대로 PRA가 낮으면 조절부족이나 가입도 부족 쪽을 살핍니다."},
+
+/* ---------- 콘택트렌즈 : 우위안 연계 ---------- */
+{cat:"contact",topic:"노안 교정",q:"모노비전 적응에 실패한 노안 착용자에게 우선 고려할 대안은?",
+ choices:["양안 모두 원거리로 맞추고 돋보기를 병용하거나 멀티포컬로 전환","도수 차이를 3.00D로 늘린다","우위안을 바꿔 다시 시도한다","착용을 영구 중단시킨다"],a:0,
+ key:"입체시 저하가 원인이면 좌우 차이를 줄이는 방향으로",
+ exp:"모노비전 부적응은 대개 입체시와 대비 저하 때문이므로 좌우 차이를 키우면 더 나빠집니다. 한쪽만 약하게 근거리를 담당하는 변형 모노비전이나 동시시 멀티포컬로 바꾸고, 운전 등 특정 상황에는 보조 안경을 함께 안내합니다."}
+];
+
+/* ============================================================
+   계산 훈련 — 숫자를 매번 새로 뽑는 문제 생성기
+   ============================================================ */
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const r25  = v => Math.round(v*4)/4;
+const fx   = (v,n=2) => (v>=0?"+":"−") + Math.abs(v).toFixed(n);
+
+BANK.push(
+{cat:"gilbert",topic:"검사 전체 순서",imp:true,q:"길버트 검안의 첫 단계에서 확인할 내용으로 가장 적절한 것은?",choices:["현재 불편, 기존 안경 도수·착용 기간, 당뇨·혈압 등 기저질환","콘택트렌즈 색상만 확인","안경테 가격만 확인","곧바로 최종 처방"],a:0,key:"문진은 불편·기존 안경·전신질환을 함께 확인",exp:"영상의 길버트 검안은 문진으로 시작합니다. 고객의 불편, 기존 안경 도수와 착용 기간, 당뇨·혈압 같은 기저질환을 먼저 확인해야 뒤 검사 결과를 안전하게 해석할 수 있습니다."},
+{cat:"gilbert",topic:"검사 전체 순서",imp:true,q:"길버트 검안의 기본 진행 순서로 옳은 것은?",choices:["문진→나안·우위안→AR→1차 구면→난시축·난시량→최종 구면→교정시력→양안균형→근거리→장용","AR→장용→문진→근거리","근거리→문진→AR→난시","최종 처방→문진→AR"],a:0,key:"문진에서 장용 검사까지 단계적으로 진행",exp:"각 단계는 다음 검사의 기준이 됩니다. 특히 단안 교정시력과 양안 교정시력을 확인한 뒤 양안 조절 균형과 근거리 검사를 진행하고, 마지막에 장용 검사를 시행합니다."},
+{cat:"gilbert",topic:"난시 정밀검사",q:"크로스실린더로 난시를 정밀검사할 때 영상에서 제시한 조정 순서는?",choices:["난시축을 먼저 2 STEP씩, 난시량을 이후 1 STEP(0.25D)씩","난시량만 1.00D씩","구면도수만 조정","난시량 후 축을 10 STEP씩"],a:0,key:"축 먼저, 양은 이후 0.25D씩",exp:"길버트 영상은 난시축을 먼저 정밀하게 맞추고 그 축을 기준으로 난시량을 0.25D씩 조정합니다."},
+{cat:"gilbert",topic:"양안 조절 균형",imp:true,q:"양안 조절 균형검사를 시작할 때 영상에서 제시한 방법은?",choices:["편광 사분 시표를 사용하고 가장 좋은 안경도수에 양안 +0.50D를 넣어 흐리게 시작","한쪽 눈을 완전히 가리고 시작","양안에 −2.00D부터 넣기","근거리 시표 없이 시작"],a:0,key:"편광 사분 시표·양안 +0.50D 운무",exp:"편광 사분 시표를 사용하고 가장 좋은 안경도수에 양안 +0.50D를 가입해 운무한 뒤 좌우 선명도를 맞춥니다."},
+{cat:"gilbert",topic:"근거리 검사",q:"길버트 검안의 근거리 크로스실린더 검사 조건으로 맞는 것은?",choices:["40cm에서 근거리 격자 시표를 보고 양안 +2.50D를 가입해 가로·세로 선명도를 비교","6m에서 단안 −2.50D","30cm에서 색각표만 확인","시표 없이 문진만 실시"],a:0,key:"40cm·양안 +2.50D·가로세로 비교",exp:"40cm 근거리에서 격자 시표를 제시하고 양안에 +2.50D를 가입한 뒤 가로선과 세로선의 선명도가 같아지도록 조정합니다."},
+{cat:"gilbert",topic:"장용 검사",imp:true,q:"길버트 검안의 마지막 장용 검사에서 확인하는 순서로 적절한 것은?",choices:["단안 구면→난시 축·난시량→양안 구면을 0.25D 단위로 점검","양안 구면만 1.00D 단위로 변경","가입도만 확인","프리즘만 확인"],a:0,key:"0.25D 단위로 단안·난시·양안을 최종 점검",exp:"영상은 0.25D 단위로 단안 구면, 난시축과 난시량, 양안 구면을 차례로 조정하도록 안내합니다."},
+{cat:"gilbert",topic:"NRA·PRA",imp:true,q:"영상에서 안내한 NRA·PRA 검사 순서로 옳은 것은?",choices:["40cm 근거리 십자시표→양안 +0.25D씩 NRA→원상복귀→양안 −0.25D씩 PRA","PRA만 실시","단안검사만 실시","−1.00D씩 PRA 후 종료"],a:0,key:"NRA 후 원상복귀, 이어서 PRA",exp:"NRA는 플러스 도수를 0.25D씩, PRA는 근거리 결과값으로 돌아온 뒤 마이너스 도수를 0.25D씩 넣어 지속 흐림 지점을 확인합니다."},
+{cat:"gilbert",topic:"NRA·PRA",q:"교육 영상에서 제시한 NRA와 PRA의 참고 범위는?",choices:["NRA +2.00±0.50D, PRA −1.75D에서 −3.00D","둘 다 0.00D","NRA −2.00D, PRA +2.00D","둘 다 +4.00D 이상"],a:0,key:"NRA +2.00±0.50D / PRA −1.75~−3.00D",exp:"결과는 단독으로 단정하지 않고 굴절검사, 사위, 증상과 함께 해석합니다."},
+{cat:"gilbert",topic:"쇼버 테스트",imp:true,q:"쇼버 테스트를 시작하기 전에 먼저 해야 하는 것은?",choices:["굴절검사로 시력을 교정한 상태를 만든다","프리즘을 임의로 처방한다","안경을 벗긴 채 근거리만 본다","동공거리만 잰다"],a:0,key:"굴절교정 후 안구 정렬을 평가",exp:"쇼버 테스트는 굴절 이상을 교정한 상태에서 원과 십자 시표의 상대 위치를 물어 안구 정렬을 확인합니다."},
+{cat:"gilbert",topic:"쇼버 테스트",q:"쇼버 테스트 결과로 나온 프리즘 양을 사용할 때 가장 중요한 주의사항은?",choices:["그 수치를 전체 처방으로 단정하지 않고 다른 검사와 함께 결정","화면 값을 그대로 전량 처방","항상 두 배로 처방","굴절검사 결과는 무시"],a:0,key:"쇼버 수치만으로 전체 프리즘 처방을 결정하지 않음",exp:"쇼버 테스트 수치는 전체 처방값이 아닙니다. 증상과 다른 양안시 검사 결과를 함께 종합해 최종 처방을 판단합니다."}
+);
+const GENERATORS = [
+{cat:"glasses",topic:"근거리검사",name:"가입도 산출",unit:"D",
+ make(){
+   const d = pick([30,33,40,50]);
+   let amp, need = 100/d, add,rawAdd,answers;
+   do{ amp = pick([1.00,1.50,2.00,2.50,3.00]);rawAdd=need-amp/2;add=r25(rawAdd);answers=[Math.floor(rawAdd*4)/4,Math.ceil(rawAdd*4)/4].filter((v,i,a)=>v>=0.75&&a.indexOf(v)===i); }while(add < 0.75);
+   return{
+     q:"가입도를 구하세요.",
+     data:`작업거리 ${d}cm · 잔여 조절력 ${amp.toFixed(2)}D · 조절력의 1/2만 사용하는 원칙`,
+     ans:add,answers,
+     steps:[`요구 조절력 = 100 ÷ ${d} = ${need.toFixed(2)}D`,
+            `사용할 조절력 = ${amp.toFixed(2)} × 1/2 = ${(amp/2).toFixed(2)}D`,
+            `ADD = ${need.toFixed(2)} − ${(amp/2).toFixed(2)} = ${rawAdd.toFixed(2)}D`,
+            `0.25D 단위 처방에서는 ${answers.map(v=>'+'+v.toFixed(2)+'D').join(' 또는 ')}를 정답으로 인정합니다.`]};
+ }},
+{cat:"glasses",topic:"부등시",name:"수직 프리즘 불균형",unit:"Δ",
+ make(){
+   const a = pick([3,4,5,6,7,8]), b = pick([1,1.5,2,2.5,3]), mm = pick([6,8,10,12]);
+   const sign = pick([-1,1]);
+   const pa = (mm/10)*a, pb = (mm/10)*b;
+   return{
+     q:"근용 시선에서 발생하는 좌우 수직 프리즘 차이를 구하세요.",
+     data:`R ${fx(sign*a)}D · L ${fx(sign*b)}D · 광학중심보다 ${mm}mm 아래를 주시`,
+     ans:+(pa-pb).toFixed(2),
+     steps:[`프렌티스 법칙 P = 편심량(cm) × 굴절력(D), 편심량 = ${mm}mm = ${(mm/10).toFixed(1)}cm`,
+            `우안 P = ${(mm/10).toFixed(1)} × ${a.toFixed(2)} = ${pa.toFixed(2)}Δ`,
+            `좌안 P = ${(mm/10).toFixed(1)} × ${b.toFixed(2)} = ${pb.toFixed(2)}Δ`,
+            `두 프리즘 기저 방향이 같으므로 차이만 남습니다 → ${(pa-pb).toFixed(2)}Δ (1.0~1.5Δ 초과 시 보정 검토)`]};
+ }},
+{cat:"contact",topic:"도수 결정",name:"정점간거리 보정",unit:"D",
+ make(){
+   const mag = pick([5,6,7,8,9,10,11,12]), s = pick([-1,1]), F = s*mag, d = 0.012;
+   const raw = F/(1-d*F), ans = r25(raw);
+   return{
+     q:"콘택트렌즈 도수로 환산하세요. (정점간거리 12mm)",
+     data:`안경 도수 ${fx(F)}D`,
+     ans:ans,
+     steps:["F′ = F ÷ (1 − d·F), d = 0.012m",
+            `분모 = 1 − (0.012 × ${F.toFixed(2)}) = ${(1-d*F).toFixed(4)}`,
+            `F′ = ${F.toFixed(2)} ÷ ${(1-d*F).toFixed(4)} = ${raw.toFixed(3)} → ${fx(ans)}D`,
+            s<0?"근시는 눈에 가까울수록 약한 (−)로 충분합니다.":"원시는 눈에 가까울수록 더 강한 (+)가 필요합니다."]};
+ }},
+{cat:"contact",topic:"RGP 피팅",name:"베이스커브 변경 보정",unit:"D",
+ make(){
+   const base = pick([-2.00,-3.50,-4.00,-5.50,1.50,2.50]);
+   const steps = pick([1,2]), dir = pick(["steep","flat"]);
+   const delta = (dir==="steep"? -0.25: +0.25)*steps;
+   const mm = (0.05*steps).toFixed(2);
+   return{
+     q:"변경 후 주문할 렌즈 도수를 구하세요.",
+     data:`현재 처방 ${fx(base)}D · 베이스커브를 ${mm}mm ${dir==="steep"?"급하게(steep)":"평평하게(flat)"} 변경`,
+     ans:+(base+delta).toFixed(2),
+     steps:["SAM-FAP — Steeper Add Minus, Flatter Add Plus (0.05mm ≈ 0.25D)",
+            `${mm}mm = ${steps}단계 → 보정량 ${fx(delta)}D`,
+            `${fx(base)} ${delta<0?"−":"+"} ${Math.abs(delta).toFixed(2)} = ${fx(base+delta)}D`]};
+ }},
+{cat:"contact",topic:"토릭렌즈",name:"LARS 축 보정",unit:"°",
+ make(){
+   const ax = pick([10,20,45,90,120,160,180]), rot = pick([5,10,15,20]), dir = pick(["left","right"]);
+   let v = dir==="left"? ax+rot : ax-rot;
+   if(v>180) v-=180; if(v<=0) v+=180;
+   return{
+     q:"주문할 원주축을 구하세요.",
+     data:`처방 축 ${ax}° · 렌즈 마크가 관찰자 기준 ${dir==="left"?"왼쪽(반시계)":"오른쪽(시계)"}으로 ${rot}° 회전`,
+     ans:v,
+     steps:["LARS — Left Add, Right Subtract",
+            `${dir==="left"?"왼쪽 회전이므로 더합니다":"오른쪽 회전이므로 뺍니다"}: ${ax} ${dir==="left"?"+":"−"} ${rot}`,
+            `축 표기는 1~180 범위이므로 최종 ${v}°`]};
+ }},
+{cat:"gilbert",topic:"NRA·PRA",name:"NRA·PRA 가입도 조정",unit:"D",
+ make(){
+   const tent = pick([1.00,1.25,1.50,1.75,2.00,2.25]);
+   const nra = pick([0.50,0.75,1.00,1.50,1.75,2.00,2.25]);
+   const pra = -pick([0.75,1.00,1.50,2.00,2.50,2.75]);
+   const fin = r25(tent + (nra+pra)/2);
+   return{
+     q:"NRA·PRA 균형으로 조정한 최종 가입도를 구하세요.",
+     data:`잠정 가입도 +${tent.toFixed(2)}D · NRA +${nra.toFixed(2)}D · PRA ${fx(pra)}D`,
+     ans:fin,
+     steps:["최종 ADD = 잠정 ADD + (NRA + PRA) ÷ 2",
+            `(${nra.toFixed(2)} + (${pra.toFixed(2)})) ÷ 2 = ${((nra+pra)/2).toFixed(2)}D`,
+            `${tent.toFixed(2)} ${((nra+pra)/2)<0?"−":"+"} ${Math.abs((nra+pra)/2).toFixed(2)} = ${(tent+(nra+pra)/2).toFixed(2)} → ${fx(fin)}D`,
+            nra<pra*-1?"NRA가 상대적으로 작으므로 가입도를 낮추는 방향입니다.":"PRA가 상대적으로 작으므로 가입도를 올리는 방향입니다."]};
+ }},
+{cat:"glasses",topic:"조절·폭주근점",name:"호프스테터 기대 조절력",unit:"D",
+ make(){
+   const age = pick([20,25,30,35,40,45,50]);
+   const kind = pick(["최소","평균","최대"]);
+   const v = kind==="최소" ? 15-0.25*age : kind==="평균" ? 18.5-0.30*age : 25-0.40*age;
+   const f = kind==="최소" ? "15 − 0.25 × 나이" : kind==="평균" ? "18.5 − 0.30 × 나이" : "25 − 0.40 × 나이";
+   return{
+     q:`호프스테터 공식으로 ${kind} 기대 조절력을 구하세요.`,
+     data:`나이 ${age}세 · ${kind} 조절력`,
+     ans:+v.toFixed(2),
+     steps:[`${kind} 조절력 = ${f}`,
+            `= ${f.split("×")[0].trim()} × ${age} 대입 → ${v.toFixed(2)}D`,
+            "측정된 조절력이 최소값에 못 미치면 나이로 설명되지 않는 조절부족을 의심합니다."]};
+ }},
+{cat:"glasses",topic:"근거리검사",name:"조절력 계산",unit:"D",
+ make(){
+   const np = pick([10,12.5,16,20,25,33]);
+   const ans = r25(100/np);
+   return{
+     q:"조절근점으로부터 조절력을 구하세요. (원점이 무한대인 정시 기준)",
+     data:`조절근점 ${np}cm`,
+     ans:ans,
+     steps:[`조절력 = 100 ÷ 근점거리(cm) = 100 ÷ ${np} = ${(100/np).toFixed(2)}D`,
+            `0.25D 단위로 정리하면 ${ans.toFixed(2)}D`,
+            "나이별 기대 조절력과 비교해 조절부족 여부를 판단합니다."]};
+ }}
+];
+
+
+/* ============================================================
+   으뜸50안경 스터디 — 앱 로직
+   ============================================================ */
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+$("#logoImg").src  = "eutteum50-logo.png"; $("#logoImg").onclick=()=>location.href="quiz.html"; $("#logoImg").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();location.href="quiz.html";}};
+$("#charImg").src = "assets/ui-parts/quiz-owl.png";
+$("#charImg2").src = "assets/ui-parts/quiz-owl.png";
+$("#faceImg").src = "assets/ui-parts/quiz-owl.png";
+
+/* ── 브라우저/아티팩트 공용 저장소 ───── */
+const appStorage = {
+  async get(key){
+    if(window.storage && window.storage.get) return window.storage.get(key);
+    return {value:localStorage.getItem(key)};
+  },
+  async set(key,value){
+    if(window.storage && window.storage.set) return window.storage.set(key,value);
+    localStorage.setItem(key,value); return {value};
+  }
+};
+
+const SUPABASE_URL = 'https://rzhjgjujmvxhvkbuofck.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_j3VXPJJw6znG_hquWCRIfg_1nnCDp9F';
+let portalSession=null, activeProfile=null, activeProfilePin='';
+async function quizRpc(name,body={}){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const raw=await res.text();let data=null;try{data=raw?JSON.parse(raw):null}catch(e){data=raw}
+  if(!res.ok) throw new Error(data?.message||'저장 중 오류가 발생했습니다.');return data;
+}
+function quizScalar(v){if(Array.isArray(v)&&v.length===1)return quizScalar(v[0]);if(v&&typeof v==='object'){const k=Object.keys(v);if(k.length===1)return v[k[0]]}return v}
+function profileError(msg=''){const el=$('#profileError');el.textContent=msg;el.classList.toggle('hidden',!msg)}
+async function showProfiles(){
+  $('#profileGate').classList.remove('hidden');profileError();
+  $('#activeProfileHero').classList.toggle('hidden',!activeProfile);
+  if(activeProfile){$('#profileHeroName').textContent=activeProfile.display_name;$('#profileHeroStore').textContent=`${portalSession.store?.name||portalSession.store?.full_name||'우리 매장'} · ${activeProfile.xp||0} XP`;$('#profileHeroFace').innerHTML=avatarMarkup(activeProfile.avatar)}
+  $('#profileStore').textContent=`${portalSession.store?.name||portalSession.store?.full_name||'우리 매장'} · 직원별 기록을 선택해 주세요.`;
+  try{
+    const raw=await quizRpc('quiz_list_profiles',{p_token:portalSession.token});
+    const list=Array.isArray(raw)?raw:(quizScalar(raw)||[]);
+    $('#profileList').innerHTML=list.length?list.map(p=>`<button class="profile-item" data-id="${p.id}" data-pin="${p.has_pin?'1':'0'}"><span class="profile-face">${avatarMarkup(p.avatar)}</span><span style="flex:1;text-align:left"><b>${String(p.display_name).replace(/[&<>"']/g,'')}</b><span>${p.has_pin?'PIN 입력 · ':''}${Number(p.xp||0)} XP</span></span><b>›</b></button>`).join(''):'<div class="profile-note">아직 직원 프로필이 없습니다. 아래에서 첫 프로필을 만들어 주세요.</div>';
+    $('#profileList').querySelectorAll('button').forEach(b=>b.onclick=async()=>{
+      const pin=b.dataset.pin==='1'?(prompt('프로필 PIN 4자리를 입력해 주세요.')||''):'';
+      if(b.dataset.pin==='1'&&!pin)return;
+      await openProfile(b.dataset.id,pin);
+    });
+  }catch(e){profileError(e.message)}
+}
+async function openProfile(id,pin=''){
+  try{
+    const data=quizScalar(await quizRpc('quiz_load_progress',{p_token:portalSession.token,p_profile_id:id,p_pin:pin}));
+    activeProfile={id,display_name:data.display_name,xp:Number(data.xp||0),avatar:data.avatar||{theme:'orange'}};activeProfilePin=pin;store=data.progress||{wrong:[],stats:{}};
+    sessionStorage.setItem('eutteum50:quiz-active-profile',JSON.stringify({...activeProfile,pin:activeProfilePin}));
+    $('#activeProfileName').textContent=activeProfile.display_name;$('#activeProfileFace').innerHTML=avatarMarkup(activeProfile.avatar);$('#profileGate').classList.add('hidden');renderHome();
+    const params=new URLSearchParams(location.search),view=params.get('view'),mode=params.get('mode'),cat=params.get('cat'),topic=params.get('topic')||'',len=Number(params.get('len'));
+    if(cat&&['glasses','contact','gilbert'].includes(cat))S.cat=cat;if(topic)S.topics=new Set([topic]);if([5,10,20,30].includes(len))S.len=len;
+    if(mode&&['study','exam','calc'].includes(mode)){S.mode=mode;document.querySelectorAll('#modes button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.mode===mode));}
+    document.querySelectorAll('#lens button').forEach(x=>x.setAttribute('aria-pressed',Number(x.dataset.len)===S.len));renderHome();syncSetup();
+    if(view==='avatar')setTimeout(()=>openAvatarEditor(false),0);else if(view==='rank')setTimeout(()=>loadLeaderboard(),0);else if(view==='wrong'){/* handled after the question bank is ready */}
+  }catch(e){profileError(e.message)}
+}
+async function initProfiles(){
+  try{portalSession=JSON.parse(localStorage.getItem('eutteum50:portal-session')||'null')}catch(e){}
+  if(!portalSession?.token){location.href='index.html';return false}
+  let selected=null;try{selected=JSON.parse(sessionStorage.getItem('eutteum50:quiz-active-profile')||'null')}catch(e){}
+  if(selected?.id){await openProfile(selected.id,selected.pin||'');if(activeProfile)return true;}
+  location.replace('profile-list.html?next=quiz');return false;
+}
+
+/* ── 소리 ─────────────────────────────── */
+let soundOn = true, actx = null;
+function tone(freq, start, dur, type, vol){
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, actx.currentTime+start);
+  g.gain.setValueAtTime(0, actx.currentTime+start);
+  g.gain.linearRampToValueAtTime(vol, actx.currentTime+start+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime+start+dur);
+  o.connect(g); g.connect(actx.destination);
+  o.start(actx.currentTime+start); o.stop(actx.currentTime+start+dur+0.02);
+}
+function beep(ok){
+  if(!soundOn) return;
+  try{
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==="suspended") actx.resume();
+    if(ok){ tone(1318.5,0,0.34,"sine",0.26); tone(987.77,0.20,0.50,"sine",0.24); }
+    else  { tone(311.1,0,0.14,"square",0.13); tone(233.1,0.16,0.20,"square",0.13); }
+  }catch(e){}
+}
+$("#sndBtn").onclick = function(){
+  soundOn = !soundOn;
+  this.setAttribute("aria-pressed", soundOn);
+  this.classList.toggle("on", soundOn);
+  if(soundOn) beep(true);
+  try{ appStorage.set("optician-drill:sound", soundOn?"1":"0"); }catch(e){}
+};
+
+/* ── 저장 · 중복 제거 ─────────────────── */
+const KEY = "optician-drill:v1";
+let store = {wrong:[], stats:{}};
+let bank = BANK.slice();
+let questionRates = {};
+
+function sig(q){
+  const norm = t => String(t||"").toLowerCase().replace(/[\s.,·~()[\]{}"'?!:;−\-+/]/g,"");
+  return norm(q.q) + "##" + (q.choices||[]).map(norm).sort().join("|");
+}
+function dedupe(list){
+  const seen = new Set(), out = [];
+  for(const q of list){ const k = sig(q); if(seen.has(k)) continue; seen.add(k); out.push(q); }
+  return out;
+}
+async function save(){
+  try{
+    if(activeProfile) await quizRpc('quiz_save_progress',{p_token:portalSession.token,p_profile_id:activeProfile.id,p_pin:activeProfilePin,p_progress:store});
+    else await appStorage.set(KEY, JSON.stringify(store));
+  }catch(e){ console.warn(e); }
+}
+async function saveBank(extra){ try{ await appStorage.set(KEY+":bank", JSON.stringify(extra)); }catch(e){} }
+async function load(){
+  try{ const r = await appStorage.get(KEY+":bank"); if(r&&r.value){ const ex=JSON.parse(r.value); if(Array.isArray(ex)) bank = BANK.concat(ex); } }catch(e){}
+  bank = dedupe(bank);
+  try{
+    const r = await appStorage.get("optician-drill:sound");
+    if(r && r.value==="0"){ soundOn=false; $("#sndBtn").setAttribute("aria-pressed","false"); $("#sndBtn").classList.remove("on"); }
+  }catch(e){}
+  if(!await initProfiles())return;
+  try{const remote=await quizRpc('quiz_list_questions',{p_token:portalSession.token});if(Array.isArray(remote)&&remote.length)bank=dedupe(remote)}catch(e){console.warn('서버 문제은행을 불러오지 못해 기본 문제를 사용합니다.',e)}
+  try{const rates=await quizRpc('quiz_get_question_rates',{p_token:portalSession.token});if(Array.isArray(rates))questionRates=Object.fromEntries(rates.map(r=>[r.question_id,r]))}catch(e){console.info('문제별 전체 정답률은 통계 DB 적용 후 표시됩니다.')}
+  const params=new URLSearchParams(location.search);document.documentElement.dataset.quizReady='1';document.getElementById('sessionLoading')?.remove();renderHome();syncSetup();
+  if(params.get('view')==='wrong')startWrongReview();
+  else if(params.get('start')==='1'){const items=buildItems();if(items.length)start(items);else{profileError('선택한 주제에 해당하는 문제가 없습니다.');location.href='quiz.html';}}
+  else if(!params.get('view'))location.replace('quiz.html');
+}
+
+/* ── 상태 ─────────────────────────────── */
+const S = {cat:"glasses", topics:new Set(), mode:"study", len:10, impOnly:false};
+let session = null, screen = "home";
+
+const ICON = {
+  glasses:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.2 11.5 4.6 7h3.1M20.8 11.5 19.4 7h-3.1"/><rect x="2.5" y="11" width="7.2" height="6.3" rx="3.1"/><rect x="14.3" y="11" width="7.2" height="6.3" rx="3.1"/><path d="M9.7 12.8c1.5-1.1 3.1-1.1 4.6 0"/></svg>',
+  contact:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.7"/><path d="M7.1 6.8c1.5 1.7 2.3 3.4 2.3 5.2s-.8 3.6-2.3 5.2M16.9 6.8c-1.5 1.7-2.3 3.4-2.3 5.2s.8 3.6 2.3 5.2"/><path d="M9.4 12h5.2"/></svg>',
+  gilbert:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.7 12s3.4-5.5 9.3-5.5 9.3 5.5 9.3 5.5-3.4 5.5-9.3 5.5S2.7 12 2.7 12Z"/><circle cx="12" cy="12" r="2.8"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2"/></svg>'
+};
+const CATS = [
+  {id:"glasses", name:"안경렌즈", desc:"굴절검사 · 가입도 · 누진 · 부등시 · 사위 · 조제가공"},
+  {id:"contact", name:"콘택트렌즈", desc:"도수 환산 · 피팅 · 토릭 · 노안 · 관리"},
+  {id:"gilbert", name:"길버트 검안법", desc:"으뜸50안경 자체 정밀검안 프로세스", imp:true}
+];
+const catName = c => (CATS.find(x=>x.id===c)||{name:c}).name;
+
+/* ── 홈 ───────────────────────────────── */
+function renderHome(){
+  let n=0, c=0;
+  Object.values(store.stats).forEach(v=>{ n+=v.n; c+=v.c; });
+  $("#stSolved").textContent = n;
+  $("#stRate").textContent = n ? Math.round(c/n*100)+"%" : "—";
+  $("#stWrong").textContent = store.wrong.length;
+  $("#greetSub").textContent = `전체 ${bank.length}문항 · 중요 ${bank.filter(q=>q.imp).length}문항`;
+
+  const wrongBtn = $("#wrongShortcut"), wrongN = store.wrong.length;
+  wrongBtn.disabled = wrongN===0;
+  $("#wrongTitle").textContent = wrongN ? `오답 ${wrongN}문제 다시 풀기` : "오답 복습 완료";
+  $("#wrongDesc").textContent = wrongN ? "맞힐 때마다 오답노트에서 자동으로 사라져요" : "지금은 복습할 문제가 없어요";
+
+  $("#cards").innerHTML = CATS.map(cat=>{
+    const cnt = bank.filter(q=>q.cat===cat.id).length;
+    let tried=0, right=0;
+    Object.entries(store.stats).forEach(([key,v])=>{ if(key.startsWith(cat.id+"·")){ tried+=v.n; right+=v.c; } });
+    const rate = tried ? Math.round(right/tried*100) : 0;
+    return `<button class="card ${cat.id==="gilbert"?"gilbert-card":""}" data-cat="${cat.id}" aria-pressed="${S.cat===cat.id}">
+      <span class="ic">${ICON[cat.id]}</span>
+      <span class="tx"><b>${cat.name}</b><span>${cat.desc}</span>
+        <span class="meta"><span class="mini-track"><i style="width:${rate}%"></i></span><span class="rate mono">${tried?rate+"%":"시작 전"}</span></span>
+      </span>
+      <span class="n mono">${cnt}문제</span></button>`;
+  }).join("");
+  $$("#cards .card").forEach(b=> b.onclick = ()=>{ S.cat=b.dataset.cat; S.topics.clear(); renderHome(); });
+
+  renderTopics();
+  updatePool();
+}
+function renderTopics(){
+  const list = S.mode==="calc"
+    ? Array.from(new Set(GENERATORS.filter(g=>g.cat===S.cat).map(g=>g.name)))
+    : Array.from(new Set(bank.filter(q=>q.cat===S.cat && (!S.impOnly||q.imp)).map(q=>q.topic)));
+  $("#topics").innerHTML = `<button class="chip" data-t="__all" aria-pressed="${S.topics.size===0}">전체</button>` +
+    list.map(t=>`<button class="chip" data-t="${t}" aria-pressed="${S.topics.has(t)}">${t}</button>`).join("");
+  $$("#topics .chip").forEach(b=> b.onclick = ()=>{
+    const t = b.dataset.t;
+    if(t==="__all") S.topics.clear();
+    else S.topics.has(t) ? S.topics.delete(t) : S.topics.add(t);
+    renderTopics(); updatePool();
+  });
+}
+function pool(){
+  if(S.mode==="calc") return GENERATORS.filter(g=>g.cat===S.cat && (S.topics.size===0||S.topics.has(g.name)));
+  return bank.filter(q=>q.cat===S.cat && (S.topics.size===0||S.topics.has(q.topic)) && (!S.impOnly||q.imp));
+}
+function updatePool(){
+  const n = pool().length;
+  const total = bank.filter(q=>q.cat===S.cat).length;
+  const impN = bank.filter(q=>q.cat===S.cat && q.imp).length;
+  $("#impCount").textContent = impN ? `${catName(S.cat)} 중요 ${impN}문항` : "이 카테고리엔 중요 문항이 없습니다";
+  const note = $("#emptyNote");
+  if(total===0){
+    note.classList.remove("hidden");
+    note.innerHTML = `<b>${catName(S.cat)} — 아직 문제가 없습니다</b>
+      <p>강의에서 다루는 순서와 판단 기준을 의견으로 보내주시면 관리자 검토 후 문제로 추가할 수 있습니다.</p>`;
+  }else if(n===0 && S.mode!=="calc"){
+    note.classList.remove("hidden");
+    note.innerHTML = `<b>조건에 맞는 문제가 없습니다</b><p>주제를 더 고르거나 중요 문항만 풀기를 꺼 보세요.</p>`;
+  }else note.classList.add("hidden");
+
+  $("#cta").disabled = n===0;
+  $("#cta").textContent = S.mode==="calc"
+    ? (n ? "계산 훈련 시작" : "이 카테고리는 계산 문제가 없어요")
+    : n ? `문제 시작 · ${Math.min(S.len||n, n)}문항` : "조건에 맞는 문제 없음";
+  const sub = $("#ctaSub");
+  sub.classList.add("hidden");
+}
+$$("#modes button").forEach(b=> b.onclick = ()=>{
+  S.mode = b.dataset.mode; S.topics.clear();
+  $$("#modes button").forEach(x=>x.setAttribute("aria-pressed", x.dataset.mode===S.mode));
+  $("#impOnly").classList.toggle("hidden", S.mode==="calc");
+  renderTopics(); updatePool();
+});
+$("#impOnly").onclick = function(){
+  S.impOnly = !S.impOnly;
+  this.setAttribute("aria-pressed", S.impOnly);
+  S.topics.clear(); renderTopics(); updatePool();
+};
+$$("#lens .chip").forEach(b=> b.onclick = ()=>{
+  S.len = +b.dataset.len;
+  $$("#lens .chip").forEach(x=>x.setAttribute("aria-pressed", +x.dataset.len===S.len));
+  updatePool();
+});
+
+/* ── 세션 ─────────────────────────────── */
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function qid(q){ return q.cat+"|"+q.topic+"|"+q.q.slice(0,28); }
+function syncScrollLock(){
+  document.body.classList.toggle("locked", $("#sheet").classList.contains("up") || $("#confirmModal").classList.contains("show"));
+}
+function closeSheet(){
+  $("#sheet").classList.remove("up");
+  $("#sheetBackdrop").classList.remove("show");
+  $("#ctabar").classList.remove("hidden");
+  syncScrollLock();
+}
+function goto(s){
+  if(s==='home'){location.href='quiz.html';return;}
+  closeSheet();
+  screen = s;
+  ["home","quiz","result","leaderboard"].forEach(x=>$("#"+x).classList.toggle("hidden", x!==s));
+  $("#topbar").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function buildItems(){
+  if(S.mode==="calc"){
+    const gens = pool(); const n = S.len===0 ? 10 : S.len;
+    return Array.from({length:n},()=>{ const g=gens[Math.floor(Math.random()*gens.length)]; return {type:"calc",gen:g,...g.make()}; });
+  }
+  let list = shuffle(pool());
+  if(S.len>0) list = list.slice(0,S.len);
+  return list.map(q=>({type:"mc",...q}));
+}
+function start(items){
+  if(!items.length) return;
+  session = {items, i:0, answers:new Array(items.length).fill(null), picked:null, checked:false};
+  goto("quiz"); renderQ();
+}
+$("#cta").onclick = ()=>{
+  if(screen==="home") return start(buildItems());
+  if(screen==="quiz") return onQuizCta();
+  if(screen==="result") return resultCta();
+};
+function startWrongReview(){
+  const set = new Set(store.wrong);
+  const items = shuffle(bank.filter(q=>set.has(qid(q)))).map(q=>({type:"mc",...q}));
+  if(!items.length){alert('복습할 오답이 없습니다.');location.href='quiz.html';return;}
+  S.mode="study";
+  $$("#modes button").forEach(x=>x.setAttribute("aria-pressed", x.dataset.mode==="study"));
+  $("#impOnly").classList.remove("hidden");
+  start(items);
+}
+$("#wrongShortcut").onclick = startWrongReview;
+$("#ctaSub").onclick = ()=>{
+  if(screen==="home"){
+    return startWrongReview();
+  }
+  if(screen==="result") return goto("home"), renderHome();
+};
+let modalAction = null, modalLastFocus = null;
+function openConfirmModal({title, desc, cancelText="취소", okText="확인", danger=false, onConfirm}){
+  modalAction = onConfirm;
+  modalLastFocus = document.activeElement;
+  $("#modalTitle").textContent = title;
+  $("#modalDesc").textContent = desc;
+  $("#modalCancel").textContent = cancelText;
+  $("#modalOk").textContent = okText;
+  $("#modalOk").classList.toggle("danger", danger);
+  $("#confirmModal").classList.add("show");
+  $("#confirmModal").setAttribute("aria-hidden","false");
+  syncScrollLock();
+  setTimeout(()=>$("#modalCancel").focus(), 30);
+}
+function closeConfirmModal(){
+  $("#confirmModal").classList.remove("show");
+  $("#confirmModal").setAttribute("aria-hidden","true");
+  modalAction = null;
+  syncScrollLock();
+  if(modalLastFocus && modalLastFocus.focus) modalLastFocus.focus();
+}
+$("#modalCancel").onclick = closeConfirmModal;
+$("#modalOk").onclick = ()=>{
+  const action = modalAction;
+  closeConfirmModal();
+  if(action) action();
+};
+$("#confirmModal").onclick = e=>{ if(e.target===$("#confirmModal")) closeConfirmModal(); };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && $("#confirmModal").classList.contains("show")) closeConfirmModal(); });
+$("#quitBtn").onclick = ()=>{
+  const answered = session && session.answers.some(Boolean);
+  if(!answered){ goto("home"); renderHome(); return; }
+  openConfirmModal({
+    title:"학습을 종료할까요?",
+    desc:"현재 풀고 있는 세트의 진행 내용은 저장되지 않아요.",
+    cancelText:"계속 풀기", okText:"종료하기", danger:true,
+    onConfirm:()=>{ goto("home"); renderHome(); }
+  });
+};
+
+function renderQ(){
+  const it = session.items[session.i];
+  session.picked = null; session.checked = false;
+  const coach = $("#quizCoach");
+  const secondCoachAt = Math.max(1, Math.floor(session.items.length/2));
+  if(session.i===0 || (session.items.length>1 && session.i===secondCoachAt)){
+    const first = session.i===0;
+    $("#coachImg").src = "assets/ui-parts/quiz-owl.png";
+    $("#coachText").textContent = first ? "준비됐나요? 문제를 꼼꼼히 읽어보세요." : "좋아요! 남은 문제도 차근차근 풀어봐요.";
+    coach.classList.remove("hidden");
+  }else coach.classList.add("hidden");
+  const p = (session.i+1)/session.items.length*100;
+  $("#progFill").style.width = p+"%";
+  $("#qcnt").textContent = (session.i+1)+" / "+session.items.length;
+  const rate = questionRates[qid(it)];
+  $("#qlabel").innerHTML = `${it.imp?'<span class="lab imp">중요</span>':""}
+    <span class="lab">${catName(it.cat)}</span>
+    <span class="lab">${it.type==="calc"?it.gen.topic:it.topic}</span>
+    ${rate?`<span class="global-rate">전체 정답률 ${Math.round(Number(rate.correct_rate||0))}% · ${Number(rate.attempts||0).toLocaleString()}회</span>`:'<span class="global-rate pending">전체 정답률 집계 전</span>'}`;
+  $("#qtext").textContent = it.q;
+  const d = $("#qdata");
+  if(it.data){ d.classList.remove("hidden"); d.textContent = it.data; } else d.classList.add("hidden");
+
+  if(it.type==="calc"){
+    $("#opts").innerHTML = ""; $("#calcwrap").classList.remove("hidden");
+    $("#calcUnit").textContent = it.gen.unit==="°" ? "단위: 도(°)" : "단위: 디옵터(D) · 프리즘은 Δ";
+    const inp = $("#calcInput"); inp.value=""; inp.disabled=false;
+    inp.oninput = ()=>{ $("#cta").disabled = inp.value.trim()===""; };
+    inp.onkeydown = e=>{ if(e.key==="Enter"){ e.preventDefault(); onQuizCta(); } };
+  }else{
+    $("#calcwrap").classList.add("hidden");
+    $("#opts").innerHTML = it.choices.map((c,k)=>
+      `<button class="opt" data-k="${k}" aria-pressed="false"><span class="k">${k+1}</span><span>${c}</span></button>`).join("");
+    $$("#opts .opt").forEach(b=> b.onclick = ()=>{
+      if(session.checked) return;
+      session.picked = +b.dataset.k;
+      $$("#opts .opt").forEach(x=>x.setAttribute("aria-pressed", x===b));
+      $("#cta").disabled = false;
+    });
+  }
+  const last = session.i === session.items.length-1;
+  $("#cta").textContent = S.mode==="exam" ? (last?"채점하기":"다음") : "확인";
+  $("#cta").disabled = true;
+  $("#ctaSub").classList.add("hidden");
+  $("#ctabar").classList.remove("hidden");
+}
+function onQuizCta(){
+  const it = session.items[session.i];
+  if(it.type==="calc"){
+    const raw = $("#calcInput").value.trim().replace(/[DdΔ°]/g,"").replace("−","-");
+    const v = parseFloat(raw); if(isNaN(v)) return;
+    const tol = it.gen.unit==="°" ? 0.6 : 0.13;
+    const ok = Array.isArray(it.answers)?it.answers.some(a=>Math.abs(v-a)<=0.02):Math.abs(v-it.ans)<=tol;
+    session.answers[session.i] = {pick:v, ok};
+    session.checked = true; $("#calcInput").disabled = true;
+    record({cat:it.cat, topic:it.gen.topic, q:it.q}, ok);
+    openSheet(it, ok);
+    return;
+  }
+  if(session.picked===null) return;
+  if(S.mode==="exam"){
+    session.answers[session.i] = {pick:session.picked, ok:session.picked===it.a};
+    return next();
+  }
+  const ok = session.picked === it.a;
+  session.answers[session.i] = {pick:session.picked, ok};
+  session.checked = true;
+  $$("#opts .opt").forEach((b,idx)=>{
+    b.disabled = true;
+    if(idx===it.a) b.classList.add("ok");
+    else if(idx===session.picked) b.classList.add("no");
+  });
+  record(it, ok);
+  openSheet(it, ok);
+}
+function record(it, ok){
+  const id = qid(it), t = it.cat+"·"+it.topic;
+  store.stats[t] = store.stats[t] || {n:0,c:0};
+  store.stats[t].n++; if(ok) store.stats[t].c++;
+  const i = store.wrong.indexOf(id);
+  if(!ok && i<0) store.wrong.push(id);
+  if(ok && i>=0) store.wrong.splice(i,1);
+  save();
+  if(activeProfile)quizRpc('quiz_record_question_answer',{p_token:portalSession.token,p_profile_id:activeProfile.id,p_pin:activeProfilePin,p_question_id:id,p_correct:ok}).catch(()=>{});
+}
+const OK_MSG = ["정답이에요","좋아요, 맞았어요","정확합니다","바로 그거예요"];
+const NO_MSG = ["아쉬워요","다시 볼까요","조금 달라요"];
+function openSheet(it, ok){
+  beep(ok);
+  const sh = $("#sheet");
+  sh.classList.remove("ok","no"); sh.classList.add(ok?"ok":"no");
+  $("#shTitle").textContent = ok ? OK_MSG[Math.floor(Math.random()*OK_MSG.length)]
+                                 : NO_MSG[Math.floor(Math.random()*NO_MSG.length)];
+  let h = "";
+  if(it.type==="calc"){
+    h += `<div class="sh-ans">정답 ${Array.isArray(it.answers)?it.answers.map(a=>fx(a)+it.gen.unit).join(' 또는 '):(it.gen.unit==="°" ? it.ans+"°" : fx(it.ans)+it.gen.unit)}</div>`;
+    h += `<ol class="sh-steps">${it.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;
+  }else{
+    if(!ok) h += `<div class="sh-ans">정답 ${it.a+1}번 · ${it.choices[it.a]}</div>`;
+    if(it.key) h += `<div class="sh-key">${it.key}</div>`;
+    h += `<p class="sh-exp">${it.exp}</p>`;
+  }
+  $("#shBody").innerHTML = h;
+  $("#shNext").textContent = session.i===session.items.length-1 ? "결과 보기" : "다음 문제";
+  $("#ctabar").classList.add("hidden");
+  $("#sheetBackdrop").classList.add("show");
+  requestAnimationFrame(()=>{ sh.classList.add("up"); syncScrollLock(); });
+}
+$("#shNext").onclick = ()=>{ closeSheet(); next(); };
+$("#sheetBackdrop").onclick=()=>{closeSheet();next()};
+function next(){
+  if(session.i === session.items.length-1) return finish();
+  session.i++; renderQ();
+}
+
+/* ── 결과 ─────────────────────────────── */
+async function finish(){
+  const total = session.items.length;
+  const correct = session.answers.filter(a=>a&&a.ok).length;
+  if(S.mode==="exam") session.items.forEach((it,k)=>{ const a=session.answers[k]; record(it, !!(a&&a.ok)); });
+  const pct = Math.round(correct/total*100);
+  $("#ring").style.setProperty("--p", pct+"%");
+  $("#scoreBig").textContent = pct;
+  $("#scoreOf").textContent = `${total}문항 중 ${correct}개`;
+  $("#resMsg").textContent = pct===100 ? "전부 맞혔어요" : pct>=80 ? "거의 다 잡았어요" : pct>=50 ? "절반은 잡았어요" : "다시 한 번 볼까요";
+  $("#resSub").textContent = pct>=80 ? "중요 문항만 모아 한 번 더 돌려보세요." : "틀린 문제는 오답노트에 자동으로 담겼습니다.";
+
+  const by = {};
+  session.items.forEach((it,k)=>{
+    const t = it.type==="calc" ? it.gen.topic : it.topic;
+    by[t] = by[t] || {n:0,c:0}; by[t].n++;
+    if(session.answers[k] && session.answers[k].ok) by[t].c++;
+  });
+  $("#bars").innerHTML = Object.entries(by).map(([t,v])=>{
+    const p = Math.round(v.c/v.n*100);
+    return `<div class="brow ${p<60?"low":""}"><div class="t"><b>${t}</b><span class="mono">${v.c}/${v.n}</span></div>
+      <div class="tr"><i style="width:${p}%"></i></div></div>`;
+  }).join("");
+
+  const wrongs = session.items.map((it,k)=>({it,a:session.answers[k]})).filter(x=>!(x.a&&x.a.ok));
+  $("#wrongWrap").innerHTML = wrongs.length
+    ? `<h2 class="sec">놓친 문제 ${wrongs.length}개</h2><div class="wrongs">` + wrongs.map(({it,a})=>{
+        const right = it.type==="calc" ? (Array.isArray(it.answers)?it.answers.map(a=>fx(a)+it.gen.unit).join(' 또는 '):(it.gen.unit==="°"? it.ans+"°" : fx(it.ans)+it.gen.unit)) : it.choices[it.a];
+        const mine  = it.type==="calc" ? (a?String(a.pick):"무응답") : (a?it.choices[a.pick]:"무응답");
+        const why   = it.type==="calc" ? it.steps.join(" → ") : it.exp;
+        return `<div class="wr"><div class="q">${it.imp?'<span class="pill-imp">중요</span>':""}${it.q}</div>
+          <div class="a">내 답 ${mine} · 정답 <b>${right}</b><br>${why}</div></div>`;
+      }).join("") + `</div>`
+    : "";
+  session.wrongs = wrongs;
+  goto("result");
+  try{
+    const award=quizScalar(await quizRpc('quiz_complete_session',{p_token:portalSession.token,p_profile_id:activeProfile.id,p_pin:activeProfilePin,p_correct:correct,p_total:total,p_mode:S.mode}));
+    activeProfile.xp=Number(award.xp||0);
+    const moved=Number(award.old_rank||0)>Number(award.new_rank||0);
+    $('#xpAward').innerHTML=`<b>+${Number(award.earned||0)} XP</b><div>${moved?`${award.old_rank}위 → ${award.new_rank}위로 상승했어요!`:`현재 ${award.new_rank}위 · 총 ${award.xp} XP`}</div>`;
+    $('#xpAward').classList.toggle('rank-rise',moved);
+  }catch(e){$('#xpAward').innerHTML='<b>학습 완료</b><div>XP 반영을 위해 퀴즈 DB 업그레이드 SQL을 먼저 적용해 주세요.</div>'}
+  $("#cta").disabled = false;
+  $("#cta").textContent = wrongs.length ? "틀린 문제 다시 풀기" : "한 세트 더 풀기";
+  $("#ctaSub").classList.remove("hidden");
+  $("#ctaSub").textContent = "홈";
+}
+function resultCta(){
+  const wrongs = session.wrongs || [];
+  if(!wrongs.length) return start(buildItems());
+  if(S.mode==="calc") return start(wrongs.map(w=>({type:"calc",gen:w.it.gen,...w.it.gen.make()})));
+  start(shuffle(wrongs.map(w=>w.it)));
+}
+
+$('#quizFeedback').onclick=async()=>{
+  const detail=prompt('문제 오류, 해설 보완 또는 추가했으면 하는 교육 내용을 적어주세요.');
+  if(!detail?.trim())return;
+  try{await quizRpc('submit_store_request',{p_token:portalSession.token,p_category:'content',p_title:'교육용 퀴즈 의견',p_details:detail.trim()});alert('의견을 보냈습니다.');}
+  catch(e){alert(e.message)}
+};
+
+$('#profileExit').onclick=()=>{ location.href='service.html'; };
+$('#switchProfile').onclick=()=>{location.href='profile-list.html'};
+$('#profileChip').onclick=()=>{location.href='profile-list.html'};
+function closeProfilePanel(){if(!activeProfile)return;const dirty=$('#profileName').value.trim()||$('#profilePin').value.trim();if(dirty&&!confirm('작성 중인 내용은 저장되지 않습니다. 프로필 창을 닫을까요?'))return;$('#profileGate').classList.add('hidden');navOn('navHome')}
+$('#profileGate').onclick=e=>{if(e.target===$('#profileGate'))closeProfilePanel()};
+$('#profileDecorate').onclick=()=>openAvatarEditor(true);
+$('#profileCreate').onclick=async()=>{
+  const name=$('#profileName').value.trim(), pin=$('#profilePin').value.trim();profileError();
+  if(!name)return profileError('직원 이름 또는 별칭을 입력해 주세요.');
+  if(pin&&!/^\d{4}$/.test(pin))return profileError('PIN은 숫자 4자리로 입력하거나 비워 주세요.');
+  try{
+    await quizRpc('quiz_create_profile_v2',{p_token:portalSession.token,p_display_name:name,p_pin:pin,p_avatar:{preset:'default',glasses:'default',outfit:'none',accessory:'none'}});
+    $('#profileName').value='';$('#profilePin').value='';await showProfiles();profileError('프로필을 추가했습니다. 목록에서 선택해 주세요.');
+  }catch(e){profileError(e.message)}
+};
+
+async function loadLeaderboard(){
+  goto('leaderboard');$('#ctabar').classList.add('hidden');$('#leaderboardList').innerHTML='<p class="profile-note">순위를 불러오는 중입니다.</p>';
+  try{
+    const rows=await quizRpc('quiz_leaderboard',{p_token:portalSession.token,p_profile_id:activeProfile.id});
+    $('#leaderboardList').innerHTML=(rows||[]).map(r=>`<div class="rank-card ${r.is_me?'me':''}"><span class="rank-no">${r.rank_no<=3?['🥇','🥈','🥉'][r.rank_no-1]:r.rank_no}</span><span class="rank-face">${avatarMarkup(r.avatar)}</span><span class="rank-person"><b>${String(r.display_name).replace(/[&<>"']/g,'')}</b><span>${String(r.store_name||r.store_code).replace(/[&<>"']/g,'')}${r.is_me?' · 내 프로필':''}</span></span><span class="rank-xp">${r.xp} XP</span></div>`).join('')||'<p class="profile-note">아직 랭킹 기록이 없습니다.</p>';
+  }catch(e){$('#leaderboardList').innerHTML=`<p class="profile-error">${e.message}</p>`}
+}
+$('#leaderboardBtn').onclick=()=>activeProfile&&loadLeaderboard();
+$('#leaderboardBack').onclick=()=>{goto('home');$('#ctabar').classList.remove('hidden');navOn('navHome')};
+const AVATAR_PATH='avatar/';
+const avatarParts={glasses:6,outfit:6,accessory:6};
+let avatarPart='glasses',avatarDraft={preset:'default',glasses:'default',outfit:'none',accessory:'none'},avatarOriginal={},avatarReturnToProfile=false;
+function normalizedAvatar(a){const raw=a?.glasses||'';const glasses=(/^g[1-6]$/.test(raw)||raw==='none')?raw:'default',outfit=/^o[1-6]$/.test(a?.outfit||'')?a.outfit:'none',accessory=/^a[1-6]$/.test(a?.accessory||'')?a.accessory:'none';return{preset:glasses==='default'&&outfit==='none'&&accessory==='none'?'default':'custom',glasses,outfit,accessory}}
+function avatarMarkup(a){a=normalizedAvatar(a);const base=(a.glasses==='default')?'base-default.png':'base-editor.png';const layers=[`<img src="${AVATAR_PATH}${base}" alt="">`];if(a.outfit!=='none')layers.push(`<img src="${AVATAR_PATH}outfit-${a.outfit.slice(1)}.png" alt="">`);if(/^g[1-6]$/.test(a.glasses))layers.push(`<img src="${AVATAR_PATH}glasses-${a.glasses.slice(1)}.png" alt="">`);if(a.accessory==='a6')layers.push(`<img src="${AVATAR_PATH}accessory-6.png" alt="">`);else if(a.accessory!=='none')layers.push(`<img src="${AVATAR_PATH}accessory-${a.accessory.slice(1)}.png" alt="">`);return`<span class="mini-avatar">${layers.join('')}</span>`}
+function drawAvatar(){const a=normalizedAvatar(avatarDraft);$('#avatarPreview').innerHTML=`<div class="avatar-stack">${avatarMarkup(a,true)}</div>`;const count=avatarParts[avatarPart],prefix={glasses:'g',outfit:'o',accessory:'a'}[avatarPart],file={glasses:'glasses',outfit:'outfit',accessory:'accessory'}[avatarPart],selected=a[avatarPart];let buttons=[];if(avatarPart!=='glasses')buttons.push(`<button class="none" data-value="none" aria-pressed="${selected==='none'}">착용 안 함</button>`);if(avatarPart==='glasses'){buttons.push(`<button data-value="default" aria-pressed="${selected==='default'}"><img src="${AVATAR_PATH}base-default.png" alt="기본 빨간 안경"></button>`);buttons.push(`<button class="none" data-value="none" aria-pressed="${selected==='none'}">착용 안 함</button>`);} for(let i=1;i<=count;i++)buttons.push(`<button data-value="${prefix+i}" aria-pressed="${selected===prefix+i}"><img src="${AVATAR_PATH}${file}-${i}.png" alt="${avatarPart} ${i}"></button>`);$('#avatarOptions').innerHTML=buttons.join('');$('#avatarTabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.part===avatarPart));$('#avatarError').classList.add('hidden')}
+function openAvatarEditor(returnToProfile=false){if(!activeProfile)return;avatarReturnToProfile=returnToProfile;if(returnToProfile)$('#profileGate').classList.add('hidden');avatarDraft=normalizedAvatar(activeProfile.avatar);avatarOriginal={...avatarDraft};avatarPart='glasses';drawAvatar();$('#avatarModal').classList.remove('hidden')}
+function finishAvatarEditor(){const returnToProfile=avatarReturnToProfile;avatarReturnToProfile=false;$('#avatarModal').classList.add('hidden');if(returnToProfile)showProfiles()}
+$('#avatarBtn').onclick=()=>openAvatarEditor(false);
+$('#avatarModal').onclick=e=>{if(e.target!==$('#avatarModal'))return;const dirty=JSON.stringify(avatarDraft)!==JSON.stringify(avatarOriginal);if(dirty&&!confirm('변경한 캐릭터가 저장되지 않습니다. 꾸미기 창을 닫을까요?'))return;finishAvatarEditor()};
+$('#avatarTabs').onclick=e=>{const b=e.target.closest('button[data-part]');if(!b)return;avatarPart=b.dataset.part;drawAvatar()};
+$('#avatarOptions').onclick=e=>{const b=e.target.closest('button[data-value]');if(!b)return;avatarDraft[avatarPart]=b.dataset.value;avatarDraft=normalizedAvatar(avatarDraft);drawAvatar()};
+$('#avatarSave').onclick=async()=>{avatarDraft=normalizedAvatar(avatarDraft);try{await quizRpc('quiz_save_avatar',{p_token:portalSession.token,p_profile_id:activeProfile.id,p_pin:activeProfilePin,p_avatar:avatarDraft});activeProfile.avatar={...avatarDraft};$('#activeProfileFace').innerHTML=avatarMarkup(activeProfile.avatar);$('#profileHeroFace').innerHTML=avatarMarkup(activeProfile.avatar);finishAvatarEditor()}catch(e){alert(e.message)}};
+
+function navOn(id){['navHome','navWrong','navRank','navProfile'].forEach(x=>$('#'+x).classList.toggle('on',x===id))}
+$('#navHome').onclick=()=>{location.href='quiz.html'};
+$('#navWrong').onclick=()=>{location.href='wrong-note.html'};
+$('#navRank').onclick=()=>{location.href='ranking.html'};
+$('#navProfile').onclick=()=>{location.href='profile.html'};
+
+load();
+
+</script>

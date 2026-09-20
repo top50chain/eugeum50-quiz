@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>퀴즈 프로필 선택</title>
+  <link rel="stylesheet" href="quiz-home.css">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#fff;color:#2f3033;font-family:Nexon,sans-serif}
+    .profile-app{max-width:520px;min-height:100dvh;margin:auto;background:#fff;padding:26px 26px 80px}
+    .profile-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .profile-top .logo-link{display:inline-flex;align-items:center;text-decoration:none;border:0;padding:0;background:none}
+    .profile-top .logo-link img{width:115px;display:block}
+    .switch-link{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1.6px solid #2276f5;border-radius:999px;background:#f6fbff;text-decoration:none;color:#1c70f0;font-weight:700;font-size:14px}
+    .switch-link i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}
+    .select-hero{text-align:center;position:relative;isolation:isolate;padding-top:6px}.select-hero::before{content:"";position:absolute;z-index:-1;left:4%;right:4%;top:32px;height:205px;background:radial-gradient(ellipse 105px 62px at 18% 52%,#fff1e6 0 99%,transparent 100%),radial-gradient(ellipse 110px 68px at 82% 38%,#fff1e6 0 99%,transparent 100%),radial-gradient(ellipse 95px 58px at 84% 78%,#fff1e6 0 99%,transparent 100%)}.select-hero::after{content:"✦";position:absolute;z-index:-1;left:9%;top:185px;color:#ff711f;font-size:36px;text-shadow:390px -95px 0 #ff711f}
+    .select-hero img{display:block;width:min(300px,76vw);height:230px;object-fit:contain;margin:8px auto -4px;position:relative;z-index:1}
+    .select-hero h1{font-size:34px;letter-spacing:-2px;line-height:1.15;margin:0;color:#2e2e31}
+    .select-hero p{margin:8px 0 28px;color:#888;font-size:15px;font-weight:700}
+    .profile-list{display:grid;gap:12px}
+    .profile-card,.add-card{width:100%;min-height:94px;border:1px solid #e8e8e8;border-radius:18px;background:#fff;display:flex;align-items:center;gap:15px;padding:12px 17px;text-align:left;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+    .profile-card:hover{border-color:#ff7a36}
+    .profile-face{width:64px;height:64px;border-radius:17px;background:#fff2e8;position:relative;overflow:hidden;flex:none}
+    .profile-face img,.avatar-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+    .profile-copy{flex:1;min-width:0}
+    .profile-copy strong{font-size:18px;display:block;letter-spacing:-.02em}
+    .profile-copy small{display:block;color:#888;margin-top:5px;font-size:13px;font-weight:700}
+    .chev{font-size:0;position:relative;width:18px;height:18px;flex:none}
+    .chev::before{content:'';position:absolute;inset:0;margin:auto;width:10px;height:10px;border-top:3px solid #909090;border-right:3px solid #909090;transform:rotate(45deg)}
+    .add-card{margin-top:6px;border:1px dashed #ffb18d;background:#fcf3ed}
+    .add-card .profile-face{border-radius:50%;background:#f9ece1}
+    .add-card .chev::before{border-color:#ff7a32}
+    .empty{padding:22px 16px;text-align:center;color:#888;font-weight:700}
+    .creator{display:none}
+    .profile-app.creating .selector{display:none}
+    .profile-app.creating .creator{display:block}
+    .creator-title{display:flex;align-items:center;gap:14px;margin:14px 0 24px}
+    .back-btn{width:48px;height:48px;border:1px solid #ddd;border-radius:12px;background:#fff;font-size:0;position:relative;flex:none}
+    .back-btn::before{content:'';position:absolute;inset:0;margin:auto;width:13px;height:13px;border-left:3px solid #444;border-bottom:3px solid #444;transform:rotate(45deg) translate(2px,-2px)}
+    .creator-title h1{margin:0;font-size:31px;letter-spacing:-2px;color:#2f3033}
+    .form-card{padding:22px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+    .field{display:block;font-size:14px;font-weight:800;color:#4a5364;margin-bottom:16px}
+    .field input{width:100%;margin-top:9px;padding:16px 18px;border:1px solid #e5e5e5;border-radius:15px;font:inherit;outline:none;background:#fff;color:#303030}
+    .field input::placeholder{color:#a7adb8}
+    .field input:focus{border-color:#ff6b25;box-shadow:0 0 0 3px rgba(255,107,37,.12)}
+    .pin-wrap{position:relative}
+    .pin-wrap input{padding-right:52px}
+    .pin-eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:24px;height:24px;border:0;background:none;color:#a2a7b1;display:grid;place-items:center;padding:0;cursor:pointer}
+    .pin-help{color:#ff681f;font-size:12px;margin:-7px 0 0;font-weight:700}
+    .custom-card{margin-top:18px;padding:16px;background:#fdf1ea;border-radius:18px}
+    .custom-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .custom-label{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:900;color:#313131}
+    .custom-label img{width:28px;height:28px;object-fit:contain}
+    .custom-head span{color:#8a8a8a;font-size:12px;font-weight:700;white-space:nowrap}
+    .avatar-stage{height:378px;background:white;border-radius:16px;position:relative;overflow:hidden;margin:12px 0 14px}
+    .avatar-stage .avatar-layer{position:absolute;object-fit:contain;pointer-events:none}
+    .avatar-stage .layer-base{inset:0;width:100%;height:100%;z-index:1}
+    .avatar-stage .layer-glasses{left:50%;top:39%;width:58%;height:auto;transform:translate(-50%,-50%);z-index:4}
+    .avatar-stage .layer-outfit{left:50%;top:69%;width:82%;height:auto;transform:translate(-50%,-50%);z-index:3}
+    .avatar-stage .layer-accessory{z-index:5;height:auto;transform:translate(-50%,-50%)}
+    .avatar-stage .layer-accessory.item-a1{left:64%;top:24%;width:18%}
+    .avatar-stage .layer-accessory.item-a2{left:50%;top:57%;width:22%}
+    .avatar-stage .layer-accessory.item-a3{left:50%;top:25%;width:76%}
+    .avatar-stage .layer-accessory.item-a4{left:53%;top:57%;width:72%}
+    .avatar-stage .layer-accessory.item-a5{left:66%;top:20%;width:28%}
+    .avatar-stage .layer-accessory.item-a6{left:50%;top:72%;width:88%;z-index:4}
+    .custom-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+    .custom-tabs button{border:1px solid #e3e3e3;border-radius:999px;background:#fff;padding:11px;font-weight:800;color:#7d7d7d}
+    .custom-tabs button[aria-pressed=true]{background:#ff641f;color:#fff;border-color:#ff641f}
+    .item-options-row{display:flex;align-items:center;gap:8px}
+    .nav-arrow{width:34px;height:34px;border:0;border-radius:50%;background:linear-gradient(180deg,#ff8c43,#ff641f);color:#fff;font-size:22px;display:grid;place-items:center;box-shadow:0 5px 10px rgba(255,100,31,.2)}
+    .nav-arrow[disabled]{opacity:.4;pointer-events:none}
+    .item-options{display:flex;gap:7px;overflow-x:auto;padding:3px 0 2px;scroll-snap-type:x mandatory;scrollbar-width:none;flex:1}
+    .item-options::-webkit-scrollbar{display:none}
+    .item-options button{width:98px;height:100px;flex:none;border:1px solid #eee;border-radius:11px;background:#fff;position:relative;overflow:hidden;scroll-snap-align:start;padding:6px}
+    .item-options button[aria-pressed=true]{border:2px solid #ff641f;box-shadow:0 0 0 2px rgba(255,100,31,.08)}
+    .item-options img{width:100%;height:100%;object-fit:contain}
+    .item-options .none{display:grid;place-items:center;color:#777;font-size:12px;font-weight:800;line-height:1.4}
+    .item-options .none::before{content:'⊘';display:block;font-size:54px;line-height:1;color:#858585;margin-top:4px}
+    .create-submit{width:100%;margin-top:18px;padding:20px 16px;border:0;border-radius:14px;background:#ff681f;color:#fff;font-size:22px;font-weight:900;box-shadow:0 8px 18px rgba(255,104,31,.22)}
+    .profile-error{color:#c94825;font-size:13px;line-height:1.5;font-weight:700;margin:10px 2px 0}
+    .pin-dialog{border:0;padding:0;width:min(520px,100%);max-width:none;border-radius:36px 36px 0 0;margin:0;box-shadow:0 -10px 45px rgba(0,0,0,.16);position:fixed;left:50%;bottom:0;top:auto;transform:translateX(-50%)}
+    .pin-dialog::backdrop{background:rgba(0,0,0,.45)}
+    .pin-sheet{padding:24px 28px 38px;text-align:center;background:#fff;position:relative}
+    .drag{width:74px;height:7px;border-radius:999px;background:#aeb2b8;margin:0 auto 8px}
+    .pin-close{position:absolute;right:22px;top:18px;border:0;background:none;font-size:0;width:30px;height:30px}
+    .pin-close::before,.pin-close::after{content:'';position:absolute;left:14px;top:4px;width:3px;height:22px;background:#3b3b3b;border-radius:2px}
+    .pin-close::before{transform:rotate(45deg)} .pin-close::after{transform:rotate(-45deg)}
+    .lock-img{display:block;width:124px;height:124px;object-fit:contain;margin:24px auto 2px}
+    .pin-sheet h2{font-size:30px;letter-spacing:-1.5px;margin:0;color:#2f3033}
+    .pin-sheet p{margin:6px 0;color:#8b8b8b;font-weight:700}
+    .pin-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 28px 22px}
+    .pin-dots i{height:66px;border:1px solid #ddd;border-radius:15px;display:grid;place-items:center;font-style:normal;font-size:30px;color:#222;background:#fff}
+    .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .pin-pad button{height:72px;border:1px solid #dedede;border-radius:16px;background:#fff;font-size:30px;font-weight:800;color:#000}
+    .pin-pad .minor{font-size:18px;font-weight:700}
+    .pin-error{color:#c94825;min-height:20px;font-size:13px;font-weight:700;margin-top:10px}
+    .hidden-input{position:absolute;opacity:0;pointer-events:none}
+    @media(min-width:760px){
+      .pin-dialog{border-radius:36px 36px 0 0;margin:0}
+      .pin-sheet{padding-bottom:34px}
+    }
+    @media(max-width:390px){
+      .profile-app{padding:20px 18px 60px}
+      .profile-top .logo-link img{width:126px}
+      .switch-link{height:38px;padding:0 12px;font-size:13px}
+      .select-hero img{height:220px}
+      .select-hero h1{font-size:29px}
+      .avatar-stage{height:320px}
+      .creator-title h1{font-size:27px}
+      .pin-sheet{padding-inline:20px}
+      .pin-dots{margin-inline:20px}
+    }
+  </style>
+</head>
+<body>
+  <main id="profileApp" class="profile-app">
+    <section class="selector">
+      <header class="profile-top">
+        <a class="logo-link" href="service.html" aria-label="서비스 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a>
+        <a class="switch-link" href="quiz.html">교육용 퀴즈 <i></i></a>
+      </header>
+      <div class="select-hero">
+        <img src="assets/profile/select-hero.png" alt="프로필을 안내하는 부영이">
+        <h1>누가 학습하나요?</h1>
+        <p>프로필을 선택해 주세요!</p>
+      </div>
+      <div id="profiles" class="profile-list" aria-live="polite"><p class="empty">프로필을 불러오는 중입니다.</p></div>
+      <button id="openCreate" class="add-card" type="button">
+        <span class="profile-face"><img src="assets/profile/add.png" alt=""></span>
+        <span class="profile-copy"><strong>프로필 추가하기</strong><small>새로운 학습자를 추가해요!</small></span>
+        <b class="chev">›</b>
+      </button>
+    </section>
+
+    <section class="creator">
+      <div class="creator-title">
+        <button id="closeCreate" class="back-btn" type="button" aria-label="뒤로">‹</button>
+        <h1>내 프로필 추가하기</h1>
+      </div>
+      <form id="createProfile">
+        <div class="form-card">
+          <label class="field">프로필명
+            <input id="displayName" maxlength="24" required placeholder="학습에 사용할 이름을 입력해 주세요.">
+          </label>
+          <label class="field">비밀번호 (PIN)
+            <span class="pin-wrap">
+              <input id="profilePin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="숫자 4자리를 입력해 주세요.">
+              <button id="profilePinToggle" class="pin-eye" type="button" aria-label="PIN 보기 전환">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 5c5.5 0 9.5 5.5 9.5 7s-4 7-9.5 7S2.5 13.5 2.5 12 6.5 5 12 5Zm0 2C8.6 7 5.7 10.1 4.7 12 5.7 13.9 8.6 17 12 17s6.3-3.1 7.3-5C18.3 10.1 15.4 7 12 7Zm0 1.8A3.2 3.2 0 1 1 12 15a3.2 3.2 0 0 1 0-6.4Z"/></svg>
+              </button>
+            </span>
+          </label>
+          <p class="pin-help">(선택사항) 설정하지 않아도 프로필 추가 가능해요!</p>
+        </div>
+
+        <div class="custom-card">
+          <div class="custom-head">
+            <b class="custom-label"><img src="assets/profile/icon-shirt.png" alt="">캐릭터 꾸미기</b>
+            <span>나만의 개성있는 부영이를 꾸며보세요!</span>
+          </div>
+          <div id="avatarStage" class="avatar-stage"></div>
+          <div id="customTabs" class="custom-tabs">
+            <button type="button" data-part="glasses" aria-pressed="true">안경</button>
+            <button type="button" data-part="outfit" aria-pressed="false">옷</button>
+            <button type="button" data-part="accessory" aria-pressed="false">악세사리</button>
+          </div>
+          <div class="item-options-row">
+            <button id="itemsPrev" class="nav-arrow" type="button" aria-label="이전">‹</button>
+            <div id="itemOptions" class="item-options"></div>
+            <button id="itemsNext" class="nav-arrow" type="button" aria-label="다음">›</button>
+          </div>
+        </div>
+
+        <button class="create-submit" type="submit">프로필 만들기 →</button>
+        <p id="profileError" class="profile-error" role="alert"></p>
+      </form>
+    </section>
+  </main>
+
+  <dialog id="pinDialog" class="pin-dialog">
+    <form id="pinForm" class="pin-sheet" method="dialog">
+      <div class="drag"></div>
+      <button id="pinClose" class="pin-close" type="button" aria-label="닫기">×</button>
+      <img class="lock-img" src="assets/profile/lock-owl.png" alt="">
+      <h2>PIN 번호 입력</h2>
+      <p>4자리 숫자 입력</p>
+      <div id="pinDots" class="pin-dots"><i></i><i></i><i></i><i></i></div>
+      <input id="pinInput" class="hidden-input" inputmode="numeric" maxlength="4" aria-label="PIN 번호">
+      <div id="pinPad" class="pin-pad">
+        <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
+        <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
+        <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
+        <button type="button" class="minor" data-key="cancel">취소</button><button type="button" data-key="0">0</button><button type="button" data-key="back">×</button>
+      </div>
+      <p id="pinError" class="pin-error" role="alert"></p>
+    </form>
+  </dialog>
+
+  <script src="portal.js"></script>
+  <script src="profile-select.js"></script>
+</body>
+</html>

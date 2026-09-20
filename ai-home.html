@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI 콘텐츠</title>
+    <link rel="stylesheet" href="shell.css" />
+    <link rel="stylesheet" href="ai-shell.css" />
+  </head>
+  <body class="art-page" data-nav="home">
+    <main class="art-stage">
+      <img class="art" src="assets/ui/ai-home-hq.jpg" alt="AI 콘텐츠 홈" />
+      <button class="logo-home-hit" onclick="go('service.html')" aria-label="서비스 선택 홈"></button>
+      <p
+        id="heroStore"
+        class="overlay-text"
+        style="
+          left: 12.5%;
+          top: 12%;
+          padding: 2px 4px;
+          background: #fff2ea;
+          font-size: clamp(10px, 2.3vw, 16px);
+          font-weight: 700;
+        "
+      ></p>
+      <div id="productUsage" class="ai-usage-pill ai-usage-product"></div>
+      <div id="ideaUsage" class="ai-usage-pill ai-usage-idea"></div>
+      <button
+        id="guideProduct"
+        class="hit"
+        onclick="go('product.html')"
+        style="left: 5%; top: 27.2%; width: 45%; height: 19.7%"
+      >
+        <span class="sr">제품 홍보글 만들기</span></button
+      ><button
+        id="guideIdea"
+        class="hit"
+        onclick="go('ai-tools.html?open=idea')"
+        style="left: 50%; top: 27.2%; width: 45%; height: 19.7%"
+      >
+        <span class="sr">홍보 아이디어 찾기</span></button
+      ><button
+        id="guideMonthly"
+        class="hit"
+        onclick="go('ai-tools.html?open=monthly')"
+        style="left: 5%; top: 47%; width: 45%; height: 19.7%"
+      >
+        <span class="sr">월간 문자 알림톡</span></button
+      ><button
+        id="guideShared"
+        class="hit"
+        onclick="go('ai-tools.html?open=shared')"
+        style="left: 50%; top: 47%; width: 45%; height: 19.7%"
+      >
+        <span class="sr">공유 홍보글</span></button
+      ><button
+        id="guidePromotions"
+        class="hit"
+        onclick="go('ai-tools.html?open=promotions')"
+        style="left: 5%; top: 69%; width: 90%; height: 10%"
+      >
+        <span class="sr">이달의 프로모션</span></button
+      ><button
+        id="aiMenu"
+        class="hit"
+        style="left: 54%; top: 3.2%; width: 20%; height: 4%"
+      >
+        <span class="sr">AI 콘텐츠 메뉴</span></button
+      ><button id="storeMenu" class="dynamic-store-button" type="button">
+        <span id="headerStore"></span>
+      </button>
+      <div id="aiDrop" class="art-menu ai-menu-panel hidden">
+        <img src="assets/ui/ai-menu-hq.jpg" alt="교육용 퀴즈" /><button
+          onclick="go('profile-list.html?next=quiz')"
+          aria-label="교육용 퀴즈"
+        ></button>
+      </div>
+      <div id="storeDrop" class="art-menu store-menu-panel hidden">
+        <img
+          src="assets/ui/store-menu-hq.jpg"
+          alt="내 정보와 로그아웃"
+        /><button
+          onclick="openStoreInfo()"
+          aria-label="내 정보"
+        ></button
+        ><button id="logout" aria-label="로그아웃"></button>
+      </div>
+      <div class="legacy-bottom-cover" aria-hidden="true"></div>
+    </main>
+    <script src="portal.js"></script>
+    <script src="ai-shell.js"></script>
+    <script>
+      if (!session()) go("index.html");
+      const n = storeName();
+      headerStore.textContent = n;
+      heroStore.textContent = n + " 원장님!";
+      async function paintUsage() {
+        const u = await refreshAiUsage();
+        productUsage.textContent = `AI 사용 ${u.used}/${u.limit} · 글 생성 시 1회`;
+        ideaUsage.textContent = `AI 사용 ${u.used}/${u.limit} · 아이디어+글 생성`;
+      }
+      paintUsage();
+      aiMenu.onclick = () => {
+        aiDrop.classList.toggle("hidden");
+        storeDrop.classList.add("hidden");
+      };
+      storeMenu.onclick = () => {
+        storeDrop.classList.toggle("hidden");
+        aiDrop.classList.add("hidden");
+      };
+      logout.onclick = () => {
+        localStorage.removeItem(SESSION);
+        localStorage.removeItem("eutteum50:private:fc:session");
+        go("index.html");
+      };
+      document.addEventListener("click", (e) => {
+        if (!aiMenu.contains(e.target) && !aiDrop.contains(e.target))
+          aiDrop.classList.add("hidden");
+        if (!storeMenu.contains(e.target) && !storeDrop.contains(e.target))
+          storeDrop.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>

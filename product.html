@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>제품 홍보글 만들기</title>
+    <link rel="stylesheet" href="shell.css" />
+    <link rel="stylesheet" href="ai-shell.css" />
+    <style>
+      body {
+        margin: 0;
+        background: #f3f4f6;
+        font-family: NexonLv1, sans-serif;
+        color: #242832;
+      }
+      .product-page {
+        width: min(100%, 520px);
+        margin: auto;
+        background: #fff;
+        min-height: 100dvh;
+        box-shadow: 0 0 28px #18233b16;
+      }
+      .product-top {
+        position: relative;
+        aspect-ratio: 780/850;
+        background: #fff;
+      }
+      .product-top > .base {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .product-query {
+        position: absolute;
+        z-index: 5;
+        left: 15.2%;
+        top: 62.1%;
+        width: 77%;
+        height: 7.2%;
+        padding: 0 2%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #303845;
+        font:
+          400 clamp(13px, 3vw, 18px) NexonLv1,
+          sans-serif;
+      }
+      .find-hit,
+      .back-hit,
+      .header-ai {
+        position: absolute;
+        z-index: 7;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      .find-hit {
+        left: 5%;
+        top: 72.35%;
+        width: 90%;
+        height: 9.4%;
+      }
+      .back-hit {
+        left: 4.6%;
+        top: 18.2%;
+        width: 8.2%;
+        height: 7%;
+      }
+      .step-live {
+        position: absolute;
+        z-index: 6;
+        left: 5%;
+        right: 5%;
+        top: 30.3%;
+        height: 7%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        background: #fff;
+      }
+      .step-live span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #888;
+        font-size: clamp(10px, 2.7vw, 16px);
+        white-space: nowrap;
+      }
+      .step-live span::before {
+        content: attr(data-no);
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid #999;
+        border-radius: 50%;
+        font-weight: 700;
+      }
+      .step-live span::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        margin-left: 5px;
+        background: #dedede;
+      }
+      .step-live span:last-child::after {
+        display: none;
+      }
+      .step-live span.on {
+        color: #ff5a18;
+        font-weight: 700;
+      }
+      .step-live span.on::before {
+        border-color: #ff5a18;
+        background: #ff5a18;
+        color: #fff;
+      }
+      .recent-live {
+        position: absolute;
+        z-index: 7;
+        left: 5%;
+        right: 5%;
+        top: 91.3%;
+        height: 7%;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .recent-live button {
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid #ddd;
+        border-radius: 999px;
+        background: #fff;
+        color: #757b86;
+        font: 400 11px NexonLv1;
+        white-space: nowrap;
+      }
+      .recent-live button.clear {
+        margin-left: auto;
+        border: 0;
+        border-radius: 0;
+        text-decoration: underline;
+      }
+      .header-store {
+        position: absolute;
+        z-index: 9;
+        left: 79%;
+        top: 5.75%;
+        width: 12%;
+        height: 4.8%;
+        border: 0;
+        background: transparent;
+        font: 700 clamp(9px, 2.4vw, 14px) NexonLv1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .header-ai {
+        left: 54.4%;
+        top: 5.2%;
+        width: 20.5%;
+        height: 5.8%;
+      }
+      .menu {
+        position: absolute;
+        z-index: 20;
+      }
+      .menu img {
+        display: block;
+        width: 100%;
+      }
+      .menu button {
+        position: absolute;
+        inset: 0;
+        border: 0;
+        background: transparent;
+      }
+      .ai-drop {
+        left: 55.9%;
+        top: 12.9%;
+        width: 18.5%;
+      }
+      .store-drop {
+        left: 74.7%;
+        top: 12.9%;
+        width: 19.5%;
+      }
+      .store-drop button:first-of-type {
+        bottom: 50%;
+      }
+      .store-drop button:last-of-type {
+        top: 50%;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .recent-live {
+        right: 24% !important;
+      }
+      .recent-live button.clear {
+        display: none;
+      }
+      .recent-live button {
+        cursor: pointer;
+      }
+      .recent-live button:hover {
+        border-color: #ffb28f;
+        background: #fff5ef;
+        color: #ff5a18;
+      }
+      .clear-hit {
+        position: absolute;
+        z-index: 8;
+        right: 4.8%;
+        top: 88.5%;
+        width: 20%;
+        height: 8%;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      .logo-hit {
+        position: absolute;
+        z-index: 8;
+        left: 4%;
+        top: 4%;
+        width: 39%;
+        height: 8%;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      .product-query {
+        font-size: clamp(11px, 2.55vw, 15px);
+        letter-spacing: -0.035em;
+        line-height: 1;
+      }
+      .results {
+        padding: 18px 2% 100px;
+        background: #fff;
+      }
+      .product-panel {
+        border: 1px solid #e0e4ea;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .result-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid #e4e7ec;
+      }
+      .result-head h2 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .result-head small {
+        color: #687286;
+        font-size: 12px;
+        font-weight: 400;
+      }
+      .show-all {
+        padding: 7px 12px;
+        border: 1px solid #dfe3e9;
+        border-radius: 10px;
+        background: #fff;
+        color: #596476;
+        font: 400 11px NexonLv1;
+        cursor: pointer;
+      }
+      .show-all:hover {
+        border-color: #ff9f75;
+        color: #ff5a18;
+        background: #fff8f3;
+      }
+      .products {
+        display: grid;
+        gap: 9px;
+        padding: 18px;
+      }
+      .product-card {
+        position: relative;
+        width: 100%;
+        padding: 13px 42px 13px 14px;
+        border: 1px solid #dfe3e9;
+        border-radius: 15px;
+        background: #fafbfc;
+        text-align: left;
+        color: #242832;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .product-card:hover {
+        border-color: #ffb28f;
+        background: #fffaf7;
+      }
+      .product-card.on {
+        border: 2px solid #ff5a18;
+        background: #fff1e8;
+        padding: 12px 41px 12px 13px;
+        box-shadow: 0 0 0 1px #ff5a18;
+      }
+      .product-card h3 {
+        margin: 0 0 3px;
+        font-size: 14px;
+      }
+      .product-card p {
+        margin: 0;
+        color: #7a8393;
+        font-size: 11px;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .product-card strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 13px;
+        font-weight: 400;
+      }
+      .product-card .tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 7px;
+      }
+      .product-card .tag {
+        padding: 2px 6px;
+        border: 1px solid #dfe3e9;
+        border-radius: 4px;
+        background: #fff;
+        color: #7a8393;
+        font-size: 10px;
+      }
+      .product-card.on .tag {
+        border-color: #ffb28f;
+        color: #ff5a18;
+      }
+      .product-card .check {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #cfd5df;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .product-card.on .check {
+        border-color: #ff5a18;
+        background: #ff5a18;
+        color: #fff;
+      }
+      .product-card.on .check::after {
+        content: "✓";
+        display: grid;
+        place-items: center;
+        height: 100%;
+        font-size: 11px;
+      }
+      .choice-box {
+        margin-top: 18px;
+        border: 1px solid #e0e4ea;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .choice-box h3 {
+        margin: 0;
+        padding: 15px 14px;
+        border-bottom: 1px solid #e4e7ec;
+        font-size: 14px;
+      }
+      .choice-body {
+        padding: 14px;
+      }
+      .choice-body h4 {
+        margin: 16px 0 8px;
+        font-size: 12px;
+        color: #687286;
+      }
+      .pills {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .pills button {
+        padding: 8px 13px;
+        border: 1px solid #dfe3e9;
+        border-radius: 999px;
+        background: #fff;
+        color: #596476;
+        font: 400 11px NexonLv1;
+        cursor: pointer;
+      }
+      .pills button:hover {
+        border-color: #ffb28f;
+        background: #fff8f3;
+      }
+      .pills button.on {
+        border-color: #ff5a18;
+        background: #fff4ed;
+        color: #ff5a18;
+        font-weight: 700;
+      }
+      .field-block {
+        margin-top: 16px;
+      }
+      .field-block label {
+        display: block;
+        margin-bottom: 7px;
+        color: #687286;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .field-block input,
+      .field-block select {
+        width: 100%;
+        height: 44px;
+        padding: 0 13px;
+        border: 1px solid #dfe3e9;
+        border-radius: 11px;
+        background: #fafbfc;
+        color: #242832;
+        font: 400 12px NexonLv1;
+      }
+      .field-block small {
+        display: block;
+        margin-top: 6px;
+        color: #8a919e;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+      .official {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 16px;
+        color: #596476;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .official input {
+        margin-top: 2px;
+      }
+      .usage-box {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 13px;
+        border: 1px solid #ffc7aa;
+        border-radius: 14px;
+        background: #fff7f1;
+        color: #74330f;
+        font-size: 12px;
+      }
+      .usage-box strong {
+        white-space: nowrap;
+      }
+      .next {
+        width: 100%;
+        height: 50px;
+        margin-top: 18px;
+        border: 0;
+        border-radius: 14px;
+        background: #e84b00;
+        color: #fff;
+        font: 700 16px NexonLv1;
+        cursor: pointer;
+      }
+      .empty {
+        padding: 28px;
+        text-align: center;
+        color: #7a8393;
+        border: 1px solid #e2e6eb;
+        border-radius: 15px;
+      }
+      .bottom {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        z-index: 50;
+        width: min(100%, 520px);
+        transform: translateX(-50%);
+        background: #fff;
+        box-shadow: 0 -2px 12px #17203312;
+      }
+      .bottom img {
+        display: block;
+        width: 100%;
+      }
+      .bottom button {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 33.33%;
+        border: 0;
+        background: transparent;
+      }
+      .bottom .home {
+        left: 0;
+      }
+      .bottom .archive {
+        left: 33.33%;
+      }
+      .bottom .settings {
+        right: 0;
+      }
+    </style>
+  </head>
+  <body data-nav="create">
+    <main class="product-page">
+      <section class="product-top">
+        <img
+          class="base"
+          src="assets/ui/product-top.png"
+          alt="제품 홍보글 만들기"
+        /><button id="logoHome" class="logo-hit" aria-label="홈으로"></button>
+        <div class="step-live">
+          <span id="s1" class="on" data-no="1">제품 찾기</span
+          ><span id="s2" data-no="2">내용 선택</span
+          ><span id="s3" data-no="3">완성·저장</span>
+        </div>
+        <button class="back-hit" id="back" aria-label="뒤로"></button
+        ><input
+          id="query"
+          class="product-query"
+          placeholder="예: 오유파인 / 누진다초점렌즈 / 선글라스 / 안경테"
+        /><button
+          id="findProduct"
+          class="find-hit"
+          aria-label="제품 찾기"
+        ></button>
+        <div id="recent" class="recent-live"></div>
+        <button
+          id="clearRecent"
+          class="clear-hit"
+          aria-label="최근 검색어 전체 삭제"
+        ></button
+        ><button
+          id="aiMenu"
+          class="header-ai"
+          aria-label="AI 콘텐츠 메뉴"
+        ></button
+        ><button id="storeMenu" class="header-store"></button>
+        <div id="aiDrop" class="menu ai-drop hidden">
+          <img src="assets/ui/ai-menu-hq.png" alt="교육용 퀴즈" /><button
+            id="toQuiz"
+          ></button>
+        </div>
+        <div id="storeDrop" class="menu store-drop hidden">
+          <img
+            src="assets/ui/store-menu-hq.png"
+            alt="내 정보와 로그아웃"
+          /><button id="myInfo"></button><button id="logout"></button>
+        </div>
+      </section>
+      <section id="results" class="results hidden">
+        <div class="product-panel">
+          <div class="result-head">
+            <h2>소개할 제품 <small id="pickCount"></small></h2>
+            <button id="showAll" class="show-all">전체 제품 보기</button>
+          </div>
+          <div id="products" class="products"></div>
+        </div>
+        <div class="choice-box">
+          <h3>어디에 올릴 글인가요? <small>한 곳만 선택</small></h3>
+          <div class="choice-body">
+            <div id="channels" class="pills"></div>
+            <h4>글의 목적</h4>
+            <div id="purposes" class="pills"></div>
+            <h4>
+              누구에게
+              <small>고르면 말투와 예시가 그 손님에게 맞춰집니다</small>
+            </h4>
+            <div id="targets" class="pills"></div>
+            <div class="field-block">
+              <label for="tone">말투</label
+              ><select id="tone">
+                <option>친근하고 편안한</option>
+                <option>전문적이고 신뢰감 있는</option>
+                <option>발랄하고 경쾌한</option></select
+              ><small>다정한 대화체 · 부드러운 설명 · 이모지 1~3개</small>
+            </div>
+            <div class="field-block">
+              <label for="length">글 길이</label
+              ><select id="length">
+                <option>보통</option>
+                <option>짧게</option>
+                <option>자세히</option></select
+              ><small>자세히는 실제 AI 사용량이 조금 더 많아요.</small>
+            </div>
+            <div class="field-block">
+              <label for="situation">언제·어떤 상황</label
+              ><input
+                id="situation"
+                placeholder="필요할 때만 입력·예) 신학기 시작, 여름휴가 전"
+              />
+            </div>
+            <label class="official"
+              ><input id="official" type="checkbox" checked /><span
+                >공식 인터넷 자료의 제품 설명·컬러 콘셉트·관리 정보를 참고하며
+                등록 자료와 다른 수치나 없는 매장 지원은 넣지 않습니다.</span
+              ></label
+            >
+            <div class="field-block">
+              <label for="eventPeriod">행사 기간이 있을 때만</label
+              ><input id="eventPeriod" placeholder="예: 9월 15일 ~ 10월 5일" />
+            </div>
+            <div class="field-block">
+              <label for="benefit">행사·혜택 내용</label
+              ><input
+                id="benefit"
+                placeholder="예: 선글라스 전 품목 20% 할인, 구매 시 안경닦이 증정"
+              />
+            </div>
+            <div class="field-block">
+              <label for="highlight">꼭 넣을 말</label
+              ><input
+                id="highlight"
+                placeholder="예: 주차 2시간 무료, 예약 없이 방문 가능"
+              />
+            </div>
+            <button id="next" class="next">홍보글 만들기 · AI 1회 사용</button>
+            <div class="usage-box">
+              <span
+                ><b>AI 글쓰기</b><br /><small id="resetInfo"
+                  >사용량을 확인하고 있습니다.</small
+                ></span
+              ><strong id="usageInfo">사용 0/20회</strong>
+            </div>
+          </div>
+        </div>
+        <article id="generated" class="result-copy hidden">
+          <h3>완성된 홍보글</h3>
+          <h4 id="generatedTitle"></h4>
+          <pre id="generatedBody"></pre>
+          <button id="copyGenerated" class="copy-result">전체 복사</button>
+        </article>
+      </section>
+    </main>
+    <script src="portal.js"></script>
+    <script>
+      if (!session()) go("index.html");
+      const $ = (s) => document.querySelector(s),
+        RECENT = "eutteum50:recent-product-searches";
+      let all = [],
+        matched = [],
+        selected = null,
+        channel = "네이버 블로그",
+        purpose = "제품 소개",
+        target = "AI가 추천";
+      storeMenu.textContent = storeName();
+      const readRecent = () => {
+        try {
+          return JSON.parse(localStorage.getItem(RECENT) || "[]");
+        } catch {
+          return [];
+        }
+      };
+      function esc(s) {
+        return String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      function renderRecent() {
+        const a = readRecent();
+        recent.innerHTML = a
+          .map((x, i) => `<button data-i="${i}">${esc(x)}</button>`)
+          .join("");
+        recent.querySelectorAll("[data-i]").forEach(
+          (b) =>
+            (b.onclick = () => {
+              query.value = a[+b.dataset.i];
+              query.focus();
+            }),
+        );
+      }
+      function scalar2(v) {
+        if (Array.isArray(v) && v.length === 1) return scalar2(v[0]);
+        if (v && typeof v === "object") {
+          const k = Object.keys(v);
+          if (k.length === 1) return v[k[0]];
+        }
+        return v;
+      }
+      function norm(s) {
+        return String(s || "")
+          .toLowerCase()
+          .replace(/[\s·._-]/g, "");
+      }
+      async function loadCatalog() {
+        const d = scalar2(await rpc("get_public_catalog")) || {};
+        all = (d.products || []).map((p, i) => ({
+          ...p,
+          id: String(p.id || p.code || i),
+          name: p.name || p.product_name || "",
+          keywords: Array.isArray(p.keywords)
+            ? p.keywords.join(" ")
+            : p.keywords || p.search_keywords || "",
+          features: Array.isArray(p.features)
+            ? p.features.join(" · ")
+            : p.features || "",
+          price: p.price || "",
+        }));
+      }
+      function renderProducts() {
+        products.innerHTML = matched.length
+          ? matched
+              .map((p) => {
+                const tags = String(p.keywords || "")
+                  .split(/[,|;]/)
+                  .map((x) => x.trim())
+                  .filter(Boolean)
+                  .slice(0, 3);
+                let meta = [p.cat || p.category, p.target]
+                  .filter(Boolean)
+                  .join(" · ");
+                if (!meta)
+                  meta = String(p.features || "등록된 제품 정보")
+                    .split(/[|\n]/)[0]
+                    .replace(/\[[^\]]+\]/g, "")
+                    .trim()
+                    .slice(0, 95);
+                const price = Number(
+                  String(p.price || "").replace(/[^0-9.]/g, ""),
+                );
+                return `<button class="product-card ${selected === p.id ? "on" : ""}" data-id="${esc(p.id)}"><span class="check"></span><h3>${esc(p.name)}</h3><p>${esc(meta)}</p>${price ? `<strong>${price.toLocaleString()}원</strong>` : ""}<span class="tags">${tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span></button>`;
+              })
+              .join("")
+          : '<div class="empty">검색어와 일치하는 등록 제품이 없습니다.</div>';
+        pickCount.textContent = selected
+          ? "1개 선택됨"
+          : "한 개를 선택해 주세요";
+        products.querySelectorAll("button").forEach(
+          (b) =>
+            (b.onclick = () => {
+              selected = selected === b.dataset.id ? null : b.dataset.id;
+              renderProducts();
+            }),
+        );
+      }
+      function pillSet(el, items, get, set) {
+        el.innerHTML = items
+          .map(
+            (x) =>
+              `<button class="${get() === x ? "on" : ""}" data-v="${x}">${x}</button>`,
+          )
+          .join("");
+        el.querySelectorAll("button").forEach(
+          (b) =>
+            (b.onclick = () => {
+              set(b.dataset.v);
+              pillSet(el, items, get, set);
+            }),
+        );
+      }
+      function renderChoices() {
+        pillSet(
+          channels,
+          ["네이버 블로그", "인스타그램"],
+          () => channel,
+          (v) => (channel = v),
+        );
+        pillSet(
+          purposes,
+          ["제품 소개", "할인·이벤트", "매장 소식", "정보·관리 팁"],
+          () => purpose,
+          (v) => (purpose = v),
+        );
+        pillSet(
+          targets,
+          [
+            "AI가 추천",
+            "일반 손님",
+            "학생·수험생",
+            "직장인",
+            "운전하는 분",
+            "중장년·어르신",
+            "부모님을 위해 알아보는 자녀",
+            "아이와 부모님",
+          ],
+          () => target,
+          (v) => (target = v),
+        );
+      }
+      async function search() {
+        const q = query.value.trim();
+        if (!q) return query.focus();
+        findProduct.disabled = true;
+        try {
+          if (!all.length) await loadCatalog();
+          const n = norm(q),
+            tokens = q
+              .split(/[\s,/]+/)
+              .map(norm)
+              .filter(Boolean);
+          matched = all
+            .filter((p) => {
+              const hay = norm(
+                [p.name, p.keywords, p.category, p.cat, p.features].join(" "),
+              );
+              return hay.includes(n) || tokens.some((t) => hay.includes(t));
+            })
+            .slice(0, 12);
+          selected = matched[0]?.id || null;
+          localStorage.setItem(
+            RECENT,
+            JSON.stringify(
+              [q, ...readRecent().filter((x) => x !== q)].slice(0, 5),
+            ),
+          );
+          renderRecent();
+          renderProducts();
+          renderChoices();
+          results.classList.remove("hidden");
+          s1.classList.remove("on");
+          s2.classList.add("on");
+          results.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (e) {
+          alert(e.message);
+        } finally {
+          findProduct.disabled = false;
+        }
+      }
+      findProduct.onclick = search;
+      query.onkeydown = (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          search();
+        }
+      };
+      clearRecent.onclick = () => {
+        localStorage.removeItem(RECENT);
+        renderRecent();
+      };
+      showAll.onclick = async () => {
+        if (!all.length) await loadCatalog();
+        matched = all.slice(0, 30);
+        selected = null;
+        renderProducts();
+        results.classList.remove("hidden");
+        s1.classList.remove("on");
+        s2.classList.add("on");
+      };
+      back.onclick = () => go("ai-home.html");
+      logoHome.onclick = () => go("service.html");
+      next.onclick = async () => {
+        if (!selected) return alert("제품을 한 개 선택해 주세요.");
+        const p = matched.find((x) => x.id === selected),
+          form = {
+            product: p,
+            query: query.value,
+            channel,
+            purpose,
+            target,
+            tone: tone.value,
+            length: length.value,
+            situation: situation.value,
+            official: official.checked,
+            eventPeriod: eventPeriod.value,
+            benefit: benefit.value,
+            highlight: highlight.value,
+          };
+        sessionStorage.setItem(
+          "eutteum50:product-selection",
+          JSON.stringify(form),
+        );
+        next.disabled = true;
+        next.textContent = "AI가 홍보글을 쓰는 중…";
+        try {
+          let store={...(session().store||{})};
+          try{const latest=scalar(await rpc('get_my_store',{p_token:session().token}));if(latest&&typeof latest==='object')store={...store,...latest}}catch(e){console.warn(e)}
+          const storeFacts=[`매장명: ${store.name||store.full_name||storeName()}`,`지역: ${store.region||'미입력'}`,`주소: ${store.addr||store.address||'미입력'}`,`매장전화: ${store.phone||'미입력'}`,`매장 핸드폰: ${store.mobile||'미입력'}`,`영업시간: ${store.hours||'미입력'}`,`주차: ${store.parking||'미입력'}`,`인스타그램: ${store.insta||'미입력'}`,`매장 특징·추가 안내: ${store.extra||'없음'}`].join('\n');
+          const prompt = `으뜸50안경 매장의 홍보글을 작성해 주세요.\n[로그인 매장 정보]\n${storeFacts}\n\n제품: ${p.name}. 제품 정보: ${p.features || p.keywords || ""}. 채널: ${channel}. 목적: ${purpose}. 대상: ${target}. 말투: ${tone.value}. 길이: ${length.value}. 상황: ${situation.value || "없음"}. 행사기간: ${eventPeriod.value || "없음"}. 혜택: ${benefit.value || "없음"}. 꼭 넣을 말: ${highlight.value || "없음"}. 등록되지 않은 매장 정보·수치·혜택은 만들지 마세요. JSON만 출력: {"title":"제목","body":"본문","tags":["태그"]}`;
+          const r = await fetch(`${API}/functions/v1/generate-content`, {
+              method: "POST",
+              headers: {
+                apikey: KEY,
+                Authorization: `Bearer ${KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: session().token,
+                instructions:
+                  "주어진 매장·제품 정보만 사용하는 한국어 안경원 홍보글 작성자입니다.",
+                prompt,
+              }),
+            }),
+            d = await r.json();
+          if (!r.ok) throw new Error(d.message || "AI 글을 만들지 못했습니다.");
+          let out;
+          try {
+            out = JSON.parse(
+              String(d.text || "").replace(/^```json\s*|\s*```$/g, ""),
+            );
+          } catch {
+            out = { title: `${p.name} 안내`, body: String(d.text || "") };
+          }
+          generatedTitle.textContent = out.title || `${p.name} 안내`;
+          generatedBody.textContent =
+            (out.body || "") +
+            (Array.isArray(out.tags) && out.tags.length
+              ? "\n\n" +
+                out.tags.map((x) => "#" + String(x).replace(/^#/, "")).join(" ")
+              : "");
+          generated.classList.remove("hidden");
+          s2.classList.remove("on");
+          s3.classList.add("on");
+          generated.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (d.usage) {
+            usageInfo.textContent = `사용 ${d.usage.used || 0}/${d.usage.limit || 20}회 · ${d.usage.remaining ?? ""}회 남음`;
+          }
+        } catch (e) {
+          alert(e.message);
+        } finally {
+          next.disabled = false;
+          next.textContent = "홍보글 만들기 · AI 1회 사용";
+        }
+      };
+      copyGenerated.onclick = async () => {
+        await navigator.clipboard.writeText(
+          [generatedTitle.textContent, generatedBody.textContent]
+            .filter(Boolean)
+            .join("\n\n"),
+        );
+        copyGenerated.textContent = "복사했어요";
+        setTimeout(() => (copyGenerated.textContent = "전체 복사"), 1300);
+      };
+      aiMenu.onclick = () => {
+        aiDrop.classList.toggle("hidden");
+        storeDrop.classList.add("hidden");
+      };
+      storeMenu.onclick = () => {
+        storeDrop.classList.toggle("hidden");
+        aiDrop.classList.add("hidden");
+      };
+      toQuiz.onclick = () => go("profile-list.html?next=quiz");
+      myInfo.onclick = () => openStoreInfo();
+      logout.onclick = () => {
+        localStorage.removeItem(SESSION);
+        localStorage.removeItem("eutteum50:private:fc:session");
+        go("index.html");
+      };
+      const usage = aiUsage();
+      usageInfo.textContent = `사용 ${usage.used}/${usage.limit}회 · ${Math.max(0, usage.limit - usage.used)}회 남음`;
+      resetInfo.textContent = "완성된 글을 만들 때만 1회 차감됩니다.";
+      renderRecent();
+    </script>
+    <script src="ai-shell.js"></script>
+  </body>
+</html>
