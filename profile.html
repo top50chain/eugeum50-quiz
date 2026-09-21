@@ -1,99 +1,16 @@
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>교육용 퀴즈 프로필</title>
-    <link rel="stylesheet" href="shell.css" />
-    <link rel="stylesheet" href="ai-shell.css" />
-  </head>
-  <body class="art-page" data-shell="dialog-only">
-    <main class="art-stage"><button class="hit" onclick="go('quiz.html')" aria-label="교육용 퀴즈 홈" style="left:4%;top:2%;width:28%;height:7%;z-index:20"></button>
-      <img
-        class="art"
-        src="assets/ui/profile-hq.jpg"
-        alt="교육용 퀴즈 프로필"
-      />
-      <p id="profileStore" class="overlay-text profile-store-overlay"></p>
-      <p id="profileName" class="overlay-text profile-name-overlay"></p>
-      <p id="profileXp" class="overlay-text profile-xp-overlay"></p>
-      <button
-        id="quizMenu"
-        class="hit"
-        style="right: 5%; top: 3.3%; width: 21%; height: 4%"
-      >
-        <span class="sr">교육용 퀴즈 메뉴</span>
-      </button>
-      <div id="quizDrop" class="quiz-switch-panel hidden">
-        <img src="assets/ui/ai-content-menu-hq.jpg" alt="AI 콘텐츠" /><button
-          onclick="go('ai-home.html')"
-          aria-label="AI 콘텐츠"
-        ></button>
-      </div>
-      <button
-        class="hit"
-        onclick="go('quiz-session.html?view=avatar')"
-        style="left: 5%; top: 39%; width: 45%; height: 9%"
-      >
-        <span class="sr">캐릭터 꾸미기</span></button
-      ><button
-        class="hit"
-        onclick="go('quiz-session.html')"
-        style="left: 50%; top: 39%; width: 45%; height: 9%"
-      >
-        <span class="sr">프로필 편집</span></button
-      ><button
-        class="hit"
-        onclick="go('profile-list.html')"
-        style="left: 5%; top: 50%; width: 90%; height: 7%"
-      >
-        <span class="sr">다른 프로필로 전환</span></button
-      ><button
-        class="hit"
-        onclick="openFeedback()"
-        style="left: 5%; top: 58%; width: 90%; height: 7%"
-      >
-        <span class="sr">의견 남기기</span></button
-      ><button
-        class="hit"
-        onclick="go('quiz.html')"
-        style="left: 0; bottom: 0; width: 25%; height: 7%"
-      >
-        <span class="sr">홈</span></button
-      ><button
-        class="hit"
-        onclick="go('wrong-note.html')"
-        style="left: 25%; bottom: 0; width: 25%; height: 7%"
-      >
-        <span class="sr">오답노트</span></button
-      ><button
-        class="hit"
-        onclick="go('ranking.html')"
-        style="left: 50%; bottom: 0; width: 25%; height: 7%"
-      >
-        <span class="sr">랭킹</span></button
-      ><button
-        class="hit"
-        onclick="go('profile.html')"
-        style="left: 75%; bottom: 0; width: 25%; height: 7%"
-      >
-        <span class="sr">프로필</span>
-      </button>
-    </main><nav class="profile-fixed-nav" aria-label="퀴즈 하단 메뉴"><a href="quiz.html" aria-label="홈"></a><a href="wrong-note.html" aria-label="오답노트"></a><a href="ranking.html" aria-label="랭킹"></a><a href="profile.html" aria-label="프로필"></a></nav><style>.profile-fixed-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(520px,100%);height:70px;display:grid;grid-template-columns:repeat(4,1fr);background:#fff url(assets/ui-parts/profile-nav.png) center/100% 100% no-repeat;border-top:1px solid #eee;z-index:99}.profile-fixed-nav a{display:block}.art-stage{padding-bottom:70px}</style>
-    <script src="portal.js"></script>
-    <script src="ai-shell.js"></script>
-    <script>
-      if (!session()) go("index.html");
-      let p = null;
-      try {
-        p = JSON.parse(
-          sessionStorage.getItem("eutteum50:quiz-active-profile") || "null",
-        );
-      } catch {}
-      profileStore.textContent = storeName();
-      profileName.textContent = p?.display_name || "프로필명";
-      profileXp.textContent = (Number(p?.xp) || 0).toLocaleString() + " XP";
-      quizMenu.onclick = () => quizDrop.classList.toggle("hidden");
-    </script>
-  </body>
-</html>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>교육용 퀴즈 프로필</title><link rel="stylesheet" href="quiz-home.css"><link rel="stylesheet" href="ui-system.css"><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f5f6;font-family:Nexon,sans-serif;color:#303030}.profile-page{width:min(520px,100%);min-height:100dvh;margin:auto;padding:70px 0 94px;background:#fff}.profile-design{position:relative;width:100%;overflow:hidden}.profile-design>.design-bg{display:block;width:100%;height:auto}.profile-avatar-cover{position:absolute;left:4.4%;top:2.4%;width:47.4%;height:33.6%;background:#f7cf87;border-radius:26px 2px 2px 26px;overflow:hidden}.profile-avatar-cover .quiz-avatar-fit{width:100%;height:100%;transform:scale(1.08);transform-origin:center center}.profile-avatar-cover .quiz-avatar-fit .qa-layer{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important;transform:none!important}.profile-info-cover{position:absolute;left:60.2%;top:10%;width:30%;height:21.5%;background:#fff3e9;display:flex;flex-direction:column;justify-content:center;padding:2%;z-index:4}.profile-info-cover small{color:#ef612d;font-weight:800;font-size:clamp(10px,2.5vw,14px)}.profile-info-cover strong{font-size:clamp(27px,7vw,42px);line-height:1.05;margin:5px 0 18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.profile-info-cover .score-label{font-size:clamp(11px,2.6vw,15px);margin-bottom:5px}.profile-info-cover b{align-self:flex-start;background:#ff5a1f;color:#fff;border-radius:10px;padding:7px 11px;font-size:clamp(19px,5vw,29px)}.design-hit{position:absolute;border:0;background:transparent;cursor:pointer;z-index:10}.hit-decorate{left:4.5%;top:35.8%;width:44.7%;height:12.9%}.hit-edit{left:50.5%;top:35.8%;width:44.7%;height:12.9%}.hit-switch{left:5%;top:54.1%;width:90%;height:7.7%}.hit-feedback{left:5%;top:62.1%;width:90%;height:7.7%}
+.modal-layer{position:fixed;inset:0;z-index:250;background:#0007;display:grid;place-items:center;padding:18px}.modal-card{width:min(430px,100%);max-height:92dvh;overflow:auto;background:#fff;border-radius:24px;padding:20px;box-shadow:0 24px 70px #0003}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.modal-head h2{margin:0;font-size:22px}.modal-head button{border:0;background:none;font-size:30px}.field{display:block;font-size:13px;font-weight:800;color:#465065;margin:13px 0}.field input{width:100%;margin-top:7px;padding:14px;border:1px solid #dfe3e8;border-radius:12px;font:inherit}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions button{flex:1;padding:14px;border-radius:12px;border:1px solid #ddd;background:#fff;font-weight:800}.modal-actions .save{background:#ff6828;color:#fff;border-color:#ff6828}.modal-error{min-height:18px;margin-top:8px;color:#c84a28;font-size:12px;font-weight:700}.avatar-editor-stage{width:100%;aspect-ratio:1/1;border-radius:16px;background:#fff;position:relative;overflow:hidden;border:1px solid #f1f1f1}.avatar-editor-stage>.quiz-avatar-fit{width:100%;height:100%}.avatar-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.avatar-tabs button{padding:10px;border:1px solid #ddd;border-radius:999px;background:#fff;font-weight:800;color:#777}.avatar-tabs button.on{background:#ff641f;color:#fff;border-color:#ff641f}.avatar-options-row{display:flex;align-items:center;gap:8px}.avatar-options{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex:1}.avatar-options::-webkit-scrollbar{display:none}.avatar-options button{width:84px;height:88px;flex:none;border:1px solid #eee;background:#fff;border-radius:10px;padding:5px;position:relative;overflow:hidden}.avatar-options button img{width:100%;height:100%;object-fit:contain}.avatar-options button[aria-pressed=true]{border:2px solid #ff641f}.avatar-options .none{font-size:11px;color:#777;font-weight:800}.arr{width:36px;height:36px;border:0;border-radius:50%;background:#ff681f;position:relative;flex:none;font-size:0}.arr:after{content:"";position:absolute;width:8px;height:8px;border-top:3px solid #fff;border-right:3px solid #fff;top:50%;left:50%}.arr.prev:after{transform:translate(-35%,-50%) rotate(-135deg)}.arr.next:after{transform:translate(-65%,-50%) rotate(45deg)}.hidden{display:none!important}@media(max-width:390px){.modal-card{padding:15px}.avatar-options button{width:78px;height:82px}.profile-info-cover strong{margin-bottom:10px}}
+</style></head><body>
+<header class="quiz-global-header"><a class="qgh-logo" href="service.html" aria-label="서비스 선택 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a><details><summary>교육용 퀴즈 <i></i></summary><a href="ai-home.html">AI 콘텐츠</a></details></header>
+<main class="profile-page"><section class="profile-design"><img class="design-bg" src="assets/ui-parts/profile-body-clean.png" alt="프로필"><div id="profileAvatar" class="profile-avatar-cover"></div><section class="profile-info-cover"><small id="storeNameLive"></small><strong id="profileNameLive"></strong><small class="score-label">나의 점수</small><b id="profileXpLive"></b></section><button id="decorateBtn" class="design-hit hit-decorate" aria-label="캐릭터 꾸미기"></button><button id="editBtn" class="design-hit hit-edit" aria-label="프로필 편집"></button><button class="design-hit hit-switch" onclick="location.href='profile-list.html'" aria-label="다른 프로필로 전환"></button><button id="feedbackBtn" class="design-hit hit-feedback" aria-label="의견 남기기"></button></section></main>
+<nav class="quiz-global-nav" data-active="profile" aria-label="퀴즈 하단 메뉴"><div class="qgn-links"><a href="quiz.html" aria-label="홈"></a><a href="wrong-note.html" aria-label="오답노트"></a><a href="ranking.html" aria-label="랭킹"></a><a href="profile.html" aria-label="프로필"></a></div></nav>
+<div id="editModal" class="modal-layer hidden"><form id="editForm" class="modal-card"><div class="modal-head"><h2>프로필 편집</h2><button type="button" data-close="edit">×</button></div><label class="field">프로필명<input id="editName" maxlength="24" required></label><label class="field">PIN 번호<input id="editPin" inputmode="numeric" maxlength="4" placeholder="변경하지 않으면 비워두세요"></label><div class="modal-actions"><button type="button" data-close="edit">취소</button><button class="save" type="submit">저장</button></div><p id="editError" class="modal-error"></p></form></div>
+<div id="avatarModal" class="modal-layer hidden"><section class="modal-card"><div class="modal-head"><h2>캐릭터 꾸미기</h2><button type="button" data-close="avatar">×</button></div><div id="avatarStage" class="avatar-editor-stage"></div><div id="avatarTabs" class="avatar-tabs"><button data-part="glasses" class="on">안경</button><button data-part="outfit">옷</button><button data-part="accessory">악세사리</button></div><div class="avatar-options-row"><button class="arr prev" id="avatarPrev" aria-label="이전"></button><div id="avatarOptions" class="avatar-options"></div><button class="arr next" id="avatarNext" aria-label="다음"></button></div><div class="modal-actions"><button type="button" data-close="avatar">취소</button><button id="avatarSave" class="save" type="button">저장</button></div><p id="avatarError" class="modal-error"></p></section></div>
+<script src="portal.js?v=0921"></script><script>
+const ses=session();if(!ses?.token)location.replace('index.html');let p;try{p=JSON.parse(sessionStorage.getItem('eutteum50:quiz-active-profile')||'null')}catch{}if(!p?.id)location.replace('profile-list.html');
+const $=id=>document.getElementById(id);const norm=a=>normalizeQuizAvatar(a||{});function paintProfile(){p.avatar=norm(p.avatar);$('profileAvatar').innerHTML=`<span class="quiz-avatar-fit">${quizAvatarLayers(p.avatar)}</span>`;$('storeNameLive').textContent=storeName();$('profileNameLive').textContent=p.display_name||'';$('profileXpLive').textContent=(Number(p.xp)||0).toLocaleString()+' XP'}paintProfile();
+$('feedbackBtn').onclick=openQuizFeedback;$('editBtn').onclick=()=>{$('editName').value=p.display_name||'';$('editPin').value='';$('editError').textContent='';$('editModal').classList.remove('hidden')};document.querySelectorAll('[data-close="edit"]').forEach(b=>b.onclick=()=>$('editModal').classList.add('hidden'));$('editPin').oninput=e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);$('editForm').onsubmit=async e=>{e.preventDefault();const name=$('editName').value.trim(),np=$('editPin').value.trim();if(!name)return $('editError').textContent='프로필명을 입력해 주세요.';if(np&&!/^\d{4}$/.test(np))return $('editError').textContent='PIN은 숫자 4자리로 입력해 주세요.';let last;for(const fn of ['quiz_update_profile','quiz_update_profile_v2']){try{await rpc(fn,{p_token:ses.token,p_profile_id:p.id,p_pin:p.pin||'',p_display_name:name,p_new_pin:np});p={...p,display_name:name,pin:np||p.pin||''};sessionStorage.setItem('eutteum50:quiz-active-profile',JSON.stringify(p));paintProfile();$('editModal').classList.add('hidden');return}catch(err){last=err}}$('editError').textContent=last?.message||'저장하지 못했습니다.'};
+let draft=norm(p.avatar),part='glasses';function drawEditor(){draft=norm(draft);$('avatarStage').innerHTML=`<span class="quiz-avatar-fit">${quizAvatarLayers(draft)}</span>`;document.querySelectorAll('#avatarTabs button').forEach(b=>b.classList.toggle('on',b.dataset.part===part));let arr=[];if(part==='glasses'){arr.push(`<button data-value="default" aria-pressed="${draft.glasses==='default'}"><img src="avatar/base-default.png" alt="기본 빨간 안경"></button>`);arr.push(`<button class="none" data-value="none" aria-pressed="${draft.glasses==='none'}">선택 안함</button>`)}else if(part==='outfit')arr.push(`<button class="none" data-value="none" aria-pressed="${draft.outfit==='none'}">선택 안함</button>`);else arr.push(`<button class="none" data-value="clear" aria-pressed="${draft.accessories.length===0}">선택 안함</button>`);for(let i=1;i<=6;i++){const v=(part==='glasses'?'g':part==='outfit'?'o':'a')+i,pressed=part==='accessory'?draft.accessories.includes(v):draft[part]===v;arr.push(`<button data-value="${v}" aria-pressed="${pressed}"><img src="avatar/fit/${part==='accessory'?'accessory':part}-${i}.png"></button>`)}$('avatarOptions').innerHTML=arr.join('')}
+$('decorateBtn').onclick=()=>{draft=norm(p.avatar);part='glasses';drawEditor();$('avatarModal').classList.remove('hidden')};document.querySelectorAll('[data-close="avatar"]').forEach(b=>b.onclick=()=>$('avatarModal').classList.add('hidden'));$('avatarTabs').onclick=e=>{const b=e.target.closest('button[data-part]');if(b){part=b.dataset.part;drawEditor()}};$('avatarOptions').onclick=e=>{const b=e.target.closest('button[data-value]');if(!b)return;const v=b.dataset.value;if(part==='accessory'){if(v==='clear')draft.accessories=[];else draft.accessories=draft.accessories.includes(v)?draft.accessories.filter(x=>x!==v):[...draft.accessories,v]}else draft[part]=v;drawEditor()};function scrollOpt(d){$('avatarOptions').scrollBy({left:d*92,behavior:'smooth'})}$('avatarPrev').onclick=()=>scrollOpt(-1);$('avatarNext').onclick=()=>scrollOpt(1);$('avatarSave').onclick=async()=>{const val=norm(draft);try{await rpc('quiz_save_avatar',{p_token:ses.token,p_profile_id:p.id,p_pin:p.pin||'',p_avatar:val});p={...p,avatar:val};sessionStorage.setItem('eutteum50:quiz-active-profile',JSON.stringify(p));paintProfile();$('avatarModal').classList.add('hidden')}catch(e){$('avatarError').textContent=e.message}};
+</script></body></html>

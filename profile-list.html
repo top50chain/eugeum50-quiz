@@ -14,15 +14,16 @@
     .profile-top .logo-link img{width:115px;display:block}
     .switch-link{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1.6px solid #2276f5;border-radius:999px;background:#f6fbff;text-decoration:none;color:#1c70f0;font-weight:700;font-size:14px}
     .switch-link i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}
-    .select-hero{text-align:center;position:relative;isolation:isolate;padding-top:6px}.select-hero::before{content:"";position:absolute;z-index:-1;left:4%;right:4%;top:32px;height:205px;background:radial-gradient(ellipse 105px 62px at 18% 52%,#fff1e6 0 99%,transparent 100%),radial-gradient(ellipse 110px 68px at 82% 38%,#fff1e6 0 99%,transparent 100%),radial-gradient(ellipse 95px 58px at 84% 78%,#fff1e6 0 99%,transparent 100%)}.select-hero::after{content:"✦";position:absolute;z-index:-1;left:9%;top:185px;color:#ff711f;font-size:36px;text-shadow:390px -95px 0 #ff711f}
-    .select-hero img{display:block;width:min(300px,76vw);height:230px;object-fit:contain;margin:8px auto -4px;position:relative;z-index:1}
-    .select-hero h1{font-size:34px;letter-spacing:-2px;line-height:1.15;margin:0;color:#2e2e31}
-    .select-hero p{margin:8px 0 28px;color:#888;font-size:15px;font-weight:700}
+    .select-hero{text-align:center;position:relative;padding-top:8px;height:295px;margin-bottom:4px;overflow:visible}
+    .hero-shape{position:absolute;background:#fff1e6;border-radius:50%;z-index:0;pointer-events:none}.hero-shape.s1{width:140px;height:76px;left:18px;top:73px;transform:rotate(18deg)}.hero-shape.s2{width:146px;height:82px;right:15px;top:58px;transform:rotate(-20deg)}.hero-shape.s3{width:118px;height:66px;right:15px;top:154px;transform:rotate(16deg)}
+    .hero-star{position:absolute;width:28px;height:28px;background:#ff711f;clip-path:polygon(50% 0,60% 38%,100% 50%,60% 62%,50% 100%,40% 62%,0 50%,40% 38%);z-index:1}.hero-star.a{left:29px;top:185px}.hero-star.b{right:23px;top:89px;width:34px;height:34px}
+    .select-hero img{display:block;width:min(250px,64vw);height:190px;object-fit:contain;margin:22px auto -1px;position:relative;z-index:2}
+    .select-hero h1{position:relative;z-index:2;font-size:34px;letter-spacing:-2px;line-height:1.15;margin:0;color:#2e2e31}.select-hero p{position:relative;z-index:2;margin:8px 0 0;color:#888;font-size:15px;font-weight:700}
     .profile-list{display:grid;gap:12px}
     .profile-card,.add-card{width:100%;min-height:94px;border:1px solid #e8e8e8;border-radius:18px;background:#fff;display:flex;align-items:center;gap:15px;padding:12px 17px;text-align:left;box-shadow:0 2px 10px rgba(0,0,0,.04)}
     .profile-card:hover{border-color:#ff7a36}
     .profile-face{width:64px;height:64px;border-radius:17px;background:#fff2e8;position:relative;overflow:hidden;flex:none}
-    .profile-face img,.avatar-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+    .profile-face img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
     .profile-copy{flex:1;min-width:0}
     .profile-copy strong{font-size:18px;display:block;letter-spacing:-.02em}
     .profile-copy small{display:block;color:#888;margin-top:5px;font-size:13px;font-weight:700}
@@ -53,18 +54,10 @@
     .custom-label{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:900;color:#313131}
     .custom-label img{width:28px;height:28px;object-fit:contain}
     .custom-head span{color:#8a8a8a;font-size:12px;font-weight:700;white-space:nowrap}
-    .avatar-stage{height:378px;background:white;border-radius:16px;position:relative;overflow:hidden;margin:12px 0 14px}
-    .avatar-stage .avatar-layer{position:absolute;object-fit:contain;pointer-events:none}
-    .avatar-stage .layer-base{inset:0;width:100%;height:100%;z-index:1}
-    .avatar-stage .layer-glasses{left:50%;top:39%;width:58%;height:auto;transform:translate(-50%,-50%);z-index:4}
-    .avatar-stage .layer-outfit{left:50%;top:69%;width:82%;height:auto;transform:translate(-50%,-50%);z-index:3}
-    .avatar-stage .layer-accessory{z-index:5;height:auto;transform:translate(-50%,-50%)}
-    .avatar-stage .layer-accessory.item-a1{left:64%;top:24%;width:18%}
-    .avatar-stage .layer-accessory.item-a2{left:50%;top:57%;width:22%}
-    .avatar-stage .layer-accessory.item-a3{left:50%;top:25%;width:76%}
-    .avatar-stage .layer-accessory.item-a4{left:53%;top:57%;width:72%}
-    .avatar-stage .layer-accessory.item-a5{left:66%;top:20%;width:28%}
-    .avatar-stage .layer-accessory.item-a6{left:50%;top:72%;width:88%;z-index:4}
+    .avatar-stage{width:100%;aspect-ratio:322/266;background:white;border-radius:16px;position:relative;overflow:hidden;margin:12px 0 14px;display:grid;place-items:center}
+    .avatar-compose{position:relative;width:100%;height:100%;transform:none!important}
+    .avatar-stage .avatar-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;transform:none!important}
+    .avatar-stage .layer-base{z-index:1}.avatar-stage .layer-outfit{z-index:2}.avatar-stage .layer-glasses{z-index:4}.avatar-stage .layer-accessory{z-index:5}.avatar-stage .layer-accessory.behind{z-index:0}
     .custom-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
     .custom-tabs button{border:1px solid #e3e3e3;border-radius:999px;background:#fff;padding:11px;font-weight:800;color:#7d7d7d}
     .custom-tabs button[aria-pressed=true]{background:#ff641f;color:#fff;border-color:#ff641f}
@@ -83,7 +76,7 @@
     .pin-dialog{border:0;padding:0;width:min(520px,100%);max-width:none;border-radius:36px 36px 0 0;margin:0;box-shadow:0 -10px 45px rgba(0,0,0,.16);position:fixed;left:50%;bottom:0;top:auto;transform:translateX(-50%)}
     .pin-dialog::backdrop{background:rgba(0,0,0,.45)}
     .pin-sheet{padding:24px 28px 38px;text-align:center;background:#fff;position:relative}
-    .drag{width:74px;height:7px;border-radius:999px;background:#aeb2b8;margin:0 auto 8px}
+    .drag{width:74px;height:7px;border-radius:999px;background:#aeb2b8;margin:0 auto 8px;cursor:pointer}
     .pin-close{position:absolute;right:22px;top:18px;border:0;background:none;font-size:0;width:30px;height:30px}
     .pin-close::before,.pin-close::after{content:'';position:absolute;left:14px;top:4px;width:3px;height:22px;background:#3b3b3b;border-radius:2px}
     .pin-close::before{transform:rotate(45deg)} .pin-close::after{transform:rotate(-45deg)}
@@ -112,20 +105,38 @@
       .pin-sheet{padding-inline:20px}
       .pin-dots{margin-inline:20px}
     }
-  </style>
-</head>
+  
+    /* tuned avatar placement */
+
+    .avatar-stage .layer-base{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important;z-index:1!important}
+    .avatar-stage .layer-glasses{position:absolute!important;left:50%!important;top:39%!important;width:48%!important;height:auto!important;transform:translate(-50%,-50%)!important;z-index:4!important}
+    .avatar-stage .layer-outfit{position:absolute!important;left:50%!important;top:72%!important;width:64%!important;height:auto!important;transform:translate(-50%,-50%)!important;z-index:2!important}
+    .avatar-stage .layer-accessory{position:absolute!important;height:auto!important;transform:translate(-50%,-50%)!important;z-index:5!important}
+    .avatar-stage .item-a1{left:58%!important;top:25%!important;width:11%!important}.avatar-stage .item-a2{left:50%!important;top:58%!important;width:16%!important}.avatar-stage .item-a3{left:50%!important;top:24%!important;width:60%!important}.avatar-stage .item-a4{left:55%!important;top:58%!important;width:50%!important}.avatar-stage .item-a5{left:63%!important;top:18%!important;width:25%!important}.avatar-stage .item-a6{left:50%!important;top:72%!important;width:62%!important;z-index:3!important}
+    .profile-face .avatar-thumb{position:relative;width:100%;height:100%;display:block}.profile-face .avatar-thumb img{position:absolute;object-fit:contain}.profile-face .avatar-thumb .base{inset:0;width:100%;height:100%}.profile-face .avatar-thumb .glasses{left:50%;top:39%;width:48%;transform:translate(-50%,-50%)}.profile-face .avatar-thumb .outfit{left:50%;top:72%;width:64%;transform:translate(-50%,-50%)}.profile-face .avatar-thumb .accessory{transform:translate(-50%,-50%)}.profile-face .avatar-thumb .a1{left:58%;top:25%;width:11%}.profile-face .avatar-thumb .a2{left:50%;top:58%;width:16%}.profile-face .avatar-thumb .a3{left:50%;top:24%;width:60%}.profile-face .avatar-thumb .a4{left:55%;top:58%;width:50%}.profile-face .avatar-thumb .a5{left:63%;top:18%;width:25%}.profile-face .avatar-thumb .a6{left:50%;top:72%;width:62%}
+
+    .nav-arrow{width:34px!important;height:34px!important;border:0!important;border-radius:50%!important;background:#ff681f!important;color:transparent!important;position:relative!important;box-shadow:none!important;flex:none!important}
+    .nav-arrow::after{content:"";position:absolute;width:8px;height:8px;border-top:3px solid #fff;border-right:3px solid #fff;top:50%;left:50%}.nav-arrow#itemsPrev::after{transform:translate(-35%,-50%) rotate(-135deg)}.nav-arrow#itemsNext::after{transform:translate(-65%,-50%) rotate(45deg)}.nav-arrow[disabled]{opacity:.35!important}
+    @media(max-width:390px){.profile-app{padding-left:18px!important;padding-right:18px!important}.custom-card{padding:12px!important}.item-options button{width:86px!important;height:88px!important}.custom-head span{font-size:10px!important}.select-hero{height:282px!important}.select-hero img{width:230px!important;height:178px!important}.select-hero h1{font-size:30px!important}}
+  
+    /* exact Illustrator login hero + canonical header */
+    .profile-app{padding-top:82px!important;background:#fff!important}
+    .profile-top{display:none!important}
+    .select-hero{height:auto!important;margin:0 -6px 12px!important;padding:0!important;overflow:hidden!important;position:relative!important}
+    .select-hero::before,.select-hero::after,.hero-shape,.hero-star{display:none!important}
+    .select-hero-art{display:block!important;width:100%!important;height:auto!important;max-height:none!important;margin:0!important;object-fit:contain!important}
+    .avatar-stage{aspect-ratio:1/1!important;height:auto!important;min-height:0!important;overflow:hidden!important}
+    .avatar-stage>.quiz-avatar-fit{width:100%!important;height:100%!important}
+    .nav-arrow{width:36px!important;height:36px!important;border-radius:50%!important;background:#ff681f!important;font-size:0!important;position:relative!important;box-shadow:none!important}
+    .nav-arrow::after{content:"";position:absolute;width:8px;height:8px;border-top:3px solid #fff;border-right:3px solid #fff;top:50%;left:50%}
+    #itemsPrev::after{transform:translate(-35%,-50%) rotate(-135deg)}#itemsNext::after{transform:translate(-65%,-50%) rotate(45deg)}
+    @media(max-width:520px){.profile-app{padding:78px 16px 34px!important}.select-hero{margin:0 -8px 8px!important}.custom-card{padding:12px!important}.item-options button{width:86px!important;height:88px!important}.custom-head span{font-size:10px!important;white-space:normal!important;text-align:right!important}.creator-title{margin-top:8px!important}}
+</style>\n</head>
 <body>
   <main id="profileApp" class="profile-app">
     <section class="selector">
-      <header class="profile-top">
-        <a class="logo-link" href="service.html" aria-label="서비스 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a>
-        <a class="switch-link" href="quiz.html">교육용 퀴즈 <i></i></a>
-      </header>
-      <div class="select-hero">
-        <img src="assets/profile/select-hero.png" alt="프로필을 안내하는 부영이">
-        <h1>누가 학습하나요?</h1>
-        <p>프로필을 선택해 주세요!</p>
-      </div>
+      <header class="quiz-global-header"><a class="qgh-logo" href="service.html" aria-label="서비스 선택 홈"><img src="eutteum50-logo.png" alt="으뜸50안경"></a><details><summary>교육용 퀴즈 <i></i></summary><a href="ai-home.html">AI 콘텐츠</a></details></header>
+      <div class="select-hero"><img class="select-hero-art" src="assets/ui-parts/quiz-login-hero.png" alt="누가 학습하나요? 프로필을 선택해 주세요"></div>
       <div id="profiles" class="profile-list" aria-live="polite"><p class="empty">프로필을 불러오는 중입니다.</p></div>
       <button id="openCreate" class="add-card" type="button">
         <span class="profile-face"><img src="assets/profile/add.png" alt=""></span>
@@ -198,7 +209,7 @@
     </form>
   </dialog>
 
-  <script src="portal.js"></script>
-  <script src="profile-select.js"></script>
+  <script src="portal.js?v=0921"></script>
+  <script src="profile-select.js?v=0921"></script>
 </body>
 </html>

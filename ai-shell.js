@@ -29,71 +29,58 @@
   }
   window.openFeedback=feedback;
 
-  function showGuide(force=false){
-    const key='eutteum50:ai-guide-seen-v2';
-    if(!force&&localStorage.getItem(key)==='1') return;
-    if(!document.body.dataset.nav||document.body.dataset.nav!=='home'){
-      const m=modal('사용가이드','<p class="shell-modal-note">AI 콘텐츠 홈에서 제품 홍보글, 아이디어, 보관함, 설정을 차례대로 안내해드릴게요.</p>','확인');
-      m.save.onclick=()=>{ if(!force) localStorage.setItem(key,'1'); m.close(); location.href='ai-home.html?guide=1'; };
-      return;
-    }
+  function guideOverlay(target,title,desc,{nextText='다음',onNext=null,requireClick=false,onTargetClick=null}={}){
     document.querySelector('.shell-guide-tour')?.remove();
-    const steps=[
-      {selector:'#guideProduct',title:'1. 제품 홍보글 만들기',desc:'제품을 고르면 매장 홍보에 바로 쓸 수 있는 문구를 만들어요. 제품 특징과 매장 정보를 함께 반영합니다.'},
-      {selector:'#guideIdea',title:'2. 홍보 아이디어 찾기',desc:'무슨 내용을 올릴지 막힐 때 사용해요. 주제 아이디어와 실제 홍보 문구까지 이어서 만들 수 있습니다.'},
-      {selector:'#guideMonthly',title:'3. 월간 문자·알림톡',desc:'고객에게 보낼 월간 안내 문구를 만들어요. 문자나 알림톡에 맞는 길이와 말투로 작성할 수 있습니다.'},
-      {selector:'#guideShared',title:'4. 공유 홍보글',desc:'매장에서 함께 활용할 공통 홍보문구를 확인하거나 작성하는 메뉴예요.'},
-      {selector:'#guidePromotions',title:'5. 이달의 프로모션',desc:'현재 본사에서 운영하는 프로모션을 확인하고 홍보에 참고할 수 있어요.'},
-      {selector:'button[data-menu="create"]',title:'6. 하단 글 생성',desc:'글 생성 버튼을 누르면 작성 기능이 한 번에 펼쳐집니다.',before:()=>openMenu('create')},
-      {selector:'button[data-go="archive.html"]',title:'7. 보관함',desc:'만들어 둔 콘텐츠를 다시 확인하고 필요한 내용을 이어서 사용할 수 있어요.',before:()=>closeMenus()},
-      {selector:'button[data-menu="settings"]',title:'8. 설정',desc:'매장정보 수정, 사용가이드 다시 보기, 의견 보내기, 로그아웃을 사용할 수 있어요.',before:()=>openMenu('settings')}
-    ];
-    const layer=document.createElement('div');
-    layer.className='shell-guide-tour';
-    layer.innerHTML='<div class="guide-backdrop"></div><div class="guide-hole"></div><section class="guide-card"><div class="guide-step"></div><h3></h3><p></p><div class="guide-actions"><button type="button" class="guide-skip">건너뛰기</button><button type="button" class="guide-next">다음</button></div><label class="guide-check"><input type="checkbox" checked> 다음부터 자동으로 닫기</label></section>';
+    const layer=document.createElement('div');layer.className='shell-guide-tour';
+    layer.innerHTML='<div class="guide-backdrop"></div><div class="guide-hole"></div><section class="guide-card"><div class="guide-step"></div><h3></h3><p></p><div class="guide-actions"><button type="button" class="guide-skip">가이드 종료</button><button type="button" class="guide-next"></button></div></section>';
     document.body.append(layer);
-    const hole=layer.querySelector('.guide-hole'),card=layer.querySelector('.guide-card'),stepEl=layer.querySelector('.guide-step'),titleEl=layer.querySelector('h3'),descEl=layer.querySelector('p'),nextBtn=layer.querySelector('.guide-next'),skipBtn=layer.querySelector('.guide-skip'),seenCheck=layer.querySelector('input');
-    let index=0;
-    const close=()=>{closeMenus();layer.remove(); if(seenCheck.checked) localStorage.setItem(key,'1');};
-    function paint(){
-      closeMenus();
-      const step=steps[index];
-      step.before?.();
-      const target=document.querySelector(step.selector);
-      if(!target){ index++; if(index<steps.length) paint(); else close(); return; }
-      const r=target.getBoundingClientRect();
-      hole.style.cssText=`left:${r.left-8}px;top:${r.top-8}px;width:${r.width+16}px;height:${r.height+16}px`;
-      const below=r.bottom+18, above=window.innerHeight-r.top+18;
-      const placeBelow=below+220<window.innerHeight || above<220;
-      card.style.left=Math.max(16, Math.min(window.innerWidth-316, r.left))+'px';
-      card.style.top=(placeBelow ? Math.min(window.innerHeight-210, r.bottom+18) : Math.max(16, r.top-210))+'px';
-      stepEl.textContent=`${index+1}/${steps.length}`;
-      titleEl.textContent=step.title;
-      descEl.textContent=step.desc;
-      nextBtn.textContent=index===steps.length-1?'확인':'다음';
+    const hole=layer.querySelector('.guide-hole'),card=layer.querySelector('.guide-card'),next=layer.querySelector('.guide-next');
+    layer.querySelector('h3').textContent=title;layer.querySelector('p').textContent=desc;next.textContent=nextText;
+    const place=()=>{const el=typeof target==='string'?document.querySelector(target):target;if(!el){hole.style.display='none';card.style.left='16px';card.style.top='100px';return null}el.scrollIntoView?.({block:'center',behavior:'auto'});const r=el.getBoundingClientRect();hole.style.display='block';hole.style.cssText=`display:block;left:${Math.max(6,r.left-8)}px;top:${Math.max(6,r.top-8)}px;width:${Math.min(innerWidth-12,r.width+16)}px;height:${r.height+16}px`;const cardW=Math.min(310,innerWidth-32);card.style.width=cardW+'px';card.style.left=Math.max(16,Math.min(innerWidth-cardW-16,r.left))+'px';const below=r.bottom+18;card.style.top=(below+220<innerHeight?below:Math.max(16,r.top-220))+'px';return el};
+    let el=place();
+    const close=()=>{layer.remove();};layer.querySelector('.guide-skip').onclick=()=>{sessionStorage.removeItem('eutteum50:ai-guide-step');localStorage.setItem('eutteum50:ai-guide-seen','1');close()};
+    if(requireClick){next.textContent='버튼을 눌러보세요';next.disabled=true;if(el){const fn=()=>{onTargetClick?.();close();el.removeEventListener('click',fn,true)};el.addEventListener('click',fn,true)}}else next.onclick=()=>{close();onNext?.()};
+    addEventListener('resize',place,{once:true,passive:true});
+    return {layer,close};
+  }
+  function runGuideStep(step){
+    const path=location.pathname.split('/').pop()||'ai-home.html';
+    if(path==='ai-home.html' && (!step||step==='home-product')){
+      sessionStorage.setItem('eutteum50:ai-guide-step','home-product');
+      guideOverlay('.art-stage .hit[onclick*="product.html"]','제품 홍보글 만들기','먼저 제품 홍보글 만들기를 눌러보세요. 실제 제품 검색 화면으로 이동해서 다음 기능을 이어서 설명할게요.',{requireClick:true,onTargetClick:()=>sessionStorage.setItem('eutteum50:ai-guide-step','product-search')});return;
     }
-    nextBtn.onclick=()=>{ index++; if(index>=steps.length){ close(); return; } paint(); };
-    skipBtn.onclick=close;
-    window.addEventListener('resize', paint, {passive:true});
-    layer.addEventListener('click', e=>{ if(e.target===layer||e.target.classList.contains('guide-backdrop')) close(); });
-    paint();
+    if(path==='product.html' && step==='product-search'){
+      guideOverlay('#query','제품 검색','홍보할 제품명을 입력하는 곳이에요. 제품명 일부만 입력해도 검색할 수 있어요.',{nextText:'다음',onNext:()=>{sessionStorage.setItem('eutteum50:ai-guide-step','product-find');runGuideStep('product-find')}});return;
+    }
+    if(path==='product.html' && step==='product-find'){
+      guideOverlay('#findProduct','제품 찾기','검색 버튼을 누르면 등록된 제품이 아래에 표시돼요. 제품을 고른 뒤 채널·목적·톤을 선택하고 AI 홍보글을 만들 수 있어요.',{nextText:'보관함 보기',onNext:()=>{sessionStorage.setItem('eutteum50:ai-guide-step','home-archive');location.href='ai-home.html'}});return;
+    }
+    if(path==='ai-home.html' && step==='home-archive'){
+      guideOverlay('button[data-go="archive.html"]','보관함','만든 홍보글은 보관함에 저장돼요. 보관함 버튼을 직접 눌러 저장된 콘텐츠 화면을 확인해보세요.',{requireClick:true,onTargetClick:()=>sessionStorage.setItem('eutteum50:ai-guide-step','archive-page')});return;
+    }
+    if(path==='archive.html' && step==='archive-page'){
+      guideOverlay('main, .art-stage, body','보관함 화면','여기에서 저장한 홍보글을 다시 열고 확인할 수 있어요. 이제 설정 메뉴도 확인해볼게요.',{nextText:'설정 보기',onNext:()=>{sessionStorage.setItem('eutteum50:ai-guide-step','home-settings');location.href='ai-home.html'}});return;
+    }
+    if(path==='ai-home.html' && step==='home-settings'){
+      guideOverlay('button[data-menu="settings"]','설정','설정을 누르면 매장정보, 사용가이드, 의견보내기, 로그아웃 메뉴가 열려요.',{requireClick:true,onTargetClick:()=>{sessionStorage.setItem('eutteum50:ai-guide-step','settings-open');setTimeout(()=>{openMenu('settings');runGuideStep('settings-open')},60)}});return;
+    }
+    if(path==='ai-home.html' && step==='settings-open'){
+      openMenu('settings');
+      guideOverlay('.ai-popover.settings','설정 메뉴','매장정보를 수정하거나 사용가이드를 다시 볼 수 있고, 문제가 있으면 의견보내기로 본사에 전달할 수 있어요.',{nextText:'가이드 완료',onNext:()=>{sessionStorage.removeItem('eutteum50:ai-guide-step');localStorage.setItem('eutteum50:ai-guide-seen','1');closeMenus()}});return;
+    }
+  }
+  function showGuide(force=false){
+    if(!force && localStorage.getItem('eutteum50:ai-guide-seen')==='1') return;
+    sessionStorage.setItem('eutteum50:ai-guide-step','home-product');
+    const path=location.pathname.split('/').pop()||'ai-home.html';
+    if(path!=='ai-home.html'){location.href='ai-home.html?guide=1';return;}
+    runGuideStep('home-product');
   }
   window.showAiGuide=showGuide;
   document.addEventListener('click',async e=>{const goEl=e.target.closest('[data-go]');if(goEl){location.href=goEl.dataset.go;return}const menu=e.target.closest('[data-menu]');if(menu){openMenu(menu.dataset.menu);return}const act=e.target.closest('[data-action]');if(!act)return;closeMenus();header.querySelectorAll('details').forEach(d=>d.open=false);if(act.dataset.action==='store')await storeInfo();else if(act.dataset.action==='guide')showGuide(true);else if(act.dataset.action==='feedback')feedback();else if(act.dataset.action==='logout'){const yes=window.uiConfirm?await window.uiConfirm('로그아웃할까요?','로그아웃'):confirm('로그아웃할까요?');if(yes){localStorage.removeItem(window.SESSION||'eutteum50:portal-session');localStorage.removeItem('eutteum50:private:fc:session');location.href='index.html'}}});
 
-  const guideStyle=document.createElement('style');guideStyle.textContent=`
-  .shell-guide-tour{position:fixed;inset:0;z-index:1200}
-  .shell-guide-tour .guide-backdrop{position:absolute;inset:0;background:rgba(13,18,28,.62)}
-  .shell-guide-tour .guide-hole{position:fixed;border:2px solid #ff6b25;border-radius:18px;box-shadow:0 0 0 9999px rgba(13,18,28,.62);pointer-events:none;transition:all .18s ease}
-  .shell-guide-tour .guide-card{position:fixed;width:min(300px,calc(100vw - 32px));background:#fff;border-radius:20px;padding:18px 18px 16px;box-shadow:0 18px 40px rgba(0,0,0,.2)}
-  .shell-guide-tour .guide-step{display:inline-flex;align-items:center;justify-content:center;min-width:50px;height:26px;padding:0 10px;border-radius:999px;background:#fff1e7;color:#ff6b25;font-size:12px;font-weight:800;margin-bottom:10px}
-  .shell-guide-tour h3{margin:0 0 8px;font-size:20px;line-height:1.35;color:#24262b}
-  .shell-guide-tour p{margin:0;color:#666;font-size:14px;line-height:1.6}
-  .shell-guide-tour .guide-actions{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
-  .shell-guide-tour .guide-actions button{flex:1;height:42px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;font-weight:800}
-  .shell-guide-tour .guide-actions .guide-next{background:#ff6b25;border-color:#ff6b25;color:#fff}
-  .shell-guide-tour .guide-check{display:flex;align-items:center;gap:8px;margin-top:12px;color:#777;font-size:12px;font-weight:700}
-  `;document.head.append(guideStyle);
-
-  shade.addEventListener('click',closeMenus);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenus();document.querySelector('.shell-modal-layer')?.remove();document.querySelector('.shell-guide-tour')?.remove()}}); if(document.body.dataset.nav==='home' || new URLSearchParams(location.search).get('guide')==='1') setTimeout(()=>showGuide(false), 250);
+  shade.addEventListener('click',closeMenus);document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenus();document.querySelector('.shell-modal-layer')?.remove();document.querySelector('.shell-guide-tour')?.remove()}});
+  const pendingGuide=sessionStorage.getItem('eutteum50:ai-guide-step');
+  if(pendingGuide){setTimeout(()=>runGuideStep(pendingGuide),550)}
+  else if(document.body.dataset.nav==='home' && localStorage.getItem('eutteum50:ai-guide-seen')!=='1'){setTimeout(()=>showGuide(false),550)}
 })();

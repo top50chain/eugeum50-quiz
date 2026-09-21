@@ -1476,7 +1476,7 @@ function restoreGuideScreen(){
 }
 function endGuide(mark=true){
   clearGuideChrome();restoreGuideScreen();
-  if(mark&&state.storeToken){state.guideSeen=true;rpc('mark_store_guide_seen',{p_token:state.storeToken}).catch(()=>{});}
+  if(mark){try{localStorage.setItem('eutteum50:ai-guide-seen','1')}catch(e){};if(state.storeToken){state.guideSeen=true;rpc('mark_store_guide_seen',{p_token:state.storeToken}).catch(()=>{});}}
 }
 function guideArticle(store,variant=0){
   const intros=[
@@ -3435,6 +3435,7 @@ async function openRequestedFeature(){
   if(open==='promotions')await openPromotions();
   if(open==='archive')document.getElementById('btn-saved')?.click();
   if(open==='settings')document.getElementById('mobile-settings')?.click();
+  if(p.get('guide')==='1') setTimeout(()=>startGuide(0),350);
 }
 boot().then(openRequestedFeature).then(()=>document.querySelector('.workspace-loading')?.remove()).catch(e=>{const el=document.querySelector('.workspace-loading');if(el)el.textContent='불러오지 못했습니다. '+e.message});
 </script>
